@@ -15,6 +15,6 @@ Primary features:
 5. Trends
 6. Medical Info
 
-For the original, startup website please visit arteria-health.com
+For the original, startup website please visit: arteria-health.com
 
 V1 CAC: https://fanciful-cuchufli-8644ab.netlify.app/#overview
