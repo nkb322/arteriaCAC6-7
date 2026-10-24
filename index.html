@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f9f8" />
+    <meta name="description" content="Arteria is an interface for a wearable DVT patch and personal care companion." />
+    <title>Arteria — Your vascular health, in view</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <!--why woudl they tho lwk-->
+    <a class="skip-link" href="#main-content" data-i18n="common.skip">Skip to main content</a>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation" data-i18n-aria="common.navigation">
+        <a class="brand" href="#overview" aria-label="Arteria home" data-i18n-aria="common.home">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3.8 27.2 10v12L16 28.2 4.8 22V10L16 3.8Z"/><path d="M10 19.4c3.9-1.2 5.3-5.8 6.6-8.3 1.4 2.5 2.8 7.1 6.7 8.3"/></svg></span>
+          <span class="brand-name">arteria<span class="brand-period">.</span><small>VASCULAR CARE</small></span>
+        </a>
+        <div class="nav-label" data-i18n="common.yourSpace">YOUR SPACE</div>
+        <nav class="nav-list">
+
+          <button class="nav-link active" data-view="overview" aria-current="page"><span class="nav-icon" aria-hidden="true">◫</span><span data-i18n="nav.overview">Overview</span></button>
+          <button class="nav-link" data-view="photon"><span class="nav-icon" aria-hidden="true">✳</span><span data-i18n="nav.photon">Photon scan</span><span class="nav-tag" data-i18n="nav.new">NEW</span></button>
+          <button class="nav-link" data-view="trends"><span class="nav-icon" aria-hidden="true">⌁</span><span data-i18n="nav.trends">My trends</span></button>
+          <button class="nav-link" data-view="locator"><span class="nav-icon" aria-hidden="true">⌖</span><span data-i18n="nav.locator">Find care</span></button>
+          <button class="nav-link" data-view="sharing"><span class="nav-icon" aria-hidden="true">↗</span><span data-i18n="nav.sharing">Share your data</span></button>
+          <!--try to chagne the button text ngl-->
+          <button class="nav-link" data-view="care"><span class="nav-icon" aria-hidden="true">♡</span><span data-i18n="nav.care">Care plan</span></button>
+
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="patch-card">
+            <div class="patch-card-top"><span class="patch-status-dot"></span><span data-i18n="common.patchConnected">PATCH CONNECTED</span><button class="plain-icon" id="patch-details" aria-label="Patch connection details" data-i18n-aria="common.patchDetails" title="Patch details">···</button></div>
+            <strong>Arteria One <span>↗</span></strong>
+            <div class="battery-row"><span data-i18n="common.battery">Battery</span><span>84%</span></div>
+            <div class="battery-track" role="meter" aria-label="Patch battery level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="84"><span></span></div>
+            <div class="patch-sync" data-i18n="common.synced">Synced just now</div>
+
+          </div>
+          <button class="profile-button" id="profile-button">
+            <!--what if we do martin edwards-->
+            <span class="profile-avatar" aria-hidden="true">ME</span>
+            <span class="profile-copy"><strong>Martin Edwards</strong><small data-i18n="common.personalProfile">Personal profile</small></span>
+            <span class="profile-more" aria-hidden="true">⌄</span>
+            <!--yo that dude is so cool fr-->
+          </button>
+        </div>
+      </aside>
+
+      <div class="main-column">
+        <header class="topbar">
+          <div class="breadcrumb"><span data-i18n="common.breadcrumb">My health</span><span aria-hidden="true">/</span><strong id="breadcrumb-current">Overview</strong></div>
+          <div class="top-actions">
+            <span class="today-label"><span class="today-dot"></span><span data-i18n="common.today">Today</span>, <span id="today-date"></span></span>
+            <label class="sr-only" for="language-select" data-i18n="language.label">Choose language</label>
+            <select class="language-select" id="language-select" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option></select>
+            <button class="icon-button" id="accessibility-open" aria-label="Open accessibility settings" data-i18n-aria="common.accessibilitySettings" title="Accessibility settings" data-i18n-title="common.accessibilitySettings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M4 8.5h16M12 8.5v12M8 12l4 2 4-2M9 20l3-5 3 5"/></svg></button>
+            <button class="icon-button notification-button" id="notifications-button" aria-label="Notifications, one update" data-i18n-aria="common.notifications" title="Notifications" data-i18n-title="common.notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="notification-dot"></span></button>
+            <button class="top-profile" id="top-profile" aria-label="Martin Edwards profile" data-i18n-aria="common.profile"><span class="profile-avatar small" aria-hidden="true">ME</span><span class="top-profile-name">Martin</span><span aria-hidden="true">⌄</span></button>
+          </div>
+          <div class="popover hidden" id="top-popover" role="status"></div>
+        </header>
+
+        <main id="main-content" tabindex="-1">
+          <section class="view active-view" id="view-overview" aria-labelledby="page-title" tabindex="-1">
+            <div class="page-intro">
+              <div><div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="overview.eyebrow">A MOMENT FOR YOU</span></div><h1 id="page-title"><span data-i18n="overview.greeting">Good morning, Martin</span><span class="hello-dot">.</span></h1><p class="intro-copy" data-i18n="overview.subtitle">Let’s take a gentle look at how you’re doing today.</p></div>
+              <button class="button button-dark" data-go="photon"><span aria-hidden="true">✳</span> <span data-i18n="overview.scanButton">Start a photon scan</span> <span aria-hidden="true">→</span></button>
+            </div>
+
+            <div class="notice-banner" role="note"><span class="notice-icon" aria-hidden="true">i</span><p><strong data-i18n="overview.noticeTitle">A note about this experience:</strong> <span data-i18n="overview.noticeBody">Arteria is a concept prototype. Patch readings and photon scans shown here are illustrative only—not real measurements, diagnosis, or treatment guidance.</span></p><button class="notice-close" aria-label="Dismiss note" data-i18n-aria="common.dismiss">×</button></div>
+<!--ooh ok nice-->
+            <div class="overview-grid">
+              <article class="card daily-card">
+                <div class="card-heading"><div><div class="section-kicker" data-i18n="overview.patchLabel">YOUR PATCH</div><h2 data-i18n="overview.dailyOverview">Daily overview</h2></div><span class="live-pill"><span></span> <span data-i18n="common.demoMode">DEMO MODE</span></span></div>
+                <div class="daily-content">
+                  <div class="score-wrap"><div class="score-ring" aria-label="Illustrative wellness score: 82 out of 100" data-i18n-aria="overview.scoreAria"><div><strong>82</strong><span data-i18n="overview.outOf">of 100</span></div></div><span class="score-label" data-i18n="overview.snapshot">Your wellness snapshot</span></div>
+                  <div class="daily-details">
+                    <div class="detail-title"><span data-i18n="overview.steady">Steady signals today</span> <span aria-hidden="true">↗</span></div>
+                    <p data-i18n="overview.sampleCheckin">Your sample check-in looks steady. Keep following the plan you made with your care team.</p>
+
+                    <div class="last-check"><span class="tiny-check" aria-hidden="true">✓</span><span><strong data-i18n="overview.lastCheckin">Last check-in</strong><small data-i18n="overview.demoReading">Today at 9:41 AM · Demo reading</small></span></div>
+                  </div>
+                </div>
+                <div class="daily-footer"><span data-i18n="overview.patternsPersonal">Patterns are personal. Your care team has the full picture.</span><button class="text-button" data-go="trends"><span data-i18n="overview.seeTrends">See my trends</span> <span aria-hidden="true">→</span></button></div>
+              </article>
+
+              <article class="card companion-card">
+              <div class="companion-top"><div class="companion-orb" aria-hidden="true"><span></span><i></i></div><span class="companion-online"><span></span><span data-i18n="overview.hereForYou">HERE FOR YOU</span></span></div>
+                <div class="section-kicker" data-i18n="overview.companionLabel">YOUR PERSONAL COMPANION</div><h2 data-i18n="overview.companionGreeting">Hi Jordan, how are you feeling today?</h2>
+                <p data-i18n="overview.companionDescription">We can talk through your routine, explore this prototype, or get a few questions ready for your care team.</p>
+                <button class="button button-light" data-go="care"><span data-i18n="overview.talkAria">Talk with Aria</span> <span aria-hidden="true">→</span></button>
+                <div class="companion-foot"><span data-i18n="overview.private">Designed for your privacy.</span><span>·</span><span data-i18n="overview.notClinician">Not a clinician</span></div>
+              </article>
+            </div>
+
+            <div class="section-title-row"><div><div class="section-kicker" data-i18n="overview.closerLook">A CLOSER LOOK</div><h2 data-i18n="overview.glance">Today at a glance</h2></div><span class="demo-caption" data-i18n="common.illustrativeData">Illustrative demo data</span></div>
+            <div class="metrics-grid">
+              <article class="metric-card card"><div class="metric-top"><span class="metric-icon mint" aria-hidden="true">⌁</span><span class="metric-label" data-i18n="overview.movement">Movement</span><span class="metric-arrow" aria-hidden="true">↗</span></div><strong>6,240 <small data-i18n="overview.steps">steps</small></strong><div class="metric-foot"><span class="mini-bars" aria-hidden="true"><i style="height:35%"></i><i style="height:54%"></i><i style="height:42%"></i><i style="height:73%"></i><i style="height:60%"></i><i style="height:90%"></i><i style="height:68%"></i></span><span data-i18n="overview.movementEncouragement">Gentle movement adds up</span></div></article>
+              <article class="metric-card card"><div class="metric-top"><span class="metric-icon violet" aria-hidden="true">✳</span><span class="metric-label" data-i18n="overview.photonSignal">Photon signal</span><span class="metric-arrow" aria-hidden="true">↗</span></div><strong><span data-i18n="overview.inRange">In range</span> <small class="metric-demo" data-i18n="common.demo">DEMO</small></strong><div class="metric-foot"><span class="signal-spark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span data-i18n="overview.opticalPreview">Optical concept preview</span></div></article>
+              <article class="metric-card card"><div class="metric-top"><span class="metric-icon peach" aria-hidden="true">◷</span><span class="metric-label" data-i18n="overview.wearTime">Wear time</span><span class="metric-arrow" aria-hidden="true">↗</span></div><strong>18 <small data-i18n="overview.hours">hrs</small></strong><div class="metric-foot"><span class="wear-track" aria-hidden="true"><i></i></span><span data-i18n="overview.patchComfort">Patch comfort check: good</span></div></article>
+            </div>
+
+            <article class="card trend-preview">
+              <div class="trend-heading"><div><div class="section-kicker" data-i18n="overview.yourWeek">YOUR WEEK</div><h2 data-i18n="overview.steadyProgress">Small steps, steady progress</h2><p data-i18n="overview.checkinsProgress">See how your daily check-ins are coming together.</p></div><button class="text-button" data-go="trends"><span data-i18n="overview.exploreTrends">Explore trends</span> <span aria-hidden="true">→</span></button></div>
+              <div class="chart-wrap"><div class="chart-y-axis" aria-hidden="true"><span data-i18n="overview.moreActive">More active</span><span></span><span></span><span data-i18n="overview.rest">Rest</span></div><div class="chart-area"><svg class="trend-chart" viewBox="0 0 760 156" preserveAspectRatio="none" role="img" aria-label="Illustrative weekly movement pattern, gradually increasing from Monday to Sunday" data-i18n-aria="overview.chartAria"><defs><linearGradient id="chart-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#50bba5" stop-opacity=".2"/><stop offset="100%" stop-color="#50bba5" stop-opacity="0"/></linearGradient></defs><path class="chart-gridline" d="M0 20H760M0 60H760M0 100H760M0 140H760"/><path class="chart-fill" d="M0 108 C38 99 45 112 76 96 S126 92 152 81 S200 94 228 80 S279 70 304 75 S355 82 380 65 S430 73 456 54 S505 68 532 49 S582 61 608 42 S656 50 684 34 S735 44 760 24 V156H0Z"/><path class="chart-line" d="M0 108 C38 99 45 112 76 96 S126 92 152 81 S200 94 228 80 S279 70 304 75 S355 82 380 65 S430 73 456 54 S505 68 532 49 S582 61 608 42 S656 50 684 34 S735 44 760 24"/><circle class="chart-last-dot" cx="760" cy="24" r="5"/></svg><div class="chart-days"><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span></div></div></div>
+              <div class="chart-note"><span class="chart-note-dot"></span><span data-i18n="overview.illustrativeMovement">Illustrative movement pattern</span> <span class="chart-note-sep">·</span> <span data-i18n="overview.realPatchData">Your real patch data would appear here</span></div>
+            </article>
+          </section>
+
+          <section class="view" id="view-photon" aria-labelledby="photon-title" tabindex="-1" hidden>
+            <div class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="photon.eyebrow">A LIGHT-BASED SENSING IDEA</span></div><h1 id="photon-title"><span data-i18n="photon.title">Meet Photon</span><span class="hello-dot">.</span></h1><p class="intro-copy" data-i18n="photon.subtitle">A small look at how light might one day support more continuous monitoring.</p></div><span class="concept-pill" data-i18n="common.conceptPreview">CONCEPT PREVIEW</span></div>
+            <div class="notice-banner" role="note"><span class="notice-icon">i</span><p><strong data-i18n="photon.noticeTitle">This isn’t a real scan.</strong> <span data-i18n="photon.noticeBody">No sensor is connected and no body data is read. The animation is simulated; it cannot detect or rule out DVT.</span></p></div>
+            <div class="photon-layout">
+              <article class="card photon-main">
+                <div class="card-heading"><div><div class="section-kicker" data-i18n="photon.patchConcept">PHOTONIC PATCH CONCEPT</div><h2 data-i18n="photon.seeLight">See light in a new way</h2></div><span class="photon-version">AR-01 · CONCEPT</span></div>
+                <div class="photon-visual" id="photon-visual">
+                  <div class="scan-grid" aria-hidden="true"></div><div class="leg-illustration" aria-hidden="true"><svg viewBox="0 0 210 350"><defs><linearGradient id="leg-shade" x1="0" x2="1"><stop stop-color="#f2d7c7"/><stop offset="1" stop-color="#d6b3a8"/></linearGradient><linearGradient id="light-beam" x1="0" x2="1"><stop stop-color="#7b6af4" stop-opacity="0"/><stop offset=".5" stop-color="#c4aaff" stop-opacity=".8"/><stop offset="1" stop-color="#79e7d2" stop-opacity="0"/></linearGradient></defs><path class="leg-shape" d="M74 18c20 9 45 9 66 0l16 54c5 17 7 43 2 61l-9 54c-2 18 3 40 9 62l13 56c3 14-6 25-20 25h-28c-11 0-17-10-19-22l-12-72c-3-17-9-33-18-48l-17-32c-10-18-13-37-9-56l13-62c3-13 3-17 13-20Z" fill="url(#leg-shade)"/><path class="vein-path" d="M118 54c-12 25 8 39-3 64s-25 34-7 58 20 35 10 55-3 43 6 67" fill="none"/><path class="light-ray" d="M36 139h138M43 153h124M49 167h111"/></svg></div>
+                  <div class="photon-patch" aria-label="Concept patch location on the leg"><span class="patch-glow"></span><span class="patch-device"><i></i><i></i><i></i></span></div>
+                  <div class="scan-caption"><span class="scan-badge"><span></span> <span data-i18n="photon.multiWave">MULTI-WAVELENGTH CONCEPT</span></span><strong data-i18n="photon.reflectedLight">Light, reflected with purpose.</strong><span data-i18n="photon.researchExploration">A research-inspired interface exploration</span></div>
+                  <div class="wavelength-legend"><span><i class="wave-dot wave-a"></i><span data-i18n="photon.red">RED</span></span><span><i class="wave-dot wave-b"></i><span data-i18n="photon.infrared">NEAR-INFRARED</span></span><span><i class="wave-dot wave-c"></i><span data-i18n="photon.green">GREEN</span></span></div>
+                  <div class="scan-pulse" aria-hidden="true"></div>
+                </div>
+
+                <div class="photon-actions"><div><strong id="scan-state" data-i18n="photon.ready">Ready when you are</strong><span id="scan-hint" data-i18n="photon.scanHint">Explore a simulated light sequence. No body data is collected.</span></div><button class="button button-dark" id="scan-button"><span aria-hidden="true">✳</span> <span data-i18n="photon.startSequence">Start demo sequence</span></button></div>
+              </article>
+              <aside class="photon-aside">
+
+                <article class="card idea-card"><div class="section-kicker" data-i18n="photon.theIdea">THE IDEA</div><h2 data-i18n="photon.whatIf">What if a patch could see beyond the surface?</h2><p data-i18n="photon.explanation">Different colors of light interact with tissue in different ways. We’re exploring whether that could someday support more comfortable, continuous monitoring.</p><div class="idea-rule"></div><div class="idea-foot"><span class="idea-spark" aria-hidden="true">✳</span><span><strong data-i18n="photon.designedForYou">Designed around you</strong><small data-i18n="photon.ambition">Small, wearable, always-on — an ambition, not a claim.</small></span></div></article>
+                <article class="card wavelength-card"><div class="section-kicker" data-i18n="photon.spectrum">A SPECTRUM OF POSSIBILITY</div><h2 data-i18n="photon.threeWaves">Three wavelengths, one concept</h2><div class="wave-row"><span class="wave-chip red">R</span><div><strong data-i18n="photon.redLight">Red light</strong><small data-i18n="photon.oneChannel">One possible signal channel</small></div><span class="wave-arrow">→</span></div><div class="wave-row"><span class="wave-chip near">NIR</span><div><strong data-i18n="photon.nearInfrared">Near-infrared</strong><small data-i18n="photon.researchDirection">Another research direction</small></div><span class="wave-arrow">→</span></div><div class="wave-row"><span class="wave-chip green">G</span><div><strong data-i18n="photon.greenLight">Green light</strong><small data-i18n="photon.complementarySignals">Exploring complementary signals</small></div><span class="wave-arrow">→</span></div><p class="science-note" data-i18n="photon.scienceNote">These are design concepts only. Performance and clinical utility have not been established.</p></article>
+              </aside>
+            </div>
+          </section>
+
+          <section class="view" id="view-trends" aria-labelledby="trends-title" tabindex="-1" hidden>
+            <div class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="trends.eyebrow">YOUR PERSONAL HISTORY</span></div><h1 id="trends-title"><span data-i18n="trends.title">Your trends</span><span class="hello-dot">.</span></h1><p class="intro-copy" data-i18n="trends.subtitle">Notice the patterns, and give yourself credit for the little wins.</p></div><label class="select-wrap"><span class="sr-only" data-i18n="trends.rangeLabel">Choose trend time range</span><select id="range-select"><option value="7" data-i18n="trends.last7">Last 7 days</option><option value="30" data-i18n="trends.last30">Last 30 days</option></select></label></div>
+            <div class="notice-banner" role="note"><span class="notice-icon">i</span><p><strong data-i18n="trends.noticeTitle">These are examples, not health readings.</strong> <span data-i18n="trends.noticeBody">The chart and metrics below are here to show how a future experience might look.</span></p></div>
+            <div class="trend-summary-grid"><article class="card summary-card"><span class="summary-icon mint">⌁</span><span class="summary-label" data-i18n="trends.movementWeek">Movement this week</span><strong>6,240 <small data-i18n="trends.stepsDay">steps/day</small></strong><span class="summary-change" data-i18n="trends.moreEachDay">A little more each day</span></article><article class="card summary-card"><span class="summary-icon violet">✳</span><span class="summary-label" data-i18n="trends.patchWear">Patch wear time</span><strong>18.2 <small data-i18n="trends.hoursDay">hrs/day</small></strong><span class="summary-change" data-i18n="trends.comfortMatters">Your comfort matters</span></article><article class="card summary-card"><span class="summary-icon peach">♡</span><span class="summary-label" data-i18n="trends.completedCheckins">Check-ins completed</span><strong>6 <small data-i18n="trends.of7Days">of 7 days</small></strong><span class="summary-change" data-i18n="trends.consistency">Consistency, not perfection</span></article></div>
+            <article class="card large-trend-card"><div class="trend-heading"><div><div class="section-kicker" data-i18n="trends.demoMovement">DEMO MOVEMENT PATTERN</div><h2 id="trend-range-title">Your week at a glance</h2><p data-i18n="trends.chartDescription">Illustrative values only · a future patch experience might show personalized patterns.</p></div><span class="demo-pill" data-i18n="common.simulated">SIMULATED</span></div><div class="large-chart"><div class="large-chart-labels"><span>8k</span><span>6k</span><span>4k</span><span>2k</span><span>0</span></div><div class="large-chart-plot"><div class="chart-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="bar-chart" role="img" aria-label="Illustrative daily step counts: Monday 4,200; Tuesday 4,800; Wednesday 5,100; Thursday 4,600; Friday 6,200; Saturday 5,800; Sunday 6,240"><div class="bar-column"><span style="height:52%"></span><small>MON</small></div><div class="bar-column"><span style="height:60%"></span><small>TUE</small></div><div class="bar-column"><span style="height:64%"></span><small>WED</small></div><div class="bar-column"><span style="height:57%"></span><small>THU</small></div><div class="bar-column"><span style="height:78%"></span><small>FRI</small></div><div class="bar-column"><span style="height:73%"></span><small>SAT</small></div><div class="bar-column"><span style="height:78%"></span><small>SUN</small></div></div></div></div><div class="chart-note"><span class="chart-note-dot"></span><span data-i18n="trends.stepsPlaceholder">Steps shown are illustrative placeholders, not a measurement.</span></div></article>
+            <article class="card pattern-card"><div class="pattern-icon">✦</div><div><div class="section-kicker" data-i18n="trends.reminderEyebrow">A GENTLE REMINDER</div><h2 data-i18n="trends.reminderTitle">Your routine is yours to define.</h2><p data-i18n="trends.reminderBody">There’s no single “right” way to build a habit. If you have questions about what’s right for you, your care team is the best place to start.</p></div><button class="text-button" data-go="care"><span data-i18n="trends.talkItThrough">Talk it through</span> <span aria-hidden="true">→</span></button></article>
+          </section>
+
+          <section class="view" id="view-locator" aria-labelledby="locator-title" tabindex="-1" hidden>
+            <div class="page-intro">
+              <div>
+                <div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="locator.eyebrow">CARE THAT FITS YOUR LIFE</span></div>
+                <h1 id="locator-title"><span data-i18n="locator.title">Find care nearby</span><span class="hello-dot">.</span></h1>
+                <p class="intro-copy" data-i18n="locator.subtitle">Choose what matters to you, then explore nearby services.</p>
+              </div>
+              <span class="concept-pill" data-i18n="locator.badge">OPENSTREETMAP LISTINGS</span>
+            </div>
+            <div class="notice-banner location-privacy-note" role="note">
+              <span class="notice-icon" aria-hidden="true">i</span>
+              <p><strong data-i18n="locator.privacyTitle">Your location stays in your hands.</strong> <span data-i18n="locator.privacyBody">If you search by location, an approximate location (rounded to about 100 metres) and your chosen radius are sent to Nominatim and Photon, public services that search OpenStreetMap data. Arteria doesn’t save your location. You can search for a city or ZIP code instead.</span></p>
+            </div>
+            <div class="locator-layout">
+              <article class="card locator-search-card">
+                <div class="section-kicker" data-i18n="locator.filterHeading">START WITH WHAT WORKS FOR YOU</div>
+                <h2 data-i18n="locator.where">Where should we look?</h2>
+                <div class="location-consent">
+                  <label class="consent-check">
+                    <input id="location-consent" type="checkbox" />
+                    <span data-i18n="locator.consent">I understand an approximate location will be shared with Nominatim and Photon to find nearby services.</span>
+                  </label>
+                  <button class="button button-dark" id="use-location-button" type="button" disabled><span aria-hidden="true">⌖</span> <span data-i18n="locator.useLocation">Use my location</span></button>
+                </div>
+                <div class="locator-divider"><span data-i18n="locator.orSearch">OR SEARCH A PLACE</span></div>
+                <form class="area-search-form" id="area-search-form">
+                  <label for="area-query" data-i18n="locator.areaLabel">City, town, or ZIP code</label>
+                  <div class="area-search-controls">
+                    <input id="area-query" name="area" type="search" maxlength="100" placeholder="For example, 02139 or Cambridge" data-i18n-placeholder="locator.areaPlaceholder" autocomplete="postal-code" required />
+                    <button class="button button-light" type="submit"><span data-i18n="locator.searchArea">Search area</span> <span aria-hidden="true">→</span></button>
+                  </div>
+                  <small data-i18n="locator.searchPrivacy">We’ll send the place you enter to Nominatim, then use Photon to look for nearby services. Your search isn’t saved here.</small>
+                </form>
+                <div class="locator-filters">
+                  <label for="service-type" data-i18n="locator.serviceTypeLabel">What kind of care are you looking for?</label>
+                  <select id="service-type">
+                    <option value="all" data-i18n="locator.anyService">Any nearby health service</option>
+                    <option value="vascular" data-i18n="locator.vascular">Vascular care</option>
+                    <option value="ultrasound" data-i18n="locator.ultrasound">Ultrasound or imaging</option>
+                    <option value="urgent" data-i18n="locator.urgent">Urgent or emergency care</option>
+                    <option value="general" data-i18n="locator.clinics">Clinics and doctors</option>
+                  </select>
+                  <label for="search-radius" data-i18n="locator.radiusLabel">How far would you like to look?</label>
+                  <select id="search-radius">
+                    <option value="5" data-i18n="locator.within5">Within 5 km</option>
+                    <option value="10" selected data-i18n="locator.within10">Within 10 km</option>
+                    <option value="25" data-i18n="locator.within25">Within 25 km</option>
+                  </select>
+                  <label class="accessibility-filter"><input id="step-free-filter" type="checkbox" /><span data-i18n="locator.accessFilter">Show places listed as wheelchair accessible</span></label>
+                </div>
+                <p class="locator-source"><span data-i18n="locator.sourceNotice">Listings can be incomplete or out of date. Please call to confirm services, step-free access, and opening hours before you go. Map data ©</span> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" data-i18n="locator.attribution">OpenStreetMap contributors</a>.</p>
+              </article>
+              <!--yup yup-->
+              <div class="locator-results-column">
+                <div class="locator-results-heading">
+                  <div><div class="section-kicker" data-i18n="locator.options">YOUR OPTIONS</div><h2 id="results-title" data-i18n="locator.ready">Ready when you are</h2></div>
+                  <span class="results-count hidden" id="results-count"></span>
+                  <!--oh wow theres a lot of code-->
+                </div>  
+                <div class="locator-status" id="locator-status" role="status" aria-live="polite" data-i18n="locator.initialStatus">Choose how you’d like to search. We won’t look up your location until you ask us to.</div>
+                <div class="service-results" id="service-results" aria-live="polite"></div>
+                <article class="urgent-card locator-urgent">
+                  <span class="urgent-icon" aria-hidden="true">!</span>
+                  <div><strong data-i18n="common.urgentTitle">Need urgent help?</strong><p data-i18n="locator.urgentNotice">If you may be having a medical emergency, call your local emergency number now. Don’t wait for this app or an online listing.</p></div>
+                </article>
+              </div>
+            </div>
+          </section>
+          <!--ignore this code it was repeated twice in the original snippet, so I removed it for clarity-->
+          <!--<section class="view" id="view-locator" aria-labelledby="locator-title" tabindex="-1" hidden>
+            <div class="page-intro">
+              <div>
+                <div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="locator.eyebrow">CARE THAT FITS YOUR LIFE</span></div>
+                <h1 id="locator-title"><span data-i18n="locator.title">Find care nearby</span><span class="hello-dot">.</span></h1>
+                <p class="intro-copy" data-i18n="locator.subtitle">Choose what matters to you, then explore nearby services.</p>
+              </div>
+              <span class="concept-pill" data-i18n="locator.badge">OPENSTREETMAP LISTINGS</span>
+            </div>
+            <div class="notice-banner location-privacy-note" role="note">
+              <span class="notice-icon" aria-hidden="true">i</span>
+              <p><strong data-i18n="locator.privacyTitle">Your location stays in your hands.</strong> <span data-i18n="locator.privacyBody">If you search by location, an approximate location (rounded to about 100 metres) and your chosen radius are sent to Nominatim and Photon, public services that search OpenStreetMap data. Arteria doesn’t save your location. You can search for a city or ZIP code instead.</span></p>
+            </div>
+            <div class="locator-layout">
+              <article class="card locator-search-card">
+                <div class="section-kicker" data-i18n="locator.filterHeading">START WITH WHAT WORKS FOR YOU</div>
+                <h2 data-i18n="locator.where">Where should we look?</h2>
+                <div class="location-consent">
+                  <label class="consent-check">
+                    <input id="location-consent" type="checkbox" />
+                    <span data-i18n="locator.consent">I understand an approximate location will be shared with Nominatim and Photon to find nearby services.</span>
+                  </label>
+                  <button class="button button-dark" id="use-location-button" type="button" disabled><span aria-hidden="true">⌖</span> <span data-i18n="locator.useLocation">Use my location</span></button>
+                </div>
+                <div class="locator-divider"><span data-i18n="locator.orSearch">OR SEARCH A PLACE</span></div>
+                <form class="area-search-form" id="area-search-form">
+                  <label for="area-query" data-i18n="locator.areaLabel">City, town, or ZIP code</label>
+                  <div class="area-search-controls">
+                    <input id="area-query" name="area" type="search" maxlength="100" placeholder="For example, 02139 or Cambridge" data-i18n-placeholder="locator.areaPlaceholder" autocomplete="postal-code" required />
+                    <button class="button button-light" type="submit"><span data-i18n="locator.searchArea">Search area</span> <span aria-hidden="true">→</span></button>
+                  </div>
+                  <small data-i18n="locator.searchPrivacy">We’ll send the place you enter to Nominatim, then use Photon to look for nearby services. Your search isn’t saved here.</small>
+                </form>
+                <div class="locator-filters">
+                  <label for="service-type" data-i18n="locator.serviceTypeLabel">What kind of care are you looking for?</label>
+                  <select id="service-type">
+                    <option value="all" data-i18n="locator.anyService">Any nearby health service</option>
+                    <option value="vascular" data-i18n="locator.vascular">Vascular care</option>
+                    <option value="ultrasound" data-i18n="locator.ultrasound">Ultrasound or imaging</option>
+                    <option value="urgent" data-i18n="locator.urgent">Urgent or emergency care</option>
+                    <option value="general" data-i18n="locator.clinics">Clinics and doctors</option>
+                  </select>
+                  <label for="search-radius" data-i18n="locator.radiusLabel">How far would you like to look?</label>
+                  <select id="search-radius">
+                    <option value="5" data-i18n="locator.within5">Within 5 km</option>
+                    <option value="10" selected data-i18n="locator.within10">Within 10 km</option>
+                    <option value="25" data-i18n="locator.within25">Within 25 km</option>
+                  </select>
+                  <label class="accessibility-filter"><input id="step-free-filter" type="checkbox" /><span data-i18n="locator.accessFilter">Show places listed as wheelchair accessible</span></label>
+                </div>
+                <p class="locator-source"><span data-i18n="locator.sourceNotice">Listings can be incomplete or out of date. Please call to confirm services, step-free access, and opening hours before you go. Map data ©</span> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" data-i18n="locator.attribution">OpenStreetMap contributors</a>.</p>
+              </article>
+              //yup yup
+              <div class="locator-results-column">
+                <div class="locator-results-heading">
+                  <div><div class="section-kicker" data-i18n="locator.options">YOUR OPTIONS</div><h2 id="results-title" data-i18n="locator.ready">Ready when you are</h2></div>
+                  <span class="results-count hidden" id="results-count"></span>
+                  //oh wow theres a lot of code
+                </div>  
+                <div class="locator-status" id="locator-status" role="status" aria-live="polite" data-i18n="locator.initialStatus">Choose how you’d like to search. We won’t look up your location until you ask us to.</div>
+                <div class="service-results" id="service-results" aria-live="polite"></div>
+                <article class="urgent-card locator-urgent">
+                  <span class="urgent-icon" aria-hidden="true">!</span>
+                  <div><strong data-i18n="common.urgentTitle">Need urgent help?</strong><p data-i18n="locator.urgentNotice">If you may be having a medical emergency, call your local emergency number now. Don’t wait for this app or an online listing.</p></div>
+                </article>
+              </div>
+            </div>
+          </section>-->
+
+          <section class="view" id="view-sharing" aria-labelledby="sharing-title" tabindex="-1" hidden>
+            <div class="page-intro">
+              <div>
+                <div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="sharing.eyebrow">YOUR INFORMATION, YOUR CHOICE</span></div>
+                <h1 id="sharing-title"><span data-i18n="sharing.title">Share a note with your care team</span><span class="hello-dot">.</span></h1>
+                <p class="intro-copy" data-i18n="sharing.subtitle">Send a private, encrypted copy of your own notes to your email inbox.</p>
+              </div>
+              <span class="concept-pill" data-i18n="sharing.encryptionBadge">ENCRYPTED BEFORE SENDING</span>
+            </div>
+            <div class="notice-banner" role="note">
+              <span class="notice-icon" aria-hidden="true">i</span>
+              <p><strong data-i18n="sharing.privacyTitle">Your notes stay private.</strong> <span data-i18n="sharing.privacyBody">Your note is encrypted in this browser. Only the encrypted file and your email address are sent to Arteria’s email service. Your passphrase is never sent. This demo doesn’t include sample patch readings because they aren’t real health data.</span></p>
+            </div>
+            <div class="sharing-layout">
+              <article class="card share-form-card">
+                <div class="section-kicker" data-i18n="sharing.formEyebrow">MAKE YOUR OWN SHARE FILE</div>
+                <h2 data-i18n="sharing.formTitle">A few details, only if you want to share them</h2>
+                <form id="share-form">
+                  <div class="share-honeypot" aria-hidden="true"><label for="share-website">Website</label><input id="share-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+                  <label class="share-field"><span data-i18n="sharing.nameLabel">Your name (optional)</span><input id="share-name" name="name" type="text" maxlength="100" autocomplete="name" placeholder="Name to show in your file" data-i18n-placeholder="sharing.namePlaceholder" /></label>
+                  <label class="share-field"><span data-i18n="sharing.emailLabel">Your email address</span><input id="share-email" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com" required /></label>
+                  <label class="share-field"><span data-i18n="sharing.notesLabel">What would you like your care team to know?</span><textarea id="share-notes" name="notes" rows="6" maxlength="4000" placeholder="For example: questions for my next appointment, details I don’t want to forget, or what I’d like to discuss." data-i18n-placeholder="sharing.notesPlaceholder"></textarea><small data-i18n="sharing.notesHelp">Only include information you feel comfortable sharing in an email attachment.</small></label>
+                  <label class="share-field"><span data-i18n="sharing.passphraseLabel">Create a passphrase for your file</span><input id="share-passphrase" name="passphrase" type="password" minlength="12" maxlength="128" autocomplete="new-password" required placeholder="At least 12 characters" data-i18n-placeholder="sharing.passphrasePlaceholder" /><small data-i18n="sharing.passphraseHelp">Use 12 or more characters. Keep it somewhere safe; don’t email it or share it with your clinic.</small></label>
+                  <label class="share-field"><span data-i18n="sharing.confirmLabel">Enter your passphrase again</span><input id="share-passphrase-confirm" name="passphraseConfirm" type="password" minlength="12" maxlength="128" autocomplete="new-password" required placeholder="Repeat your passphrase" data-i18n-placeholder="sharing.confirmPlaceholder" /></label>
+                  <label class="share-consent"><input id="share-consent" type="checkbox" required /><span data-i18n="sharing.consent">I’m sending this encrypted file to my own email address. I understand I’ll need to give the passphrase to my care team separately if I choose to share the file with them.</span></label>
+                  <button class="button button-dark share-submit" id="share-submit" type="submit"><span aria-hidden="true">↗</span><span data-i18n="sharing.sendButton">Email me my encrypted file</span></button>
+                  <p class="share-status" id="share-status" role="status" aria-live="polite"></p>
+                  <!-- you can add a small note here about the encryption process if needed -->
+                </form>
+              </article>
+              <aside class="share-aside">
+                <article class="card share-security-card">
+                  <div class="section-kicker" data-i18n="sharing.howEyebrow">HOW YOUR SHARE FILE WORKS</div>
+                  <h2 data-i18n="sharing.howTitle">A private handoff, with you in control.</h2>
+                  <ol class="share-steps">
+                    <li><span>1</span><div><strong data-i18n="sharing.step1Title">Your browser creates the file</strong><small data-i18n="sharing.step1Body">The note you write is encrypted here on your device before anything is sent.</small></div></li>
+                    <li><span>2</span><div><strong data-i18n="sharing.step2Title">Only the encrypted file is emailed</strong><small data-i18n="sharing.step2Body">The email is sent to the address you enter. The file is unreadable without your passphrase.</small></div></li>
+                    <li><span>3</span><div><strong data-i18n="sharing.step3Title">You decide what to do next</strong><small data-i18n="sharing.step3Body">Keep the file for yourself, or choose to share it with your care team and pass them the passphrase separately.</small></div></li>
+                    <!--what was strong again?? -->
+                  </ol>
+                </article>
+                <article class="card decrypt-card">
+                  <div class="section-kicker" data-i18n="sharing.openEyebrow">OPEN A FILE YOU ALREADY HAVE</div>
+                  <h2 data-i18n="sharing.openTitle">Unlock your Arteria file</h2>
+                  <label class="share-field"><span data-i18n="sharing.fileLabel">Encrypted Arteria file</span><input id="encrypted-file" type="file" accept=".arteria,application/octet-stream" /></label>
+                  <label class="share-field"><span data-i18n="sharing.unlockPassphrase">Passphrase</span><input id="decrypt-passphrase" type="password" autocomplete="current-password" placeholder="Your file’s passphrase" data-i18n-placeholder="sharing.unlockPlaceholder" /></label>
+                  <button class="button button-light" id="decrypt-button" type="button"><span data-i18n="sharing.openButton">Unlock and download note</span> <span aria-hidden="true">↓</span></button>
+                  <p class="share-status" id="decrypt-status" role="status" aria-live="polite"></p>
+                </article>
+                <p class="share-disclaimer" data-i18n="sharing.disclaimer">This prototype is not connected to a medical record and doesn’t send your file to a provider. Email can still reveal who you contacted; the attachment itself is encrypted. Never use this for urgent care.</p>
+
+              </aside>
+            </div>
+          </section>
+
+          <section class="view" id="view-care" aria-labelledby="care-title" tabindex="-1" hidden>
+            <div class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="care.eyebrow">A SUPPORTIVE SPACE</span></div><h1 id="care-title"><span data-i18n="care.title">Your care companion</span><span class="hello-dot">.</span></h1><p class="intro-copy" data-i18n="care.subtitle">A place to talk things through and get ready for your next conversation.</p></div><span class="concept-pill">ARIA · AI COMPANION CONCEPT</span></div>
+            <div class="care-layout">
+              <article class="card chat-card" aria-label="Chat with Aria">
+                <div class="chat-header"><div class="aria-avatar" aria-hidden="true"><span></span><i></i></div><div><strong>Aria</strong><small><span></span> <span data-i18n="care.companion">Your personal companion</span></small></div><button class="plain-icon" id="clear-chat" aria-label="Start a fresh conversation" data-i18n-aria="care.newChatAria" title="Start fresh">↻</button></div>
+                <div class="chat-disclaimer"><span aria-hidden="true">i</span><span data-i18n="care.disclaimer">I’m Aria, an AI concept—not a clinician. I can help you reflect or prepare questions, but I can’t diagnose, interpret symptoms, or replace your care team.</span></div>
+                <div class="chat-log" id="chat-log" aria-live="polite" aria-relevant="additions text"><div class="chat-message aria-message"><div class="message-avatar" aria-hidden="true">A</div><div class="message-content"><div class="message-meta">ARIA <span data-i18n="common.justNow">just now</span></div><div class="message-bubble" data-i18n="care.welcome">Hi Jordan! How are you feeling today? We can talk about your routine, explore this prototype, or get a few questions ready for your care team.</div></div></div></div>
+                <div class="suggestion-label" data-i18n="care.suggestionsLabel">WHAT WOULD BE HELPFUL?</div><div class="suggestions"><button class="suggestion-button" data-i18n="care.suggestion1">Help me prepare for my next appointment</button><button class="suggestion-button" data-i18n="care.suggestion2">What is the Photon concept?</button><button class="suggestion-button" data-i18n="care.suggestion3">Give me a gentle movement idea</button></div>
+                <form class="chat-form" id="chat-form"><label class="sr-only" for="chat-input" data-i18n="care.inputAria">Message Aria</label><input id="chat-input" name="message" autocomplete="off" placeholder="What’s on your mind?" data-i18n-placeholder="care.inputPlaceholder" maxlength="500" required/><button type="button" class="voice-button" id="voice-button" aria-label="Read Aria's latest reply aloud" data-i18n-aria="care.voiceAria" title="Read latest reply aloud">◖))</button><button class="send-button" type="submit" aria-label="Send message" data-i18n-aria="care.sendAria">↑</button></form><div class="chat-footnote" data-i18n="care.chatFootnote">This demo keeps your messages in this browser session. Aria isn’t a substitute for medical advice.</div>
+              </article>
+              <aside class="care-aside">
+
+                <article class="card care-note-card"><div class="section-kicker" data-i18n="care.noteEyebrow">YOUR CARE, YOUR WAY</div><h2 data-i18n="care.noteTitle">It’s okay to come with questions.</h2><p data-i18n="care.noteBody">Write down what’s on your mind before your next appointment. Aria can help you get organized; your care team can give you medical guidance.</p><div class="question-prompts"><div><span>01</span><span data-i18n="care.question1">What should I know about my monitoring plan?</span></div><div><span>02</span><span data-i18n="care.question2">When should I get in touch with you?</span></div><div><span>03</span><span data-i18n="care.question3">How can I wear the patch comfortably?</span></div></div></article>
+                <article class="urgent-card"><span class="urgent-icon" aria-hidden="true">!</span><div><strong data-i18n="common.urgentTitle">Need urgent help?</strong><p data-i18n="care.urgent">If you may be having a medical emergency, call your local emergency number now. Don’t wait for an app or a patch reading.</p></div></article>
+                <button class="card care-link-card" id="care-team-button"><span class="care-link-icon" aria-hidden="true">↗</span><span><strong data-i18n="care.teamTitle">Your care team comes first</strong><small data-i18n="care.teamBody">Reach out to your clinician for medical questions.</small></span><span aria-hidden="true">→</span></button>
+              </aside>
+            </div>
+          </section>
+        </main>
+        <footer class="app-footer"><span>© 2026 Arteria Health · Care, made more continuous.</span><span><a href="#prototype-note" id="footer-about" data-i18n="footer.about">About this prototype</a><span aria-hidden="true">·</span><button id="footer-accessibility" data-i18n="footer.accessibility">Accessibility</button></span></footer>
+      </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="accessibility-modal" role="presentation">
+
+      <section class="accessibility-modal" role="dialog" aria-modal="true" aria-labelledby="accessibility-title" aria-describedby="accessibility-description">
+        <div class="modal-heading"><div><div class="section-kicker" data-i18n="accessibility.eyebrow">MAKE IT YOURS</div><h2 id="accessibility-title" data-i18n="accessibility.title">Accessibility settings</h2></div><button class="modal-close" id="accessibility-close" aria-label="Close accessibility settings" data-i18n-aria="accessibility.close">×</button></div>
+        <p id="accessibility-description" class="modal-description" data-i18n="accessibility.description">Adjust the interface for more comfortable reading. Your choices are saved on this device.</p>
+        <label class="setting-row"><span><strong data-i18n="accessibility.largeText">Larger text</strong><small data-i18n="accessibility.largeTextHelp">Increase text size throughout the app</small></span><input type="checkbox" id="large-text-toggle" role="switch" aria-label="Larger text" data-i18n-aria="accessibility.largeText"/></label>
+        <label class="setting-row"><span><strong data-i18n="accessibility.highContrast">High contrast</strong><small data-i18n="accessibility.highContrastHelp">Increase contrast between text and surfaces</small></span><input type="checkbox" id="contrast-toggle" role="switch" aria-label="High contrast" data-i18n-aria="accessibility.highContrast"/></label>
+        <label class="setting-row"><span><strong data-i18n="accessibility.reduceMotion">Reduce motion</strong><small data-i18n="accessibility.reduceMotionHelp">Limit decorative animation and transitions</small></span><input type="checkbox" id="motion-toggle" role="switch" aria-label="Reduce motion" data-i18n-aria="accessibility.reduceMotion"/></label>
+        <div class="modal-accessibility-tip"><span aria-hidden="true">⌨</span><span><strong data-i18n="accessibility.keyboard">Keyboard friendly</strong><small data-i18n="accessibility.keyboardHelp">Use Tab to move between controls, Enter or Space to activate, and Escape to close this panel.</small></span></div>
+        <button class="button button-dark modal-done" id="accessibility-done" data-i18n="accessibility.done">Done</button>
+      </section>
+    </div>
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>
