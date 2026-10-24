@@ -13,7 +13,7 @@
     en: {
       "language.label": "Choose language",
       "nav.overview": "Overview",
-      "nav.photon": "Photon scan",
+      "nav.photon": "Photon acquisition",
       "nav.trends": "My trends",
       "nav.locator": "Find care",
       "nav.sharing": "Share securely",
@@ -40,14 +40,14 @@
       "common.personalProfile": "Personal profile",
       "common.accessibilitySettings": "Accessibility settings",
       "common.notifications": "Notifications, one update",
-      "common.profile": "Martin Edwards profile",
+      "common.profile": "Jordan Morgan profile",
       //yea cool
       "common.justNow": "just now",
       "common.notificationText": "One update · Your sample patch synced just now. This is a prototype notification.",
-      "common.profileText": "Martin Edwards | Personal profile | Demo account",
+      "common.profileText": "Jordan Morgan | Personal profile | Demo account",
       "common.profileToast": "This is a sample profile. No account information is connected.",
       "common.patchToast": "Arteria One is shown as connected for this demo. No wearable is paired.",
-      "common.prototypeToast": "Arteria is a concept prototype. All displayed readings and scan visuals are simulated.",
+      "common.prototypeToast": "Arteria records sessions from an explicitly selected source. Simulation is synthetic. No hardware adapter or diagnostic model is configured.",
       "common.readAloudUnavailable": "Read aloud isn’t supported in this browser. Try your device’s screen reader instead.",
       "common.noReply": "Aria doesn’t have a reply to read aloud yet.",
       "common.readAloudError": "Your browser couldn’t read this reply aloud.",
@@ -60,9 +60,9 @@
       "overview.eyebrow": "A MOMENT FOR YOU",
       "overview.greeting": "Good morning, Jordan",
       "overview.subtitle": "Let’s take a gentle look at how you’re doing today.",
-      "overview.scanButton": "Start a photon scan",
+      "overview.scanButton": "Start acquisition",
       "overview.noticeTitle": "A note about this experience:",
-      "overview.noticeBody": "Arteria is a concept prototype. Patch readings and photon scans shown here are illustrative only—not real measurements, diagnosis, or treatment guidance.",
+      "overview.noticeBody": "Measurements come from the selected source. Simulation and replay are labeled. No medical wellness score or diagnosis is calculated.",
       "overview.patchLabel": "YOUR PATCH",
       "overview.dailyOverview": "Daily overview",
       "overview.steady": "Steady signals today",
@@ -73,7 +73,7 @@
       "overview.seeTrends": "See my trends",
       "overview.companionLabel": "YOUR PERSONAL COMPANION",
       "overview.hereForYou": "HERE FOR YOU",
-      "overview.companionGreeting": "Hi Martin, how are you feeling today?",
+      "overview.companionGreeting": "Hi Jordan, how are you feeling today?",
       "overview.companionDescription": "We can talk through your routine, explore this prototype, or get a few questions ready for your care team.",
       "overview.talkAria": "Talk with Aria",
       "overview.private": "Private by design",
@@ -97,11 +97,11 @@
       "overview.realPatchData": "Your real patch data would appear here",
       "photon.eyebrow": "A LIGHT-BASED SENSING IDEA",
       "photon.title": "Meet Photon",
-      "photon.subtitle": "A small look at how light might one day support more continuous monitoring.",
-      "photon.noticeTitle": "This isn’t a real scan.",
+      "photon.subtitle": "Record a session, inspect the signal, and keep its source and units visible.",
+      "photon.noticeTitle": "Acquisition, with a clear source.",
 
       //MAKE SURE TO CHANGE THIS OMG ONCE THE ACTUAL THING IS CONNECTED FR FR
-      "photon.noticeBody": "No sensor is connected and no body data is read. The animation is simulated; it cannot detect or rule out DVT.",
+      "photon.noticeBody": "Choose simulation or a recorded session. Physical hardware requires its firmware adapter. These signals cannot detect or rule out DVT.",
       "photon.patchConcept": "PHOTONIC PATCH CONCEPT",
       "photon.seeLight": "See light in a new way",
       "photon.multiWave": "MULTI-WAVELENGTH CONCEPT",
@@ -112,7 +112,7 @@
       "photon.infrared": "NEAR-INFRARED",
       "photon.green": "GREEN",
       "photon.ready": "Ready when you are",
-      "photon.scanHint": "Explore a simulated light sequence. No body data is collected.",
+      "photon.scanHint": "Record, inspect and export a measurement session.",
       "photon.startSequence": "Start demo sequence",
       "photon.running": "Previewing the light sequence…",
       "photon.runningStatus": "Simulating a light sequence",
@@ -307,8 +307,8 @@
       "care.ariaMeta": "ARIA · just now",
       "care.emergencyReply": "I’m sorry you’re dealing with this. I can’t assess symptoms. If you may be having a medical emergency—especially chest pain, difficulty breathing, fainting, or coughing blood—call your local emergency number now. Don’t wait for this app or a patch reading.",
       "care.symptomReply": "I can’t tell what is causing a symptom or whether it’s a blood clot. New or worsening one-sided leg swelling, pain, warmth, or redness deserves prompt medical advice—please contact your clinician or local urgent-care service now. If you have chest pain or trouble breathing, call your local emergency number.",
-      "care.readingReply": "I can’t interpret readings, estimate your personal risk, or diagnose DVT. The numbers and Photon sequence in this prototype are simulated. Please ask your care team about your monitoring plan and what any real results mean.",
-      "care.photonReply": "Photon is an early interface concept exploring how light-based sensing might support more continuous monitoring. The scan animation is simulated: no sensor is connected, no body data is captured, and the idea has not been clinically validated.",
+      "care.readingReply": "I cannot interpret measurements, estimate medical risk, or diagnose DVT. Check the session source label: simulation is synthetic, and replay preserves its declared origin. Your care team can explain real clinical results.",
+      "care.photonReply": "Photon records and visualizes sessions from simulation or recorded-data replay. A real device needs its firmware adapter. The signal checks describe data quality, not thrombosis or another diagnosis.",
       "care.appointmentReply": "A helpful question to bring could be: “What should I watch for, and what changes should prompt me to contact you?” You might also ask how to wear your patch comfortably and who to call with concerns.",
       "care.movementReply": "If movement is part of the plan your clinician recommended, you could ask them what gentle activity is right for you. A small, comfortable change—like a short stretch or stroll—can be a kind place to start, but follow your care team’s advice.",
       "care.helloReply": "Hi Jordan! I’m glad you stopped by. What would feel helpful today—a routine check-in, a question to prepare for your care team, or learning about the Photon concept?",
@@ -334,7 +334,7 @@
     es: {
       "language.label": "Elegir idioma",
       "nav.overview": "Resumen",
-      "nav.photon": "Escaneo Photon",
+      "nav.photon": "Adquisición Photon",
       "nav.trends": "Mis tendencias",
       "nav.locator": "Buscar atención",
       "nav.sharing": "Compartir de forma segura",
@@ -360,13 +360,13 @@
       "common.personalProfile": "Perfil personal",
       "common.accessibilitySettings": "Opciones de accesibilidad",
       "common.notifications": "Notificaciones, una actualización",
-      "common.profile": "Perfil de Martin Edwards",
+      "common.profile": "Perfil de Jordan Morgan",
       "common.justNow": "ahora",
       "common.notificationText": "Una actualización · El parche de ejemplo se sincronizó hace un momento. Es una notificación del prototipo.",
-      "common.profileText": "Martin Edwards · Perfil personal · Cuenta de demostración",
+      "common.profileText": "Jordan Morgan · Perfil personal · Cuenta de demostración",
       "common.profileToast": "Este es un perfil de ejemplo. No hay ninguna cuenta conectada.",
       "common.patchToast": "El parche Arteria One aparece conectado en esta demostración. No hay ningún dispositivo vinculado.",
-      "common.prototypeToast": "Arteria es un prototipo conceptual. Todas las lecturas e imágenes del escaneo son simuladas.",
+      "common.prototypeToast": "Arteria graba sesiones de una fuente elegida. La simulación es sintética. No se ha configurado un adaptador físico ni un modelo diagnóstico.",
       "common.readAloudUnavailable": "Este navegador no permite leer en voz alta. Prueba el lector de pantalla de tu dispositivo.",
       "common.noReply": "Aria aún no tiene una respuesta para leer en voz alta.",
       "common.readAloudError": "Tu navegador no pudo leer esta respuesta en voz alta.",
@@ -377,11 +377,11 @@
       "overview.rest": "Descanso",
       "overview.chartAria": "Patrón de movimiento ilustrativo de la semana, con un aumento gradual de lunes a domingo",
       "overview.eyebrow": "UN MOMENTO PARA TI",
-      "overview.greeting": "Buenos días, Martin",
+      "overview.greeting": "Buenos días, Jordan",
       "overview.subtitle": "Veamos con calma cómo te sientes hoy.",
-      "overview.scanButton": "Iniciar escaneo Photon",
+      "overview.scanButton": "Iniciar adquisición",
       "overview.noticeTitle": "Una nota sobre esta experiencia:",
-      "overview.noticeBody": "Arteria es un prototipo conceptual. Las lecturas del parche y los escaneos Photon son solo ilustrativos: no son mediciones reales, diagnósticos ni indicaciones de tratamiento.",
+      "overview.noticeBody": "Las mediciones proceden de la fuente seleccionada. La simulación y reproducción están etiquetadas. No se calcula una puntuación médica ni un diagnóstico.",
       "overview.patchLabel": "TU PARCHE",
       "overview.dailyOverview": "Resumen del día",
       "overview.steady": "Señales estables hoy",
@@ -392,7 +392,7 @@
       "overview.seeTrends": "Ver mis tendencias",
       "overview.companionLabel": "TU COMPAÑERA PERSONAL",
       "overview.hereForYou": "ESTAMOS AQUÍ PARA TI",
-      "overview.companionGreeting": "Hola, Martin. ¿Cómo te sientes hoy?",
+      "overview.companionGreeting": "Hola, Jordan. ¿Cómo te sientes hoy?",
       "overview.companionDescription": "Podemos hablar de tu rutina, explorar este prototipo o preparar algunas preguntas para tu equipo de atención.",
       "overview.talkAria": "Hablar con Aria",
       "overview.private": "Tu privacidad es lo primero",
@@ -416,9 +416,9 @@
       "overview.realPatchData": "Aquí aparecerían los datos reales del parche",
       "photon.eyebrow": "UNA IDEA DE SENSORES ÓPTICOS",
       "photon.title": "Conoce Photon",
-      "photon.subtitle": "Una pequeña muestra de cómo la luz podría ayudar algún día a monitorear de forma más continua.",
-      "photon.noticeTitle": "Este no es un escaneo real.",
-      "photon.noticeBody": "No hay ningún sensor conectado ni se leen datos del cuerpo. La animación es simulada y no puede detectar ni descartar una TVP.",
+      "photon.subtitle": "Graba una sesión, revisa la señal y conserva su fuente y unidades.",
+      "photon.noticeTitle": "Adquisición con una fuente identificada.",
+      "photon.noticeBody": "Elige una simulación o una sesión grabada. El hardware necesita un adaptador según su firmware. Estas señales no pueden detectar ni descartar una TVP.",
       "photon.patchConcept": "CONCEPTO DE PARCHE FOTÓNICO",
       "photon.seeLight": "Descubre otra forma de ver la luz",
       "photon.multiWave": "CONCEPTO MULTIESPECTRAL",
@@ -428,7 +428,7 @@
       "photon.infrared": "INFRARROJO CERCANO",
       "photon.green": "VERDE",
       "photon.ready": "Cuando quieras, aquí estamos",
-      "photon.scanHint": "Explora una secuencia de luz simulada. No se recopilan datos del cuerpo.",
+      "photon.scanHint": "Graba, revisa y exporta una sesión.",
       "photon.startSequence": "Iniciar secuencia de demostración",
       "photon.running": "Vista previa de la secuencia de luz…",
       "photon.runningStatus": "Simulando una secuencia de luz",
@@ -619,8 +619,8 @@
       "care.ariaMeta": "ARIA · ahora",
       "care.emergencyReply": "Siento que estés pasando por esto. No puedo evaluar síntomas. Si podrías estar ante una emergencia médica —sobre todo si tienes dolor en el pecho, dificultad para respirar, te desmayas o toses sangre— llama ahora al número local de emergencias. No esperes a esta aplicación ni a una lectura del parche.",
       "care.symptomReply": "No puedo determinar la causa de un síntoma ni saber si es un coágulo. Si tienes nueva hinchazón, dolor, calor o enrojecimiento en una pierna, o si empeora, busca orientación médica pronto y comunícate con tu profesional de salud o un centro de atención urgente. Si tienes dolor en el pecho o dificultad para respirar, llama al número local de emergencias.",
-      "care.readingReply": "No puedo interpretar lecturas, calcular tu riesgo personal ni diagnosticar una TVP. Los números y la secuencia Photon de este prototipo son simulados. Pregunta a tu equipo de atención sobre tu plan de seguimiento y el significado de cualquier resultado real.",
-      "care.photonReply": "Photon es una idea inicial de interfaz que explora cómo los sensores de luz podrían ayudar a monitorear de forma más continua. La animación es simulada: no hay un sensor conectado, no se capturan datos del cuerpo y el concepto aún no se ha validado clínicamente.",
+      "care.readingReply": "No puedo interpretar mediciones, estimar riesgo médico ni diagnosticar una TVP. Revisa la etiqueta de origen: la simulación es sintética y la reproducción conserva su origen declarado. Tu equipo médico puede explicar los resultados clínicos.",
+      "care.photonReply": "Photon graba y muestra sesiones simuladas o reproducidas. Un dispositivo real necesita un adaptador de firmware. Las comprobaciones describen la señal, no una trombosis ni otro diagnóstico.",
       "care.appointmentReply": "Una pregunta útil podría ser: «¿En qué cambios debería fijarme y cuándo debería comunicarme contigo?». También puedes preguntar cómo usar el parche con comodidad y a quién llamar si algo te preocupa.",
       "care.movementReply": "Si tu profesional de salud recomendó hacer actividad, pregúntale qué tipo de movimiento suave es adecuado para ti. Un pequeño cambio cómodo, como estirarte o dar un paseo breve, puede ser un buen comienzo. Sigue las indicaciones de tu equipo de atención.",
       "care.helloReply": "¡Hola, Jordan! Me alegra que estés aquí. ¿Qué te ayudaría hoy: hablar de tu rutina, preparar una pregunta para tu equipo de atención o conocer el concepto Photon?",
@@ -693,6 +693,8 @@
     document.getElementById("trend-range-title").textContent = translate(
       trendRange.value === "30" ? "trends.monthTitle" : "trends.weekTitle"
     );
+
+    document.dispatchEvent(new Event("arteria-language"));
 
     if (saveChoice) {
       try {
@@ -777,9 +779,6 @@
   document.getElementById("profile-button").addEventListener("click", () => {
     showToast(translate("common.profileToast"));
   });
-  document.getElementById("patch-details").addEventListener("click", () => {
-    showToast(translate("common.patchToast"));
-  });
   document.querySelectorAll(".notice-close").forEach((button) => {
     button.addEventListener("click", () => button.closest(".notice-banner").remove());
   });
@@ -854,42 +853,6 @@
   document.getElementById("footer-about").addEventListener("click", (event) => {
     event.preventDefault();
     showToast(translate("common.prototypeToast"));
-  });
-
-  document.getElementById("range-select").addEventListener("change", (event) => {
-    const isMonth = event.target.value === "30";
-    document.getElementById("trend-range-title").textContent = translate(
-      isMonth ? "trends.monthTitle" : "trends.weekTitle"
-    );
-    const bars = [...document.querySelectorAll(".bar-column > span")];
-    bars.forEach((bar, index) => {
-      const weekHeights = [52, 60, 64, 57, 78, 73, 78];
-      const monthHeights = [45, 54, 62, 53, 72, 83, 88];
-      bar.style.height = `${(isMonth ? monthHeights : weekHeights)[index]}%`;
-    });
-  });
-
-  const scanButton = document.getElementById("scan-button");
-  scanButton.addEventListener("click", () => {
-    const visual = document.getElementById("photon-visual");
-    const state = document.getElementById("scan-state");
-    const hint = document.getElementById("scan-hint");
-    if (scanButton.disabled) return;
-    scanButton.disabled = true;
-    scanButton.textContent = translate("photon.running");
-    state.textContent = translate("photon.runningStatus");
-    hint.textContent = translate("photon.runningHint");
-    visual.classList.add("scanning");
-    scanButton.setAttribute("aria-busy", "true");
-    window.setTimeout(() => {
-      visual.classList.remove("scanning");
-      state.textContent = translate("photon.complete");
-      hint.textContent = translate("photon.completeHint");
-      scanButton.disabled = false;
-      scanButton.removeAttribute("aria-busy");
-      scanButton.innerHTML = `<span aria-hidden="true">↻</span> ${translate("photon.replay")}`;
-      showToast(translate("photon.toast"));
-    }, 3600);
   });
 
   function appendMessage(text, sender) {

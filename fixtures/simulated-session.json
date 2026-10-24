@@ -1,0 +1,851 @@
+{
+  "format": "arteria-session",
+  "version": 1,
+  "session": {
+    "id": "example-synthetic-recording",
+    "schemaVersion": 1,
+    "descriptor": {
+      "schemaVersion": 1,
+      "origin": "simulated",
+      "deviceId": "arteria-simulator",
+      "deviceName": "Arteria simulator",
+      "sampleRateHz": 25,
+      "channels": [
+        {
+          "id": "optical",
+          "label": "Synthetic optical signal",
+          "unit": "a.u.",
+          "min": 0,
+          "max": 4095
+        }
+      ]
+    },
+    "mode": "stream",
+    "startedAt": "2026-10-24T20:00:00.000Z",
+    "endedAt": "2026-10-24T20:00:05.000Z",
+    "status": "completed",
+    "samples": [
+      {
+        "sequence": 0,
+        "deviceTimeMs": 0,
+        "raw": {
+          "optical": 2000
+        },
+        "receivedAt": "2026-10-24T20:00:00.000Z"
+      },
+      {
+        "sequence": 1,
+        "deviceTimeMs": 40,
+        "raw": {
+          "optical": 2120
+        },
+        "receivedAt": "2026-10-24T20:00:00.040Z"
+      },
+      {
+        "sequence": 2,
+        "deviceTimeMs": 80,
+        "raw": {
+          "optical": 2220
+        },
+        "receivedAt": "2026-10-24T20:00:00.080Z"
+      },
+      {
+        "sequence": 3,
+        "deviceTimeMs": 120,
+        "raw": {
+          "optical": 2283
+        },
+        "receivedAt": "2026-10-24T20:00:00.120Z"
+      },
+      {
+        "sequence": 4,
+        "deviceTimeMs": 160,
+        "raw": {
+          "optical": 2305
+        },
+        "receivedAt": "2026-10-24T20:00:00.160Z"
+      },
+      {
+        "sequence": 5,
+        "deviceTimeMs": 200,
+        "raw": {
+          "optical": 2288
+        },
+        "receivedAt": "2026-10-24T20:00:00.200Z"
+      },
+      {
+        "sequence": 6,
+        "deviceTimeMs": 240,
+        "raw": {
+          "optical": 2242
+        },
+        "receivedAt": "2026-10-24T20:00:00.240Z"
+      },
+      {
+        "sequence": 7,
+        "deviceTimeMs": 280,
+        "raw": {
+          "optical": 2183
+        },
+        "receivedAt": "2026-10-24T20:00:00.280Z"
+      },
+      {
+        "sequence": 8,
+        "deviceTimeMs": 320,
+        "raw": {
+          "optical": 2122
+        },
+        "receivedAt": "2026-10-24T20:00:00.320Z"
+      },
+      {
+        "sequence": 9,
+        "deviceTimeMs": 360,
+        "raw": {
+          "optical": 2067
+        },
+        "receivedAt": "2026-10-24T20:00:00.360Z"
+      },
+      {
+        "sequence": 10,
+        "deviceTimeMs": 400,
+        "raw": {
+          "optical": 2019
+        },
+        "receivedAt": "2026-10-24T20:00:00.400Z"
+      },
+      {
+        "sequence": 11,
+        "deviceTimeMs": 440,
+        "raw": {
+          "optical": 1973
+        },
+        "receivedAt": "2026-10-24T20:00:00.440Z"
+      },
+      {
+        "sequence": 12,
+        "deviceTimeMs": 480,
+        "raw": {
+          "optical": 1924
+        },
+        "receivedAt": "2026-10-24T20:00:00.480Z"
+      },
+      {
+        "sequence": 13,
+        "deviceTimeMs": 520,
+        "raw": {
+          "optical": 1868
+        },
+        "receivedAt": "2026-10-24T20:00:00.520Z"
+      },
+      {
+        "sequence": 14,
+        "deviceTimeMs": 560,
+        "raw": {
+          "optical": 1807
+        },
+        "receivedAt": "2026-10-24T20:00:00.560Z"
+      },
+      {
+        "sequence": 15,
+        "deviceTimeMs": 600,
+        "raw": {
+          "optical": 1749
+        },
+        "receivedAt": "2026-10-24T20:00:00.600Z"
+      },
+      {
+        "sequence": 16,
+        "deviceTimeMs": 640,
+        "raw": {
+          "optical": 1707
+        },
+        "receivedAt": "2026-10-24T20:00:00.640Z"
+      },
+      {
+        "sequence": 17,
+        "deviceTimeMs": 680,
+        "raw": {
+          "optical": 1696
+        },
+        "receivedAt": "2026-10-24T20:00:00.680Z"
+      },
+      {
+        "sequence": 18,
+        "deviceTimeMs": 720,
+        "raw": {
+          "optical": 1724
+        },
+        "receivedAt": "2026-10-24T20:00:00.720Z"
+      },
+      {
+        "sequence": 19,
+        "deviceTimeMs": 760,
+        "raw": {
+          "optical": 1795
+        },
+        "receivedAt": "2026-10-24T20:00:00.760Z"
+      },
+      {
+        "sequence": 20,
+        "deviceTimeMs": 800,
+        "raw": {
+          "optical": 1899
+        },
+        "receivedAt": "2026-10-24T20:00:00.800Z"
+      },
+      {
+        "sequence": 21,
+        "deviceTimeMs": 840,
+        "raw": {
+          "optical": 2021
+        },
+        "receivedAt": "2026-10-24T20:00:00.840Z"
+      },
+      {
+        "sequence": 22,
+        "deviceTimeMs": 880,
+        "raw": {
+          "optical": 2139
+        },
+        "receivedAt": "2026-10-24T20:00:00.880Z"
+      },
+      {
+        "sequence": 23,
+        "deviceTimeMs": 920,
+        "raw": {
+          "optical": 2233
+        },
+        "receivedAt": "2026-10-24T20:00:00.920Z"
+      },
+      {
+        "sequence": 24,
+        "deviceTimeMs": 960,
+        "raw": {
+          "optical": 2290
+        },
+        "receivedAt": "2026-10-24T20:00:00.960Z"
+      },
+      {
+        "sequence": 25,
+        "deviceTimeMs": 1000,
+        "raw": {
+          "optical": 2305
+        },
+        "receivedAt": "2026-10-24T20:00:01.000Z"
+      },
+      {
+        "sequence": 26,
+        "deviceTimeMs": 1040,
+        "raw": {
+          "optical": 2282
+        },
+        "receivedAt": "2026-10-24T20:00:01.040Z"
+      },
+      {
+        "sequence": 27,
+        "deviceTimeMs": 1080,
+        "raw": {
+          "optical": 2233
+        },
+        "receivedAt": "2026-10-24T20:00:01.080Z"
+      },
+      {
+        "sequence": 28,
+        "deviceTimeMs": 1120,
+        "raw": {
+          "optical": 2172
+        },
+        "receivedAt": "2026-10-24T20:00:01.120Z"
+      },
+      {
+        "sequence": 29,
+        "deviceTimeMs": 1160,
+        "raw": {
+          "optical": 2112
+        },
+        "receivedAt": "2026-10-24T20:00:01.160Z"
+      },
+      {
+        "sequence": 30,
+        "deviceTimeMs": 1200,
+        "raw": {
+          "optical": 2059
+        },
+        "receivedAt": "2026-10-24T20:00:01.200Z"
+      },
+      {
+        "sequence": 31,
+        "deviceTimeMs": 1240,
+        "raw": {
+          "optical": 2011
+        },
+        "receivedAt": "2026-10-24T20:00:01.240Z"
+      },
+      {
+        "sequence": 32,
+        "deviceTimeMs": 1280,
+        "raw": {
+          "optical": 1966
+        },
+        "receivedAt": "2026-10-24T20:00:01.280Z"
+      },
+      {
+        "sequence": 33,
+        "deviceTimeMs": 1320,
+        "raw": {
+          "optical": 1916
+        },
+        "receivedAt": "2026-10-24T20:00:01.320Z"
+      },
+      {
+        "sequence": 34,
+        "deviceTimeMs": 1360,
+        "raw": {
+          "optical": 1858
+        },
+        "receivedAt": "2026-10-24T20:00:01.360Z"
+      },
+      {
+        "sequence": 35,
+        "deviceTimeMs": 1400,
+        "raw": {
+          "optical": 1797
+        },
+        "receivedAt": "2026-10-24T20:00:01.400Z"
+      },
+      {
+        "sequence": 36,
+        "deviceTimeMs": 1440,
+        "raw": {
+          "optical": 1740
+        },
+        "receivedAt": "2026-10-24T20:00:01.440Z"
+      },
+      {
+        "sequence": 37,
+        "deviceTimeMs": 1480,
+        "raw": {
+          "optical": 1703
+        },
+        "receivedAt": "2026-10-24T20:00:01.480Z"
+      },
+      {
+        "sequence": 38,
+        "deviceTimeMs": 1520,
+        "raw": {
+          "optical": 1698
+        },
+        "receivedAt": "2026-10-24T20:00:01.520Z"
+      },
+      {
+        "sequence": 39,
+        "deviceTimeMs": 1560,
+        "raw": {
+          "optical": 1733
+        },
+        "receivedAt": "2026-10-24T20:00:01.560Z"
+      },
+      {
+        "sequence": 40,
+        "deviceTimeMs": 1600,
+        "raw": {
+          "optical": 1810
+        },
+        "receivedAt": "2026-10-24T20:00:01.600Z"
+      },
+      {
+        "sequence": 41,
+        "deviceTimeMs": 1640,
+        "raw": {
+          "optical": 1919
+        },
+        "receivedAt": "2026-10-24T20:00:01.640Z"
+      },
+      {
+        "sequence": 42,
+        "deviceTimeMs": 1680,
+        "raw": {
+          "optical": 2041
+        },
+        "receivedAt": "2026-10-24T20:00:01.680Z"
+      },
+      {
+        "sequence": 43,
+        "deviceTimeMs": 1720,
+        "raw": {
+          "optical": 2156
+        },
+        "receivedAt": "2026-10-24T20:00:01.720Z"
+      },
+      {
+        "sequence": 44,
+        "deviceTimeMs": 1760,
+        "raw": {
+          "optical": 2245
+        },
+        "receivedAt": "2026-10-24T20:00:01.760Z"
+      },
+      {
+        "sequence": 45,
+        "deviceTimeMs": 1800,
+        "raw": {
+          "optical": 2295
+        },
+        "receivedAt": "2026-10-24T20:00:01.800Z"
+      },
+      {
+        "sequence": 46,
+        "deviceTimeMs": 1840,
+        "raw": {
+          "optical": 2303
+        },
+        "receivedAt": "2026-10-24T20:00:01.840Z"
+      },
+      {
+        "sequence": 47,
+        "deviceTimeMs": 1880,
+        "raw": {
+          "optical": 2275
+        },
+        "receivedAt": "2026-10-24T20:00:01.880Z"
+      },
+      {
+        "sequence": 48,
+        "deviceTimeMs": 1920,
+        "raw": {
+          "optical": 2223
+        },
+        "receivedAt": "2026-10-24T20:00:01.920Z"
+      },
+      {
+        "sequence": 49,
+        "deviceTimeMs": 1960,
+        "raw": {
+          "optical": 2162
+        },
+        "receivedAt": "2026-10-24T20:00:01.960Z"
+      },
+      {
+        "sequence": 75,
+        "deviceTimeMs": 3000,
+        "raw": {
+          "optical": 1897
+        },
+        "receivedAt": "2026-10-24T20:00:03.000Z"
+      },
+      {
+        "sequence": 76,
+        "deviceTimeMs": 3040,
+        "raw": {
+          "optical": 1838
+        },
+        "receivedAt": "2026-10-24T20:00:03.040Z"
+      },
+      {
+        "sequence": 77,
+        "deviceTimeMs": 3080,
+        "raw": {
+          "optical": 1777
+        },
+        "receivedAt": "2026-10-24T20:00:03.080Z"
+      },
+      {
+        "sequence": 78,
+        "deviceTimeMs": 3120,
+        "raw": {
+          "optical": 1725
+        },
+        "receivedAt": "2026-10-24T20:00:03.120Z"
+      },
+      {
+        "sequence": 79,
+        "deviceTimeMs": 3160,
+        "raw": {
+          "optical": 1697
+        },
+        "receivedAt": "2026-10-24T20:00:03.160Z"
+      },
+      {
+        "sequence": 80,
+        "deviceTimeMs": 3200,
+        "raw": {
+          "optical": 1705
+        },
+        "receivedAt": "2026-10-24T20:00:03.200Z"
+      },
+      {
+        "sequence": 81,
+        "deviceTimeMs": 3240,
+        "raw": {
+          "optical": 1755
+        },
+        "receivedAt": "2026-10-24T20:00:03.240Z"
+      },
+      {
+        "sequence": 82,
+        "deviceTimeMs": 3280,
+        "raw": {
+          "optical": 1844
+        },
+        "receivedAt": "2026-10-24T20:00:03.280Z"
+      },
+      {
+        "sequence": 83,
+        "deviceTimeMs": 3320,
+        "raw": {
+          "optical": 1959
+        },
+        "receivedAt": "2026-10-24T20:00:03.320Z"
+      },
+      {
+        "sequence": 84,
+        "deviceTimeMs": 3360,
+        "raw": {
+          "optical": 2081
+        },
+        "receivedAt": "2026-10-24T20:00:03.360Z"
+      },
+      {
+        "sequence": 85,
+        "deviceTimeMs": 3400,
+        "raw": {
+          "optical": 2190
+        },
+        "receivedAt": "2026-10-24T20:00:03.400Z"
+      },
+      {
+        "sequence": 86,
+        "deviceTimeMs": 3440,
+        "raw": {
+          "optical": 2267
+        },
+        "receivedAt": "2026-10-24T20:00:03.440Z"
+      },
+      {
+        "sequence": 87,
+        "deviceTimeMs": 3480,
+        "raw": {
+          "optical": 2302
+        },
+        "receivedAt": "2026-10-24T20:00:03.480Z"
+      },
+      {
+        "sequence": 88,
+        "deviceTimeMs": 3520,
+        "raw": {
+          "optical": 2297
+        },
+        "receivedAt": "2026-10-24T20:00:03.520Z"
+      },
+      {
+        "sequence": 89,
+        "deviceTimeMs": 3560,
+        "raw": {
+          "optical": 2260
+        },
+        "receivedAt": "2026-10-24T20:00:03.560Z"
+      },
+      {
+        "sequence": 90,
+        "deviceTimeMs": 3600,
+        "raw": {
+          "optical": 2203
+        },
+        "receivedAt": "2026-10-24T20:00:03.600Z"
+      },
+      {
+        "sequence": 91,
+        "deviceTimeMs": 3640,
+        "raw": {
+          "optical": 2142
+        },
+        "receivedAt": "2026-10-24T20:00:03.640Z"
+      },
+      {
+        "sequence": 92,
+        "deviceTimeMs": 3680,
+        "raw": {
+          "optical": 2084
+        },
+        "receivedAt": "2026-10-24T20:00:03.680Z"
+      },
+      {
+        "sequence": 93,
+        "deviceTimeMs": 3720,
+        "raw": {
+          "optical": 2034
+        },
+        "receivedAt": "2026-10-24T20:00:03.720Z"
+      },
+      {
+        "sequence": 94,
+        "deviceTimeMs": 3760,
+        "raw": {
+          "optical": 1989
+        },
+        "receivedAt": "2026-10-24T20:00:03.760Z"
+      },
+      {
+        "sequence": 95,
+        "deviceTimeMs": 3800,
+        "raw": {
+          "optical": 1941
+        },
+        "receivedAt": "2026-10-24T20:00:03.800Z"
+      },
+      {
+        "sequence": 96,
+        "deviceTimeMs": 3840,
+        "raw": {
+          "optical": 1888
+        },
+        "receivedAt": "2026-10-24T20:00:03.840Z"
+      },
+      {
+        "sequence": 97,
+        "deviceTimeMs": 3880,
+        "raw": {
+          "optical": 1828
+        },
+        "receivedAt": "2026-10-24T20:00:03.880Z"
+      },
+      {
+        "sequence": 98,
+        "deviceTimeMs": 3920,
+        "raw": {
+          "optical": 1767
+        },
+        "receivedAt": "2026-10-24T20:00:03.920Z"
+      },
+      {
+        "sequence": 99,
+        "deviceTimeMs": 3960,
+        "raw": {
+          "optical": 1718
+        },
+        "receivedAt": "2026-10-24T20:00:03.960Z"
+      },
+      {
+        "sequence": 100,
+        "deviceTimeMs": 4000,
+        "raw": {
+          "optical": 1695
+        },
+        "receivedAt": "2026-10-24T20:00:04.000Z"
+      },
+      {
+        "sequence": 101,
+        "deviceTimeMs": 4040,
+        "raw": {
+          "optical": 1710
+        },
+        "receivedAt": "2026-10-24T20:00:04.040Z"
+      },
+      {
+        "sequence": 102,
+        "deviceTimeMs": 4080,
+        "raw": {
+          "optical": 1767
+        },
+        "receivedAt": "2026-10-24T20:00:04.080Z"
+      },
+      {
+        "sequence": 103,
+        "deviceTimeMs": 4120,
+        "raw": {
+          "optical": 1861
+        },
+        "receivedAt": "2026-10-24T20:00:04.120Z"
+      },
+      {
+        "sequence": 104,
+        "deviceTimeMs": 4160,
+        "raw": {
+          "optical": 1979
+        },
+        "receivedAt": "2026-10-24T20:00:04.160Z"
+      },
+      {
+        "sequence": 105,
+        "deviceTimeMs": 4200,
+        "raw": {
+          "optical": 2101
+        },
+        "receivedAt": "2026-10-24T20:00:04.200Z"
+      },
+      {
+        "sequence": 106,
+        "deviceTimeMs": 4240,
+        "raw": {
+          "optical": 2205
+        },
+        "receivedAt": "2026-10-24T20:00:04.240Z"
+      },
+      {
+        "sequence": 107,
+        "deviceTimeMs": 4280,
+        "raw": {
+          "optical": 2276
+        },
+        "receivedAt": "2026-10-24T20:00:04.280Z"
+      },
+      {
+        "sequence": 108,
+        "deviceTimeMs": 4320,
+        "raw": {
+          "optical": 2304
+        },
+        "receivedAt": "2026-10-24T20:00:04.320Z"
+      },
+      {
+        "sequence": 109,
+        "deviceTimeMs": 4360,
+        "raw": {
+          "optical": 2293
+        },
+        "receivedAt": "2026-10-24T20:00:04.360Z"
+      },
+      {
+        "sequence": 110,
+        "deviceTimeMs": 4400,
+        "raw": {
+          "optical": 2251
+        },
+        "receivedAt": "2026-10-24T20:00:04.400Z"
+      },
+      {
+        "sequence": 111,
+        "deviceTimeMs": 4440,
+        "raw": {
+          "optical": 2193
+        },
+        "receivedAt": "2026-10-24T20:00:04.440Z"
+      },
+      {
+        "sequence": 112,
+        "deviceTimeMs": 4480,
+        "raw": {
+          "optical": 2132
+        },
+        "receivedAt": "2026-10-24T20:00:04.480Z"
+      },
+      {
+        "sequence": 113,
+        "deviceTimeMs": 4520,
+        "raw": {
+          "optical": 2076
+        },
+        "receivedAt": "2026-10-24T20:00:04.520Z"
+      },
+      {
+        "sequence": 114,
+        "deviceTimeMs": 4560,
+        "raw": {
+          "optical": 2027
+        },
+        "receivedAt": "2026-10-24T20:00:04.560Z"
+      },
+      {
+        "sequence": 115,
+        "deviceTimeMs": 4600,
+        "raw": {
+          "optical": 1981
+        },
+        "receivedAt": "2026-10-24T20:00:04.600Z"
+      },
+      {
+        "sequence": 116,
+        "deviceTimeMs": 4640,
+        "raw": {
+          "optical": 1933
+        },
+        "receivedAt": "2026-10-24T20:00:04.640Z"
+      },
+      {
+        "sequence": 117,
+        "deviceTimeMs": 4680,
+        "raw": {
+          "optical": 1878
+        },
+        "receivedAt": "2026-10-24T20:00:04.680Z"
+      },
+      {
+        "sequence": 118,
+        "deviceTimeMs": 4720,
+        "raw": {
+          "optical": 1817
+        },
+        "receivedAt": "2026-10-24T20:00:04.720Z"
+      },
+      {
+        "sequence": 119,
+        "deviceTimeMs": 4760,
+        "raw": {
+          "optical": 1758
+        },
+        "receivedAt": "2026-10-24T20:00:04.760Z"
+      },
+      {
+        "sequence": 120,
+        "deviceTimeMs": 4800,
+        "raw": {
+          "optical": 1712
+        },
+        "receivedAt": "2026-10-24T20:00:04.800Z"
+      },
+      {
+        "sequence": 121,
+        "deviceTimeMs": 4840,
+        "raw": {
+          "optical": 1695
+        },
+        "receivedAt": "2026-10-24T20:00:04.840Z"
+      },
+      {
+        "sequence": 122,
+        "deviceTimeMs": 4880,
+        "raw": {
+          "optical": 1717
+        },
+        "receivedAt": "2026-10-24T20:00:04.880Z"
+      },
+      {
+        "sequence": 123,
+        "deviceTimeMs": 4920,
+        "raw": {
+          "optical": 1780
+        },
+        "receivedAt": "2026-10-24T20:00:04.920Z"
+      },
+      {
+        "sequence": 124,
+        "deviceTimeMs": 4960,
+        "raw": {
+          "optical": 1880
+        },
+        "receivedAt": "2026-10-24T20:00:04.960Z"
+      }
+    ],
+    "rejected": 0,
+    "rejectionReasons": {},
+    "derived": {
+      "algorithm": "descriptive-v1",
+      "accepted": 100,
+      "rejected": 0,
+      "missing": 25,
+      "timingGaps": 1,
+      "durationMs": 4960,
+      "channels": {
+        "optical": {
+          "count": 100,
+          "mean": 1998.9699999999998,
+          "min": 1695,
+          "max": 2305,
+          "stddev": 207.09821124287865,
+          "clipped": 0,
+          "flatline": false
+        }
+      }
+    }
+  }
+}

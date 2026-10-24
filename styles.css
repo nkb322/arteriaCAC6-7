@@ -654,3 +654,36 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Measurement views reuse the existing cards, palette and navigation. */
+.measurement-ring { background: #e7f4ef; }
+.measurement-ring strong { font-size: 21px; }
+.measurement-controls { display:flex; flex-wrap:wrap; gap:14px; margin:16px 0; }
+.measurement-controls label { display:flex; flex:1 1 140px; flex-direction:column; gap:7px; color:var(--ink); font-size:12px; }
+.measurement-controls select { width:100%; border:1px solid var(--line); border-radius:6px; padding:9px; background:var(--paper); color:var(--ink); }
+.measurement-chart { min-width:0; min-height:150px; margin:14px 0; }
+.measurement-chart svg { display:block; width:100%; height:auto; min-height:150px; }
+.measurement-note, .chart-empty { color:var(--muted); font-size:12px; line-height:1.6; overflow-wrap:anywhere; }
+.chart-empty { padding:40px 12px; text-align:center; background:var(--canvas); border-radius:7px; }
+.measurement-progress { display:flex; align-items:center; gap:12px; font-size:12px; margin:18px 0; }
+.measurement-progress progress { flex:1; min-width:40px; height:10px; accent-color:var(--mint-dark); }
+.measurement-buttons { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:10px 0; }
+.measurement-stats { font-size:12px; line-height:1.7; color:var(--ink); }
+.session-list { display:grid; gap:8px; max-height:280px; overflow:auto; margin:14px 0; }
+.session-choice { border:1px solid var(--line); border-radius:7px; background:var(--paper); padding:12px; text-align:left; font-size:12px; line-height:1.7; cursor:pointer; overflow-wrap:anywhere; }
+.session-choice[aria-pressed="true"] { border-color:var(--mint-dark); background:var(--mint-wash); }
+#overview-quality { font-size:13px; line-height:1.6; overflow-wrap:anywhere; }
+#overview-source { max-width:180px; line-height:1.5; }
+#measurement-error { min-height:20px; color:#9c3d35; }
+.photon-actions > div { min-width:0; }
+.photon-actions > div:first-child { flex:1; }
+.photon-actions .measurement-buttons { flex-shrink:0; }
+.companion-online span:last-child { width:auto; height:auto; border-radius:0; background:none; box-shadow:none; }
+button:disabled { cursor:not-allowed; opacity:.6; }
+body.large-text .measurement-controls, body.large-text .measurement-controls select, body.large-text .measurement-note, body.large-text .measurement-stats, body.large-text .session-choice, body.large-text .nav-link { font-size:16px; }
+[hidden] { display:none !important; }
+@media(max-width:600px) { .photon-actions { align-items:stretch; flex-direction:column; } .measurement-controls label { flex-basis:120px; } .measurement-progress { flex-wrap:wrap; } #overview-source { max-width:130px; } }
+.patch-card[data-state="disconnected"] .patch-status-dot { background:#9ca8a1; box-shadow:none; }
+.patch-card[data-state="stale"] .patch-status-dot { background:#d49b45; box-shadow:none; }
+.patch-card[data-state="error"] .patch-status-dot { background:#bd5b51; box-shadow:none; }
+.patch-card[data-state="demo"] .patch-status-dot, .patch-card[data-state="replay"] .patch-status-dot { background:#8e7de1; box-shadow:none; }
