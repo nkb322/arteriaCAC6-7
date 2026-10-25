@@ -687,3 +687,27 @@ body.large-text .measurement-controls, body.large-text .measurement-controls sel
 .patch-card[data-state="stale"] .patch-status-dot { background:#d49b45; box-shadow:none; }
 .patch-card[data-state="error"] .patch-status-dot { background:#bd5b51; box-shadow:none; }
 .patch-card[data-state="demo"] .patch-status-dot, .patch-card[data-state="replay"] .patch-status-dot { background:#8e7de1; box-shadow:none; }
+/* Readable body copy without changing the original palette or six-view layout. */
+.intro-copy, .notice-banner p, .daily-details > p, .companion-card > p, .metric-foot,
+.share-field small, .share-consent, .chat-footnote, .chat-disclaimer, .care-note-card > p,
+.share-security-card small, .share-disclaimer, .setting-row small { font-size:12px; line-height:1.65; }
+.share-field input, .share-field textarea, .message-bubble { font-size:14px; }
+.metric-foot { flex-wrap:wrap; }
+.data-privacy-card { padding:18px; margin:16px 0; }
+.data-privacy-card h2 { font-size:16px; margin-top:0; }
+.data-privacy-card p { font-size:13px; line-height:1.65; color:var(--muted); }
+.measurement-chart svg { min-height:180px; }
+body.large-text .intro-copy, body.large-text .notice-banner p, body.large-text .daily-details > p,
+body.large-text .companion-card > p, body.large-text .share-field input, body.large-text .share-field textarea,
+body.large-text .share-field small, body.large-text .share-consent, body.large-text .message-bubble,
+body.large-text .data-privacy-card p, body.large-text .chat-footnote { font-size:16px; }
+body.high-contrast .measurement-note, body.high-contrast .metric-foot, body.high-contrast .share-field small { color:#394b41; }
+.comparison-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px; }
+#comparison-panel { margin-top:20px; font-size:13px; }
+#comparison-panel p { line-height:1.6; overflow-wrap:anywhere; }
+.table-wrap { overflow:auto; }
+.table-wrap table { width:100%; border-collapse:collapse; font-size:12px; }
+.table-wrap th,.table-wrap td { text-align:left; padding:10px; border:1px solid var(--line); vertical-align:top; }
+#notes-status { font-size:12px; min-height:18px; }
+@media(max-width:780px) { .comparison-grid { grid-template-columns:1fr; } }
+.metric-label,.summary-label,.section-kicker,.nav-label,.score-label,.daily-footer,.app-footer { font-size:11px; }

@@ -1,6 +1,6 @@
 # Connecting real hardware
 
-No physical hardware has been connected or tested. The application currently exposes only simulation and validated Arteria JSON replay. The example JSON format is an **application interchange format**, not a specification of the future device's firmware.
+No physical hardware has been connected or tested. The application currently exposes simulation, an explicitly synthetic lifecycle mock, and validated Arteria JSON replay. The example JSON format is an **application interchange format**, not a specification of the future device's firmware.
 
 ## Information needed
 
@@ -63,3 +63,9 @@ Hardware clock conversion belongs in the adapter. Preserve acquisition timing fo
 6. Only after those checks call this adapter hardware-verified. Unit tests using fake hardware callbacks establish software behavior, not a physical connection or clinical accuracy.
 
 The Netlify app can communicate directly with a supported browser's USB/BLE APIs; neither requires a cloud ingest server. Wi-Fi requires separate endpoint/browser compatibility checks. Do not disable browser security or invent a protocol to bypass missing specifications.
+
+## Mock and physical acceptance checklist
+
+The mock introduces a connection delay, fragmented canonical app frames, duplicates, malformed frames and an intentional source failure, followed by a new-session restart. Its descriptor always says simulated. The independent dropout scenario tests silence, stale state, resumed samples and sequence gaps. Neither specifies Nina's protocol.
+
+Once Nina supplies the communications contract, write fixture tests from her exact packets, then verify permissions, start/stop acknowledgments, real acquisition timing, units/scaling, batching, physical disconnect/reconnect and any battery/contact metadata against a firmware log. A saved de-identified hardware recording should reproduce the decoded values and notes in replay/export/report. Clinical performance remains a separate validation task.

@@ -11,7 +11,7 @@
     <script type="module" src="./js/measurement/ui.js"></script>
   </head>
   <body>
-    <!--why woudl they tho lwk-->
+
     <a class="skip-link" href="#main-content" data-i18n="common.skip">Skip to main content</a>
     <div class="app-shell">
       <aside class="sidebar" aria-label="Main navigation" data-i18n-aria="common.navigation">
@@ -27,7 +27,7 @@
           <button class="nav-link" data-view="trends"><span class="nav-icon" aria-hidden="true">⌁</span><span data-i18n="nav.trends">My trends</span></button>
           <button class="nav-link" data-view="locator"><span class="nav-icon" aria-hidden="true">⌖</span><span data-i18n="nav.locator">Find care</span></button>
           <button class="nav-link" data-view="sharing"><span class="nav-icon" aria-hidden="true">↗</span><span data-i18n="nav.sharing">Share your data</span></button>
-          <!--try to chagne the button text ngl-->
+
           <button class="nav-link" data-view="care"><span class="nav-icon" aria-hidden="true">♡</span><span data-i18n="nav.care">Care plan</span></button>
 
         </nav>
@@ -39,11 +39,11 @@
             <div class="patch-sync" id="device-last">—</div>
           </div>
           <button class="profile-button" id="profile-button">
-            <!--what if we do martin edwards-->
+
             <span class="profile-avatar" aria-hidden="true">JM</span>
             <span class="profile-copy"><strong>Jordan Morgan</strong><small data-i18n="common.personalProfile">Personal profile</small></span>
             <span class="profile-more" aria-hidden="true">⌄</span>
-            <!--yo that dude is so cool fr-->
+
           </button>
         </div>
       </aside>
@@ -56,7 +56,7 @@
             <label class="sr-only" for="language-select" data-i18n="language.label">Choose language</label>
             <select class="language-select" id="language-select" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option></select>
             <button class="icon-button" id="accessibility-open" aria-label="Open accessibility settings" data-i18n-aria="common.accessibilitySettings" title="Accessibility settings" data-i18n-title="common.accessibilitySettings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M4 8.5h16M12 8.5v12M8 12l4 2 4-2M9 20l3-5 3 5"/></svg></button>
-            <button class="icon-button notification-button" id="notifications-button" aria-label="Notifications, one update" data-i18n-aria="common.notifications" title="Notifications" data-i18n-title="common.notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="notification-dot"></span></button>
+            <button class="icon-button notification-button" id="notifications-button" aria-label="Notifications, one update" data-i18n-aria="common.notifications" title="Notifications" data-i18n-title="common.notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></button>
             <button class="top-profile" id="top-profile" aria-label="Jordan Morgan profile" data-i18n-aria="common.profile"><span class="profile-avatar small" aria-hidden="true">JM</span><span class="top-profile-name">Jordan</span><span aria-hidden="true">⌄</span></button>
           </div>
           <div class="popover hidden" id="top-popover" role="status"></div>
@@ -70,7 +70,7 @@
             </div>
 
             <div class="notice-banner" role="note"><span class="notice-icon" aria-hidden="true">i</span><p><strong data-i18n="overview.noticeTitle">A note about this experience:</strong> <span data-i18n="overview.noticeBody">Arteria is a concept prototype. Patch readings and photon scans shown here are illustrative only—not real measurements, diagnosis, or treatment guidance.</span></p><button class="notice-close" aria-label="Dismiss note" data-i18n-aria="common.dismiss">×</button></div>
-<!--ooh ok nice-->
+
             <div class="overview-grid">
               <article class="card daily-card">
                 <div class="card-heading"><div><div class="section-kicker" data-m="measurements">MEASUREMENTS</div><h2 data-m="sessionSummary">Session summary</h2></div><span class="live-pill" id="overview-source">—</span></div>
@@ -106,7 +106,7 @@
               <article class="card photon-main">
                 <div class="card-heading"><div><div class="section-kicker" data-i18n="photon.patchConcept">PHOTONIC PATCH CONCEPT</div><h2 data-i18n="photon.seeLight">See light in a new way</h2></div><span class="photon-version">AR-01 · CONCEPT</span></div>
                 <div class="measurement-controls">
-                  <label><span data-m="source">Source</span><select id="source-select"><option value="simulation" data-m="simulation">Simulation</option><option value="replay" data-m="replay">Recording replay</option></select></label>
+                  <label><span data-m="source">Source</span><select id="source-select"><option value="simulation" data-m="simulation">Simulation</option><option value="replay" data-m="replay">Recording replay</option><option value="mock" data-m="mock">Mock device (synthetic)</option></select></label>
                   <label id="scenario-control"><span data-m="scenario">Scenario</span><select id="scenario-select"><option value="clean" data-m="clean">Clean signal</option><option value="dropout" data-m="dropout">Missing samples / pause</option><option value="flatline" data-m="flatline">Flatline</option><option value="clipping" data-m="clipping">Clipping</option><option value="malformed" data-m="malformed">Malformed frames</option></select></label>
                   <label id="duration-control"><span data-m="sessionLength">Record for</span><select id="duration-select"><option value="10">10 s</option><option value="20" selected>20 s</option><option value="60">60 s</option></select></label>
                   <label id="replay-speed-control" hidden><span data-m="speed">Replay speed</span><select id="replay-speed"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
@@ -117,7 +117,7 @@
                 <div id="acquisition-chart" class="measurement-chart"></div>
                 <div class="measurement-progress"><progress id="acquisition-progress" max="100" value="0" aria-label="Acquisition progress"></progress><span id="progress-label">0%</span></div>
                 <div class="photon-actions"><div><strong id="scan-state" role="status">—</strong><span id="scan-hint">—</span></div><div class="measurement-buttons"><button class="button button-dark" id="scan-button" data-m="start">Start acquisition</button><button class="button button-light" id="stop-button" disabled data-m="stop">Stop &amp; save</button></div></div>
-                <div class="measurement-stats" id="acquisition-stats"></div>
+                <div class="measurement-stats" id="acquisition-stats"></div><p id="checkpoint-status" class="measurement-note"></p><p id="recovery-status" class="measurement-note" role="status"></p>
                 <p class="share-status" id="measurement-error" role="alert"></p>
                 <div class="measurement-buttons"><button class="text-button" id="retry-save" hidden data-m="retrySave">Retry save</button><button class="text-button" id="discard-session" hidden data-m="discardUnsaved">Discard unsaved session</button><button class="text-button" id="current-json" disabled data-m="exportJSON">Export JSON</button><button class="text-button" id="current-csv" disabled data-m="exportCSV">Export CSV</button></div>
               </article>
@@ -137,8 +137,12 @@
               <p id="history-status" role="status"></p><div id="session-list" class="session-list"></div>
               <div class="measurement-controls"><label><span data-m="channel">Channel</span><select id="history-channel" aria-label="History channel"></select></label></div>
               <p id="history-selection" class="measurement-note"></p><div id="history-chart" class="measurement-chart"></div>
-              <div class="measurement-buttons"><button id="history-json" class="button button-light" disabled data-m="exportJSON">Export JSON</button><button id="history-csv" class="button button-light" disabled data-m="exportCSV">Export CSV</button><button id="history-replay" class="button button-light" disabled data-m="replaySelected">Replay selected</button><button id="history-delete" class="text-button" disabled data-m="deleteSelected">Delete selected</button></div>
+              <div class="measurement-buttons"><button id="history-json" class="button button-light" disabled data-m="exportJSON">Export JSON</button><button id="history-csv" class="button button-light" disabled data-m="exportCSV">Export CSV</button><button id="history-replay" class="button button-light" disabled data-m="replaySelected">Replay selected</button><button id="history-report" class="button button-light" disabled data-m="downloadReport">Download session report</button><button id="history-delete" class="text-button" disabled data-m="deleteSelected">Delete selected</button></div>
+              <label class="share-field"><span data-m="sessionNotes">Session notes (saved locally, unencrypted)</span><textarea id="session-notes" rows="3" maxlength="2000"></textarea></label><button id="save-session-notes" class="button button-light" data-m="saveNotes">Save notes</button><p id="notes-status" role="status"></p>
+              <div class="measurement-controls"><label><span data-m="compareWith">Compare with another session</span><select id="compare-session"></select></label><label><span data-m="comparisonChannel">Comparison channel</span><select id="compare-channel"></select></label></div>
+              <section id="comparison-panel" hidden><h3 data-m="comparisonTitle">Session comparison</h3><p data-m="comparisonCaution">Side-by-side views preserve each channel’s units and source. Compare values only when channel meaning, units and acquisition conditions match.</p><div id="comparison-stats" class="table-wrap"></div><div class="comparison-grid"><div><p id="compare-a-source"></p><div id="compare-a-chart" class="measurement-chart"></div></div><div><p id="compare-b-source"></p><div id="compare-b-chart" class="measurement-chart"></div></div></div></section>
             </article>
+            <article class="card data-privacy-card"><h2 data-m="localData">Your local data</h2><p data-m="localPrivacy">Measurement history and recovery checkpoints are stored unencrypted in this browser. Exports are not encrypted. Delete local data when using a shared device.</p><p id="recovery-compatibility" class="measurement-note"></p><button class="button button-light" id="recover-sessions" data-m="recoverSessions">Check interrupted recordings</button> <button class="button button-light" id="delete-all-sessions" data-m="deleteAll">Delete all local sessions &amp; checkpoints</button></article>
             <article class="card pattern-card"><div class="pattern-icon">✦</div><div><div class="section-kicker" data-i18n="trends.reminderEyebrow">A GENTLE REMINDER</div><h2 data-i18n="trends.reminderTitle">Your routine is yours to define.</h2><p data-i18n="trends.reminderBody">There’s no single “right” way to build a habit. If you have questions about what’s right for you, your care team is the best place to start.</p></div><button class="text-button" data-go="care"><span data-i18n="trends.talkItThrough">Talk it through</span> <span aria-hidden="true">→</span></button></article>
           </section>
 
@@ -194,13 +198,13 @@
                 </div>
                 <p class="locator-source"><span data-i18n="locator.sourceNotice">Listings can be incomplete or out of date. Please call to confirm services, step-free access, and opening hours before you go. Map data ©</span> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" data-i18n="locator.attribution">OpenStreetMap contributors</a>.</p>
               </article>
-              <!--yup yup-->
+
               <div class="locator-results-column">
                 <div class="locator-results-heading">
                   <div><div class="section-kicker" data-i18n="locator.options">YOUR OPTIONS</div><h2 id="results-title" data-i18n="locator.ready">Ready when you are</h2></div>
                   <span class="results-count hidden" id="results-count"></span>
-                  <!--oh wow theres a lot of code-->
-                </div>  
+
+                </div>
                 <div class="locator-status" id="locator-status" role="status" aria-live="polite" data-i18n="locator.initialStatus">Choose how you’d like to search. We won’t look up your location until you ask us to.</div>
                 <div class="service-results" id="service-results" aria-live="polite"></div>
                 <article class="urgent-card locator-urgent">
@@ -210,75 +214,8 @@
               </div>
             </div>
           </section>
-          <!--ignore this code it was repeated twice in the original snippet, so I removed it for clarity-->
-          <!--<section class="view" id="view-locator" aria-labelledby="locator-title" tabindex="-1" hidden>
-            <div class="page-intro">
-              <div>
-                <div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="locator.eyebrow">CARE THAT FITS YOUR LIFE</span></div>
-                <h1 id="locator-title"><span data-i18n="locator.title">Find care nearby</span><span class="hello-dot">.</span></h1>
-                <p class="intro-copy" data-i18n="locator.subtitle">Choose what matters to you, then explore nearby services.</p>
-              </div>
-              <span class="concept-pill" data-i18n="locator.badge">OPENSTREETMAP LISTINGS</span>
-            </div>
-            <div class="notice-banner location-privacy-note" role="note">
-              <span class="notice-icon" aria-hidden="true">i</span>
-              <p><strong data-i18n="locator.privacyTitle">Your location stays in your hands.</strong> <span data-i18n="locator.privacyBody">If you search by location, an approximate location (rounded to about 100 metres) and your chosen radius are sent to Nominatim and Photon, public services that search OpenStreetMap data. Arteria doesn’t save your location. You can search for a city or ZIP code instead.</span></p>
-            </div>
-            <div class="locator-layout">
-              <article class="card locator-search-card">
-                <div class="section-kicker" data-i18n="locator.filterHeading">START WITH WHAT WORKS FOR YOU</div>
-                <h2 data-i18n="locator.where">Where should we look?</h2>
-                <div class="location-consent">
-                  <label class="consent-check">
-                    <input id="location-consent" type="checkbox" />
-                    <span data-i18n="locator.consent">I understand an approximate location will be shared with Nominatim and Photon to find nearby services.</span>
-                  </label>
-                  <button class="button button-dark" id="use-location-button" type="button" disabled><span aria-hidden="true">⌖</span> <span data-i18n="locator.useLocation">Use my location</span></button>
-                </div>
-                <div class="locator-divider"><span data-i18n="locator.orSearch">OR SEARCH A PLACE</span></div>
-                <form class="area-search-form" id="area-search-form">
-                  <label for="area-query" data-i18n="locator.areaLabel">City, town, or ZIP code</label>
-                  <div class="area-search-controls">
-                    <input id="area-query" name="area" type="search" maxlength="100" placeholder="For example, 02139 or Cambridge" data-i18n-placeholder="locator.areaPlaceholder" autocomplete="postal-code" required />
-                    <button class="button button-light" type="submit"><span data-i18n="locator.searchArea">Search area</span> <span aria-hidden="true">→</span></button>
-                  </div>
-                  <small data-i18n="locator.searchPrivacy">We’ll send the place you enter to Nominatim, then use Photon to look for nearby services. Your search isn’t saved here.</small>
-                </form>
-                <div class="locator-filters">
-                  <label for="service-type" data-i18n="locator.serviceTypeLabel">What kind of care are you looking for?</label>
-                  <select id="service-type">
-                    <option value="all" data-i18n="locator.anyService">Any nearby health service</option>
-                    <option value="vascular" data-i18n="locator.vascular">Vascular care</option>
-                    <option value="ultrasound" data-i18n="locator.ultrasound">Ultrasound or imaging</option>
-                    <option value="urgent" data-i18n="locator.urgent">Urgent or emergency care</option>
-                    <option value="general" data-i18n="locator.clinics">Clinics and doctors</option>
-                  </select>
-                  <label for="search-radius" data-i18n="locator.radiusLabel">How far would you like to look?</label>
-                  <select id="search-radius">
-                    <option value="5" data-i18n="locator.within5">Within 5 km</option>
-                    <option value="10" selected data-i18n="locator.within10">Within 10 km</option>
-                    <option value="25" data-i18n="locator.within25">Within 25 km</option>
-                  </select>
-                  <label class="accessibility-filter"><input id="step-free-filter" type="checkbox" /><span data-i18n="locator.accessFilter">Show places listed as wheelchair accessible</span></label>
-                </div>
-                <p class="locator-source"><span data-i18n="locator.sourceNotice">Listings can be incomplete or out of date. Please call to confirm services, step-free access, and opening hours before you go. Map data ©</span> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" data-i18n="locator.attribution">OpenStreetMap contributors</a>.</p>
-              </article>
-              //yup yup
-              <div class="locator-results-column">
-                <div class="locator-results-heading">
-                  <div><div class="section-kicker" data-i18n="locator.options">YOUR OPTIONS</div><h2 id="results-title" data-i18n="locator.ready">Ready when you are</h2></div>
-                  <span class="results-count hidden" id="results-count"></span>
-                  //oh wow theres a lot of code
-                </div>  
-                <div class="locator-status" id="locator-status" role="status" aria-live="polite" data-i18n="locator.initialStatus">Choose how you’d like to search. We won’t look up your location until you ask us to.</div>
-                <div class="service-results" id="service-results" aria-live="polite"></div>
-                <article class="urgent-card locator-urgent">
-                  <span class="urgent-icon" aria-hidden="true">!</span>
-                  <div><strong data-i18n="common.urgentTitle">Need urgent help?</strong><p data-i18n="locator.urgentNotice">If you may be having a medical emergency, call your local emergency number now. Don’t wait for this app or an online listing.</p></div>
-                </article>
-              </div>
-            </div>
-          </section>-->
+
+
 
           <section class="view" id="view-sharing" aria-labelledby="sharing-title" tabindex="-1" hidden>
             <div class="page-intro">
@@ -300,14 +237,14 @@
                 <form id="share-form">
                   <div class="share-honeypot" aria-hidden="true"><label for="share-website">Website</label><input id="share-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
                   <label class="share-field"><span data-i18n="sharing.nameLabel">Your name (optional)</span><input id="share-name" name="name" type="text" maxlength="100" autocomplete="name" placeholder="Name to show in your file" data-i18n-placeholder="sharing.namePlaceholder" /></label>
-                  <label class="share-field"><span data-i18n="sharing.emailLabel">Your email address</span><input id="share-email" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com" required /></label>
+                  <label class="share-field"><span data-i18n="sharing.emailLabel">Your email address</span><input id="share-email" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com" /></label>
                   <label class="share-field"><span data-i18n="sharing.notesLabel">What would you like your care team to know?</span><textarea id="share-notes" name="notes" rows="6" maxlength="4000" placeholder="For example: questions for my next appointment, details I don’t want to forget, or what I’d like to discuss." data-i18n-placeholder="sharing.notesPlaceholder"></textarea><small data-i18n="sharing.notesHelp">Only include information you feel comfortable sharing in an email attachment.</small></label>
                   <label class="share-field"><span data-i18n="sharing.passphraseLabel">Create a passphrase for your file</span><input id="share-passphrase" name="passphrase" type="password" minlength="12" maxlength="128" autocomplete="new-password" required placeholder="At least 12 characters" data-i18n-placeholder="sharing.passphrasePlaceholder" /><small data-i18n="sharing.passphraseHelp">Use 12 or more characters. Keep it somewhere safe; don’t email it or share it with your clinic.</small></label>
                   <label class="share-field"><span data-i18n="sharing.confirmLabel">Enter your passphrase again</span><input id="share-passphrase-confirm" name="passphraseConfirm" type="password" minlength="12" maxlength="128" autocomplete="new-password" required placeholder="Repeat your passphrase" data-i18n-placeholder="sharing.confirmPlaceholder" /></label>
-                  <label class="share-consent"><input id="share-consent" type="checkbox" required /><span data-i18n="sharing.consent">I’m sending this encrypted file to my own email address. I understand I’ll need to give the passphrase to my care team separately if I choose to share the file with them.</span></label>
-                  <button class="button button-dark share-submit" id="share-submit" type="submit"><span aria-hidden="true">↗</span><span data-i18n="sharing.sendButton">Email me my encrypted file</span></button>
+                  <label class="share-consent"><input id="share-consent" type="checkbox" /><span data-i18n="sharing.consent">I’m sending this encrypted file to my own email address. I understand I’ll need to give the passphrase to my care team separately if I choose to share the file with them.</span></label>
+                  <div class="measurement-buttons"><button class="button button-dark" id="download-encrypted" type="button" data-m="downloadNote">Download encrypted note</button><button class="button button-light" id="clear-note" type="button" data-m="clearNote">Clear note</button></div><button class="button button-light share-submit" id="share-submit" type="submit"><span aria-hidden="true">↗</span><span data-i18n="sharing.sendButton">Email me my encrypted file</span></button>
                   <p class="share-status" id="share-status" role="status" aria-live="polite"></p>
-                  <!-- you can add a small note here about the encryption process if needed -->
+
                 </form>
               </article>
               <aside class="share-aside">
@@ -318,7 +255,7 @@
                     <li><span>1</span><div><strong data-i18n="sharing.step1Title">Your browser creates the file</strong><small data-i18n="sharing.step1Body">The note you write is encrypted here on your device before anything is sent.</small></div></li>
                     <li><span>2</span><div><strong data-i18n="sharing.step2Title">Only the encrypted file is emailed</strong><small data-i18n="sharing.step2Body">The email is sent to the address you enter. The file is unreadable without your passphrase.</small></div></li>
                     <li><span>3</span><div><strong data-i18n="sharing.step3Title">You decide what to do next</strong><small data-i18n="sharing.step3Body">Keep the file for yourself, or choose to share it with your care team and pass them the passphrase separately.</small></div></li>
-                    <!--what was strong again?? -->
+
                   </ol>
                 </article>
                 <article class="card decrypt-card">
@@ -336,7 +273,7 @@
           </section>
 
           <section class="view" id="view-care" aria-labelledby="care-title" tabindex="-1" hidden>
-            <div class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="care.eyebrow">A SUPPORTIVE SPACE</span></div><h1 id="care-title"><span data-i18n="care.title">Your care companion</span><span class="hello-dot">.</span></h1><p class="intro-copy" data-i18n="care.subtitle">A place to talk things through and get ready for your next conversation.</p></div><span class="concept-pill">ARIA · AI COMPANION CONCEPT</span></div>
+            <div class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="care.eyebrow">A SUPPORTIVE SPACE</span></div><h1 id="care-title"><span data-i18n="care.title">Your care companion</span><span class="hello-dot">.</span></h1><p class="intro-copy" data-i18n="care.subtitle">A place to talk things through and get ready for your next conversation.</p></div><span class="concept-pill"><span data-m="rulesCompanion">ARIA · RULE-BASED GUIDE</span></span></div>
             <div class="care-layout">
               <article class="card chat-card" aria-label="Chat with Aria">
                 <div class="chat-header"><div class="aria-avatar" aria-hidden="true"><span></span><i></i></div><div><strong>Aria</strong><small><span></span> <span data-i18n="care.companion">Your personal companion</span></small></div><button class="plain-icon" id="clear-chat" aria-label="Start a fresh conversation" data-i18n-aria="care.newChatAria" title="Start fresh">↻</button></div>

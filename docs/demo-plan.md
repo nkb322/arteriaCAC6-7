@@ -1,15 +1,16 @@
-# Demonstration plan — approximately 2 minutes 30 seconds
+# CAC recording walkthrough — about 2 minutes 50 seconds
 
-Use a foreground Chrome tab. Start from a fresh local browser profile or clear only disposable demonstration sessions. Use synthetic data and the included synthetic recording; never describe these as a real sensor or a clinical finding.
+Use Chrome in a foreground tab, a known local preview and synthetic data. Prepare one saved clean session before recording so comparison has a second recording. No step needs real hardware, a clinic API response, email credentials or a cloud deployment.
 
-- **0:00–0:20:** State the app name, participants, target audience and problem. Explain that this build implements measurement acquisition infrastructure; biomedical hardware and clinical research are separate work.
-- **0:20–0:40:** Open Photon acquisition, choose Simulation / Missing samples / 10 seconds, and start. Point out source, arbitrary units, changing raw values and timestamped samples. Explain that this uses the same validation/controller path planned for hardware.
-- **0:40–1:00:** Let the stream pause. Show stale status, recovery, the chart gap and missing-sequence count. These are engineering checks, not a medical score.
-- **1:00–1:25:** Open Overview and My trends. Inspect a saved dated session and reload to show IndexedDB persistence. Export CSV and JSON.
-- **1:25–1:50:** Replay the selected JSON at 4×. Show that SIMULATED remains visible and original sample timing is preserved separately from browser receipt time.
-- **1:50–2:10:** Switch to Spanish and demonstrate larger text/keyboard controls. Briefly show the retained clinic locator and encrypted-note screen. Do not rely on live clinic API availability or email delivery in the recording.
-- **2:10–2:30:** Explain one coding challenge: fragmented frames, invalid input, stale source state, or preserving provenance across replay. State limitations: real adapter pending firmware, no clinical ML, local history is not encrypted/cloud-backed.
+- **0:00–0:20:** Introduce Arteria, the student team and intended audience. Explain that this demonstration proves the software pipeline using clearly labeled synthetic data; wearable validation is separate.
+- **0:20–0:45:** Open Photon acquisition and start a 10-second Missing samples / pause recording. Show changing values, accepted samples, recovery-checkpoint count, stale state, resumed data and the visible gap.
+- **0:45–1:05:** Open Overview to show the state-driven summary. State that there is no medical wellness score or DVT inference.
+- **1:05–1:30:** In My trends, inspect the dated session and select another recording for comparison. Point out duration, accepted samples, quality flags, available channels, units and distinct source labels. A common source/units does not establish clinical comparability.
+- **1:30–1:55:** Save a short appointment/research note and download the HTML session report. Show its graph, provenance, engineering checks and notes. Explain that reports/history are unencrypted, while the separate note-sharing feature encrypts attachments.
+- **1:55–2:15:** Replay a session at 4×. Point out that SIMULATED remains attached. Switch to Spanish or demonstrate the keyboard/accessibility dialog.
+- **2:15–2:35:** Explain recovery using the checkpoint counter and an already recovered interrupted session. If recording a refresh live, let at least two checkpoint batches commit, then refresh; avoid losing time on the browser's navigation confirmation.
+- **2:35–2:50:** State one real coding challenge and how it was tested. Close with limitations: physical adapter awaits Nina's protocol, no clinical model or validated biomarker result, and AI assistance is disclosed with actual student contributions.
 
-If verified hardware is later connected, replace the simulation opening with the real permission/connect/recording flow and show an unplug event. Distinguish a real optical waveform from any claim to measure thrombosis biomarkers. Keep a labeled recorded-data fallback ready.
+The mock source can replace the dropout segment if showing connection failure/restart is more compelling. Keep a saved recording ready if a live timer or external service behaves unexpectedly. Optional clinic search/encrypted-note unlock can be shown briefly if the video remains under 3 minutes; focus on causal programming behavior rather than touring every page.
 
-The submission should accurately disclose AI assistance and student contributions. The existing interface and original MIT attribution remain in the repository. No submission materials are uploaded by these scripts.
+Rehearse personally and verify the exact submitted commit. Use only genuine student contribution claims; see `student-guide.md`. Nothing in these scripts uploads a video or submits the competition entry.

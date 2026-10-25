@@ -17,7 +17,7 @@
       "nav.trends": "My trends",
       "nav.locator": "Find care",
       "nav.sharing": "Share securely",
-      "nav.care": "Care plan",
+      "nav.care": "Care guide",
       "nav.new": "NEW",
 
       "common.breadcrumb": "My health",
@@ -37,13 +37,13 @@
       "common.patchDetails": "Patch connection details",
       "common.battery": "Battery",
       "common.synced": "Synced just now",
-      "common.personalProfile": "Personal profile",
+      "common.personalProfile": "Demo profile · no account",
       "common.accessibilitySettings": "Accessibility settings",
-      "common.notifications": "Notifications, one update",
+      "common.notifications": "Source status",
       "common.profile": "Jordan Morgan profile",
       //yea cool
       "common.justNow": "just now",
-      "common.notificationText": "One update · Your sample patch synced just now. This is a prototype notification.",
+      "common.notificationText": "Current source status",
       "common.profileText": "Jordan Morgan | Personal profile | Demo account",
       "common.profileToast": "This is a sample profile. No account information is connected.",
       "common.patchToast": "Arteria One is shown as connected for this demo. No wearable is paired.",
@@ -58,7 +58,7 @@
       "overview.rest": "Rest",
       "overview.chartAria": "Illustrative weekly movement pattern, gradually increasing from Monday to Sunday",
       "overview.eyebrow": "A MOMENT FOR YOU",
-      "overview.greeting": "Good morning, Jordan",
+      "overview.greeting": "Hello, Jordan",
       "overview.subtitle": "Let’s take a gentle look at how you’re doing today.",
       "overview.scanButton": "Start acquisition",
       "overview.noticeTitle": "A note about this experience:",
@@ -230,7 +230,7 @@
       "sharing.encrypting": "Encrypting your note on this device…",
       "sharing.sending": "Sending your encrypted file…",
       "sharing.sent": "Your encrypted file is on its way. Check your inbox, and keep your passphrase somewhere safe.",
-      "sharing.sendFailed": "We couldn’t send the file. Your note and passphrase weren’t shared. Please try again later.",
+      "sharing.sendFailed": "Delivery could not be confirmed. Your passphrase was not sent. Download the encrypted file locally instead.",
       "sharing.badFile": "Choose a valid Arteria encrypted file.",
       "sharing.passwordRequired": "Enter the passphrase you used for this file.",
       "sharing.decrypting": "Unlocking your file on this device…",
@@ -247,10 +247,10 @@
       "care.teamToast": "For medical questions, contact your clinician using the details they provided.",
       "sharing.eyebrow": "YOUR INFORMATION, YOUR CHOICE",
       "sharing.title": "Share a note with your care team",
-      "sharing.subtitle": "Send a private, encrypted copy of your own notes to your email inbox.",
+      "sharing.subtitle": "Download an encrypted note locally, or email it when the service is configured.",
       "sharing.encryptionBadge": "ENCRYPTED BEFORE SENDING",
       "sharing.privacyTitle": "Your notes stay private.",
-      "sharing.privacyBody": "Your note is encrypted in this browser. Only the encrypted file and your email address are sent to Arteria’s email service. Your passphrase is never sent. This demo doesn’t include sample patch readings because they aren’t real health data.",
+      "sharing.privacyBody": "The note is encrypted in this browser. Download stays local. Email sends only the encrypted file, address and language to the configured service; never the passphrase. Measurement history and exports are separate and unencrypted.",
       "sharing.formEyebrow": "MAKE YOUR OWN SHARE FILE",
       "sharing.formTitle": "A few details, only if you want to share them",
       "sharing.nameLabel": "Your name (optional)",
@@ -261,7 +261,7 @@
       "sharing.notesHelp": "Only include information you feel comfortable sharing in an email attachment.",
       "sharing.passphraseLabel": "Create a passphrase for your file",
       "sharing.passphrasePlaceholder": "At least 12 characters",
-      "sharing.passphraseHelp": "Use 12 or more characters. Keep it somewhere safe; don’t email it or share it with your clinic.",
+      "sharing.passphraseHelp": "Use at least 12 characters. Give the passphrase to your recipient through a separate channel, never alongside the file.",
       "sharing.confirmLabel": "Enter your passphrase again",
       "sharing.confirmPlaceholder": "Repeat your passphrase",
       "sharing.consent": "I’m sending this encrypted file to my own email address. I understand I’ll need to give the passphrase to my care team separately if I choose to share the file with them.",
@@ -270,8 +270,8 @@
       "sharing.howTitle": "A private handoff, with you in control.",
       "sharing.step1Title": "Your browser creates the file",
       "sharing.step1Body": "The note you write is encrypted here on your device before anything is sent.",
-      "sharing.step2Title": "Only the encrypted file is emailed",
-      "sharing.step2Body": "The email is sent to the address you enter. The file is unreadable without your passphrase.",
+      "sharing.step2Title": "Download locally or email when configured",
+      "sharing.step2Body": "The encrypted attachment requires your passphrase. Email metadata is not encrypted by this app.",
       "sharing.step3Title": "You decide what to do next",
       "sharing.step3Body": "Keep the file for yourself, or choose to share it with your care team and pass them the passphrase separately.",
       "sharing.openEyebrow": "OPEN A FILE YOU ALREADY HAVE",
@@ -286,7 +286,7 @@
       "care.title": "Your care companion",
       "care.subtitle": "A place to talk things through and get ready for your next conversation.",
       "care.companion": "Your personal companion",
-      "care.disclaimer": "I’m Aria, an AI concept—not a clinician. I can help you reflect or prepare questions, but I can’t diagnose, interpret symptoms, or replace your care team.",
+      "care.disclaimer": "Aria is a rule-based informational guide with fixed replies. It cannot diagnose, assess symptoms, create a medical care plan, or replace your care team.",
       "care.welcome": "Hi Jordan! How are you feeling today? We can talk about your routine, explore this prototype, or get a few questions ready for your care team.",
       "care.suggestionsLabel": "WHAT WOULD BE HELPFUL?",
       "care.suggestion1": "Help me prepare for my next appointment",
@@ -301,8 +301,8 @@
       "care.question2": "When should I get in touch with you?",
       "care.question3": "How can I wear the patch comfortably?",
       "care.urgent": "If you may be having a medical emergency, call your local emergency number now. Don’t wait for an app or a patch reading.",
-      "care.teamTitle": "Your care team comes first",
-      "care.teamBody": "Reach out to your clinician for medical questions.",
+      "care.teamTitle": "Prepare an appointment note",
+      "care.teamBody": "Write, encrypt and download your questions.",
       "care.userMeta": "YOU · just now",
       "care.ariaMeta": "ARIA · just now",
       "care.emergencyReply": "I’m sorry you’re dealing with this. I can’t assess symptoms. If you may be having a medical emergency—especially chest pain, difficulty breathing, fainting, or coughing blood—call your local emergency number now. Don’t wait for this app or a patch reading.",
@@ -338,7 +338,7 @@
       "nav.trends": "Mis tendencias",
       "nav.locator": "Buscar atención",
       "nav.sharing": "Compartir de forma segura",
-      "nav.care": "Plan de atención",
+      "nav.care": "Guía de atención",
       "nav.new": "NUEVO",
       "common.breadcrumb": "Mi salud",
       "common.today": "Hoy",
@@ -357,12 +357,12 @@
       "common.patchDetails": "Detalles de conexión del parche",
       "common.battery": "Batería",
       "common.synced": "Sincronizado hace un momento",
-      "common.personalProfile": "Perfil personal",
+      "common.personalProfile": "Perfil de muestra · sin cuenta",
       "common.accessibilitySettings": "Opciones de accesibilidad",
-      "common.notifications": "Notificaciones, una actualización",
+      "common.notifications": "Estado de la fuente",
       "common.profile": "Perfil de Jordan Morgan",
       "common.justNow": "ahora",
-      "common.notificationText": "Una actualización · El parche de ejemplo se sincronizó hace un momento. Es una notificación del prototipo.",
+      "common.notificationText": "Estado actual de la fuente",
       "common.profileText": "Jordan Morgan · Perfil personal · Cuenta de demostración",
       "common.profileToast": "Este es un perfil de ejemplo. No hay ninguna cuenta conectada.",
       "common.patchToast": "El parche Arteria One aparece conectado en esta demostración. No hay ningún dispositivo vinculado.",
@@ -377,7 +377,7 @@
       "overview.rest": "Descanso",
       "overview.chartAria": "Patrón de movimiento ilustrativo de la semana, con un aumento gradual de lunes a domingo",
       "overview.eyebrow": "UN MOMENTO PARA TI",
-      "overview.greeting": "Buenos días, Jordan",
+      "overview.greeting": "Hola, Jordan",
       "overview.subtitle": "Veamos con calma cómo te sientes hoy.",
       "overview.scanButton": "Iniciar adquisición",
       "overview.noticeTitle": "Una nota sobre esta experiencia:",
@@ -543,7 +543,7 @@
       "sharing.encrypting": "Cifrando tu nota en este dispositivo…",
       "sharing.sending": "Enviando tu archivo cifrado…",
       "sharing.sent": "Tu archivo cifrado ya se envió. Revisa tu correo y guarda tu frase de contraseña en un lugar seguro.",
-      "sharing.sendFailed": "No pudimos enviar el archivo. Tu nota y tu frase de contraseña no se compartieron. Inténtalo de nuevo más tarde.",
+      "sharing.sendFailed": "No se pudo confirmar la entrega. No se envió tu frase de contraseña. Descarga el archivo cifrado localmente.",
       "sharing.badFile": "Elige un archivo cifrado válido de Arteria.",
       "sharing.passwordRequired": "Escribe la frase de contraseña que usaste para este archivo.",
       "sharing.decrypting": "Desbloqueando el archivo en este dispositivo…",
@@ -560,10 +560,10 @@
       "care.teamToast": "Para preguntas médicas, comunícate con tu profesional de salud usando los datos que te proporcionó.",
       "sharing.eyebrow": "TÚ DECIDES SOBRE TU INFORMACIÓN",
       "sharing.title": "Comparte una nota con tu equipo de atención",
-      "sharing.subtitle": "Envía a tu correo una copia cifrada y privada de tus propias notas.",
+      "sharing.subtitle": "Descarga una nota cifrada o envíala por correo cuando el servicio esté configurado.",
       "sharing.encryptionBadge": "CIFRADO ANTES DEL ENVÍO",
       "sharing.privacyTitle": "Tus notas son privadas.",
-      "sharing.privacyBody": "La nota se cifra en este navegador. Solo se envían el archivo cifrado y tu correo al servicio de correo de Arteria. Tu frase de contraseña nunca se envía. Esta demostración no incluye lecturas de ejemplo del parche porque no son datos de salud reales.",
+      "sharing.privacyBody": "La nota se cifra en el navegador. La descarga es local. El correo envía el archivo cifrado, la dirección y el idioma al servicio configurado, nunca la contraseña. El historial y las exportaciones de mediciones son independientes y no están cifrados.",
       "sharing.formEyebrow": "CREA TU ARCHIVO PARA COMPARTIR",
       "sharing.formTitle": "Incluye solo los datos que quieras compartir",
       "sharing.nameLabel": "Tu nombre (opcional)",
@@ -574,7 +574,7 @@
       "sharing.notesHelp": "Incluye solo información que te sientas cómodo compartiendo en un archivo adjunto.",
       "sharing.passphraseLabel": "Crea una frase de contraseña para el archivo",
       "sharing.passphrasePlaceholder": "Al menos 12 caracteres",
-      "sharing.passphraseHelp": "Usa 12 caracteres o más. Guárdala en un lugar seguro; no la envíes por correo ni la compartas con la clínica.",
+      "sharing.passphraseHelp": "Usa al menos 12 caracteres. Entrega la frase de contraseña por otro canal, nunca junto con el archivo.",
       "sharing.confirmLabel": "Escribe de nuevo tu frase de contraseña",
       "sharing.confirmPlaceholder": "Repite tu frase de contraseña",
       "sharing.consent": "Enviaré este archivo cifrado a mi propio correo. Entiendo que, si decido compartirlo con mi equipo de atención, tendré que darles la frase de contraseña por separado.",
@@ -583,8 +583,8 @@
       "sharing.howTitle": "Un envío privado que tú controlas.",
       "sharing.step1Title": "Tu navegador crea el archivo",
       "sharing.step1Body": "La nota se cifra en tu dispositivo antes de enviar nada.",
-      "sharing.step2Title": "Se envía solo el archivo cifrado",
-      "sharing.step2Body": "El correo llega a la dirección que indiques. Sin tu frase de contraseña no se puede leer el archivo.",
+      "sharing.step2Title": "Descarga o envía por correo si está configurado",
+      "sharing.step2Body": "El archivo requiere tu frase de contraseña. La aplicación no cifra los metadatos del correo.",
       "sharing.step3Title": "Tú decides qué hacer después",
       "sharing.step3Body": "Guarda el archivo o, si quieres, compártelo con tu equipo de atención y envíales la frase de contraseña por separado.",
       "sharing.openEyebrow": "ABRE UN ARCHIVO QUE YA TIENES",
@@ -598,7 +598,7 @@
       "care.title": "Tu compañera de atención",
       "care.subtitle": "Un espacio para conversar y prepararte para tu próxima consulta.",
       "care.companion": "Tu compañera personal",
-      "care.disclaimer": "Soy Aria, un concepto de IA, no una profesional de salud. Puedo ayudarte a reflexionar o preparar preguntas, pero no puedo diagnosticar, interpretar síntomas ni reemplazar a tu equipo de atención.",
+      "care.disclaimer": "Aria es una guía informativa basada en reglas y respuestas fijas. No diagnostica, evalúa síntomas ni crea planes médicos, y no sustituye al equipo médico.",
       "care.welcome": "¡Hola, Jordan! ¿Cómo te sientes hoy? Podemos hablar de tu rutina, explorar este prototipo o preparar algunas preguntas para tu equipo de atención.",
       "care.suggestionsLabel": "¿QUÉ TE AYUDARÍA?",
       "care.suggestion1": "Ayúdame a prepararme para mi próxima cita",
@@ -613,8 +613,8 @@
       "care.question2": "¿En qué casos debería comunicarme contigo?",
       "care.question3": "¿Cómo puedo usar el parche con comodidad?",
       "care.urgent": "Si crees que podrías estar ante una emergencia médica, llama ahora al número local de emergencias. No esperes a una aplicación ni a una lectura del parche.",
-      "care.teamTitle": "Tu equipo de atención es lo primero",
-      "care.teamBody": "Para preguntas médicas, ponte en contacto con tu profesional de salud.",
+      "care.teamTitle": "Prepara una nota para tu consulta",
+      "care.teamBody": "Escribe, cifra y descarga tus preguntas.",
       "care.userMeta": "TÚ · ahora",
       "care.ariaMeta": "ARIA · ahora",
       "care.emergencyReply": "Siento que estés pasando por esto. No puedo evaluar síntomas. Si podrías estar ante una emergencia médica —sobre todo si tienes dolor en el pecho, dificultad para respirar, te desmayas o toses sangre— llama ahora al número local de emergencias. No esperes a esta aplicación ni a una lectura del parche.",
@@ -728,7 +728,7 @@
     toastTimer = window.setTimeout(() => toast.remove(), 4200);
   }
 //toast is for temporary messages that appear and disappea
-  function navigate(view) {
+  function navigate(view, replace = false) {
     if (!views.includes(view)) return;
     document.querySelectorAll(".view").forEach((section) => {
       const isCurrent = section.id === `view-${view}`;
@@ -743,9 +743,10 @@
       else button.removeAttribute("aria-current");
     });
     document.getElementById("breadcrumb-current").textContent = translate(`nav.${view}`);
-    if (location.hash !== `#${view}`) history.replaceState(null, "", `#${view}`);
+    if (location.hash !== `#${view}`) history[replace ? "replaceState" : "pushState"](null, "", `#${view}`);
     document.getElementById(`view-${view}`).focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: document.body.classList.contains("reduce-motion") ? "auto" : "smooth" });
+    document.dispatchEvent(new CustomEvent("arteria-view",{detail:view}));
   }
 
   document.querySelectorAll("[data-view]").forEach((button) => {
@@ -762,7 +763,9 @@
   });
 
   const initialView = location.hash.slice(1);
-  if (views.includes(initialView)) navigate(initialView);
+  if (views.includes(initialView)) navigate(initialView, true);
+  window.addEventListener("popstate", () => { const view=location.hash.slice(1); if(views.includes(view))navigate(view,true); });
+  window.addEventListener("hashchange", () => { const view=location.hash.slice(1); if(views.includes(view))navigate(view,true); });
 
   const topPopover = document.getElementById("top-popover");
   function togglePopover(message) {
@@ -771,7 +774,7 @@
     if (!alreadyOpen) topPopover.textContent = message;
   }
   document.getElementById("notifications-button").addEventListener("click", () => {
-    togglePopover(translate("common.notificationText"));
+    togglePopover(`${translate("common.notificationText")}: ${document.getElementById("device-state").textContent}`);
   });
   document.getElementById("top-profile").addEventListener("click", () => {
     togglePopover(translate("common.profileText"));
@@ -783,7 +786,7 @@
     button.addEventListener("click", () => button.closest(".notice-banner").remove());
   });
   document.getElementById("care-team-button").addEventListener("click", () => {
-    showToast(translate("care.teamToast"));
+    navigate("sharing");
   });
 
   const accessibilityControls = {
@@ -805,14 +808,18 @@
   }
   loadAccessibility();
 
+  let accessibilityOpener;
   function openAccessibility() {
+    accessibilityOpener=document.activeElement;
+    document.querySelector(".app-shell").inert=true;
     modal.classList.remove("hidden");
     const firstControl = accessibilityControls.largeText;
     firstControl.focus();
   }
   function closeAccessibility() {
+    document.querySelector(".app-shell").inert=false;
     modal.classList.add("hidden");
-    document.getElementById("accessibility-open").focus();
+    (accessibilityOpener?.isConnected ? accessibilityOpener : document.getElementById("accessibility-open")).focus();
   }
   document.getElementById("accessibility-open").addEventListener("click", openAccessibility);
   document.getElementById("footer-accessibility").addEventListener("click", openAccessibility);
@@ -887,7 +894,7 @@
     if (concerningWords.test(message) || possibleClotSymptoms.test(message)) {
       return translate("care.symptomReply");
     }
-    if (/\b(diagnos|diagn[oó]stic|is it dvt|do i have|am i at risk|interpret|reading|score|result|scan|tengo tvp|riesgo|lectura|resultado|escaneo)\b/i.test(message)) {
+    if (/\b(diagnos\w*|diagn[oó]stic\w*|is it dvt|do i have|am i at risk|interpret|reading|score|result|scan|tengo tvp|riesgo|lectura|resultado|escaneo)\b/i.test(message)) {
       return translate("care.readingReply");
     }
     if (/\b(photon|light|photonic|scan|infrared)\b/i.test(message)) {
@@ -945,8 +952,12 @@
     speech.speak(utterance);
   });
 
+  async function fetchBounded(url, options = {}) {
+    const response=await fetch(url, {...options, signal: options.signal || AbortSignal.timeout(12000), referrerPolicy:'no-referrer'});
+    return response;
+  }
   // coordinates rounded btw
-  //this is the nearby care thingie. it uses openstreetmaps api 
+  //this is the nearby care thingie. it uses openstreetmaps api
   const locationConsent = document.getElementById("location-consent");
   const useLocationButton = document.getElementById("use-location-button");
   const areaSearchForm = document.getElementById("area-search-form");
@@ -965,9 +976,11 @@
   let geocoderRequest = 0;
   let geolocationRequest = 0;
   let isLoadingNearbyServices = false;
+  let nearbyAbort = null, geocoderAbort = null;
 
   locationConsent.addEventListener("change", () => {
     useLocationButton.disabled = !locationConsent.checked;
+    if(!locationConsent.checked){geolocationRequest++;nearbyAbort?.abort();geocoderAbort?.abort();searchRequest++;isLoadingNearbyServices=false;nearbyServices=[];lastSearchPoint=null;lastPlaceLabel="";serviceResults.replaceChildren();resultsCount.classList.add("hidden");setLocatorStatus(translate("locator.initialStatus"));}
   });
   //well i think its obvi but just checking if the user has given consent to use their location. if they have, the button is enabled. if not, it is disabled.
 
@@ -982,7 +995,7 @@
     if (/\b(vascular|phlebolog)\b/i.test(name)) return "locator.vascularCategory";
     if (/\b(ultrasound|sonograph|radiology|imaging|diagnostic)\b/i.test(name)) return "locator.imagingCategory";
     //ooh ok this part is relaly improtant lots of room to add in stuff if needed
-    if (/\b(urgent|emergency|accident|casualty)\b/i.test(name)) {
+    if (["urgent_care","emergency"].includes(tags.osm_value) || /\b(urgent|emergency|accident|casualty)\b/i.test(name)) {
       return "locator.urgentCategory";
     }
     if (tags.osm_value === "hospital") return "locator.hospitalCategory";
@@ -991,16 +1004,18 @@
     }
     return "locator.otherCategory";
   }
-//AIed this part 
+//AIed this part
   function matchesPreferences(service) {
     const matchesAccess = !stepFreeFilter.checked || service.wheelchairAccessible;
     const matchesRadius = service.distanceKm <= Number(searchRadius.value);
-    return matchesAccess && matchesRadius;
+    const categories={vascular:['locator.vascularCategory'],ultrasound:['locator.imagingCategory'],urgent:['locator.urgentCategory'],general:['locator.clinicsCategory']};
+    const matchesType=serviceType.value==='all'||categories[serviceType.value]?.includes(service.category);
+    return matchesAccess && matchesRadius && matchesType;
   }
 
   function serviceAddress(tags) {
     const street = [tags.housenumber, tags.street].filter(Boolean).join(" ");
-    return [street, tags.city, tags.postcode].filter(Boolean).join(", ") || "Address not listed";
+    return [street, tags.city, tags.postcode].filter(value=>typeof value==="string" && value).join(", ").slice(0,300) || (currentLanguage==="es" ? "Dirección no indicada" : "Address not listed");
   }
 
   function createServiceCard(service) {
@@ -1090,7 +1105,9 @@
   }
 
   async function searchNearbyServices(latitude, longitude, placeLabel) {
+    nearbyAbort?.abort(); nearbyAbort=new AbortController();
     const requestNumber = ++searchRequest;
+    if(!Number.isFinite(latitude)||!Number.isFinite(longitude)||Math.abs(latitude)>85||Math.abs(longitude)>180){setLocatorStatus(translate("locator.searchFailed"),true);return;}
     const queryLatitude = Number(latitude.toFixed(3));
     const queryLongitude = Number(longitude.toFixed(3));
     lastSearchPoint = { latitude: queryLatitude, longitude: queryLongitude };
@@ -1126,7 +1143,7 @@
     searchUrl.searchParams.set("lang", currentLanguage);
 
     try {
-      const response = await fetch(searchUrl, { headers: { Accept: "application/json" } });
+      const response = await fetchBounded(searchUrl, { headers: { Accept: "application/json" }, signal: AbortSignal.any([nearbyAbort.signal,AbortSignal.timeout(12000)]) });
 
       if (!response.ok) {
         throw new Error(`Nearby search returned status ${response.status}.`);
@@ -1136,7 +1153,7 @@
       if (requestNumber !== searchRequest) return;
 
       isLoadingNearbyServices = false;
-      nearbyServices = (data.features || [])
+      nearbyServices = (Array.isArray(data.features) ? data.features : [])
         .map((feature) => {
           const tags = feature.properties || {};
           const [longitude, latitude] = feature.geometry?.coordinates || [];
@@ -1156,9 +1173,9 @@
             tags.osm_value === "veterinary";
 
           if (
-            typeof latitude !== "number" ||
-            typeof longitude !== "number" ||
-            !tags.name ||
+            !Number.isFinite(latitude) || Math.abs(latitude)>90 ||
+            !Number.isFinite(longitude) || Math.abs(longitude)>180 ||
+            typeof tags.name !== "string" || !tags.name.trim() ||
             !isHealthService ||
             isAnimalService
           ) {
@@ -1166,7 +1183,7 @@
           }
 
           return {
-            name: tags.name,
+            name: tags.name.slice(0,200),
             category: categoryForService(tags),
             address: serviceAddress(tags),
             distanceKm: distanceBetweenKm(queryLatitude, queryLongitude, latitude, longitude),
@@ -1194,6 +1211,7 @@
       return;
     }
 
+    nearbyAbort?.abort();geocoderAbort?.abort();nearbyServices=[];serviceResults.replaceChildren();resultsCount.classList.add("hidden");
     const requestNumber = ++geolocationRequest;
     geocoderRequest += 1;
     searchRequest += 1;
@@ -1203,16 +1221,16 @@
     navigator.geolocation.getCurrentPosition(
       (position) => {
         if (requestNumber !== geolocationRequest) return;
-        useLocationButton.disabled = false;
+        useLocationButton.disabled = !locationConsent.checked;
         searchNearbyServices(
           position.coords.latitude,
           position.coords.longitude,
-          "your location"
+          currentLanguage === "es" ? "tu ubicación" : "your location"
         );
       },
       (error) => {
         if (requestNumber !== geolocationRequest) return;
-        useLocationButton.disabled = false;
+        useLocationButton.disabled = !locationConsent.checked;
         const message =
           error.code === error.PERMISSION_DENIED
             ? translate("locator.locationDenied")
@@ -1228,6 +1246,8 @@
     const searchText = areaQuery.value.trim();
     if (!searchText) return;
 
+    geocoderAbort?.abort(); nearbyAbort?.abort(); geocoderAbort=new AbortController();
+    nearbyServices=[];serviceResults.replaceChildren();resultsCount.classList.add("hidden");
     const requestNumber = ++geocoderRequest;
     geolocationRequest += 1;
     searchRequest += 1;
@@ -1239,7 +1259,7 @@
       geocoderUrl.searchParams.set("limit", "1");
       geocoderUrl.searchParams.set("q", searchText);
       geocoderUrl.searchParams.set("accept-language", currentLanguage);
-      const response = await fetch(geocoderUrl, { headers: { Accept: "application/json" } });
+      const response = await fetchBounded(geocoderUrl, { headers: { Accept: "application/json" }, signal: AbortSignal.any([geocoderAbort.signal,AbortSignal.timeout(12000)]) });
 
       if (!response.ok) {
         throw new Error(`Area search returned status ${response.status}.`);
@@ -1247,7 +1267,7 @@
 
       const matches = await response.json();
       if (requestNumber !== geocoderRequest) return;
-      if (!matches.length) {
+      if (!Array.isArray(matches) || !matches.length) {
         setLocatorStatus(translate("locator.noPlace"), true);
         return;
       }
@@ -1255,7 +1275,7 @@
       await searchNearbyServices(
         Number(matches[0].lat),
         Number(matches[0].lon),
-        (matches[0].name || searchText).split(",")[0]
+        (typeof matches[0].name === "string" ? matches[0].name : searchText).split(",")[0]
       );
     } catch (error) {
       if (requestNumber !== geocoderRequest) return;
@@ -1423,10 +1443,29 @@
     return translate(knownErrors[code] || fallbackKey);
   }
 
+  document.getElementById("download-encrypted").addEventListener("click",async()=>{
+    const button=document.getElementById("download-encrypted");
+    shareEmail.disabled=true; const valid=shareForm.reportValidity();shareEmail.disabled=false;
+    if(!valid)return;
+    if(sharePassphrase.value.length<12){setShareStatus(shareStatus,translate("sharing.passwordTooShort"),true);return;}
+    if(sharePassphrase.value!==sharePassphraseConfirm.value){setShareStatus(shareStatus,translate("sharing.passwordMismatch"),true);return;}
+    if(!window.isSecureContext||!window.crypto?.subtle){setShareStatus(shareStatus,translate("sharing.secureRequired"),true);return;}
+    button.disabled=true;shareSubmit.disabled=true;setShareStatus(shareStatus,translate("sharing.encrypting"));
+    try{
+      const encrypted=await encryptPersonalNote(buildPersonalNote(),sharePassphrase.value);
+      if(encoder.encode(encrypted).byteLength>maxEncryptedFileBytes)throw new Error('size');
+      const url=URL.createObjectURL(new Blob([encrypted],{type:'application/octet-stream'}));
+      const link=document.createElement('a');link.href=url;link.download='arteria-encrypted-note.arteria';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+      setShareStatus(shareStatus,currentLanguage==='es'?'Nota cifrada descargada. Conserva la frase de contraseña por separado.':'Encrypted note downloaded. Keep the passphrase separately.');
+    }catch{setShareStatus(shareStatus,translate("sharing.encryptionFailed"),true);}
+    finally{button.disabled=false;shareSubmit.disabled=false;}
+  });
+  document.getElementById("clear-note").addEventListener("click",()=>{shareForm.reset();setShareStatus(shareStatus,'');});
   shareForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!shareForm.reportValidity()) return;
-    if (!shareConsent.checked) return;
+    if (!shareEmail.value.trim() || !shareEmail.validity.valid) {setShareStatus(shareStatus,translate("sharing.emailInvalid"),true);shareEmail.focus();return;}
+    if (!shareConsent.checked) {setShareStatus(shareStatus,currentLanguage==="es"?"Confirma el consentimiento antes de enviar por correo.":"Confirm consent before emailing.",true);return;}
 
     const passphrase = sharePassphrase.value;
     if (passphrase.length < 12) {
@@ -1445,6 +1484,7 @@
     }
 
     shareSubmit.disabled = true;
+    document.getElementById("download-encrypted").disabled=true;
     setShareStatus(shareStatus, translate("sharing.encrypting"));
 
     try {
@@ -1455,7 +1495,7 @@
       }
 
       setShareStatus(shareStatus, translate("sharing.sending"));
-      const response = await fetch("/.netlify/functions/share-report", {
+      const response = await fetchBounded("/.netlify/functions/share-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1487,6 +1527,7 @@
       );
     } finally {
       shareSubmit.disabled = false;
+      document.getElementById("download-encrypted").disabled=false;
     }
   });
   //this is the part that handles the decryption of the shared personal notes. it allows the user to enter the passphrase and decrypt the note.

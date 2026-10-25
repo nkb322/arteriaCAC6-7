@@ -1,52 +1,46 @@
-# Implementation and verification
+# Release-candidate verification
 
-Development branch: `codex/measurement-pipeline`, based on repository commit `48a1e60` (the prior audit's application code plus README formatting). Implementation date: October 24, 2026. Changes are local; main and the Netlify deployment were not changed.
+Branch: `codex/measurement-pipeline`, continuing local commit `1feb0f5`. Main/public Netlify were not changed. All test data is synthetic or deliberately adversarial test text; no physical sensor, patient data or confidential research was supplied.
 
-## Implemented
+## Screen assessment
 
-- Shared, versioned measurement/source/channel schema and bounded UTF-8 frame decoder.
-- Channel, range, numeric, battery, timestamp and sequence validation; rejection counts and reasons.
-- Source lifecycle with generation guards, cancellation, duration/sample limits, explicit live/demo/replay/stale/disconnected/error states.
-- Simulation and JSON-recording replay through the same parser/validator/controller/storage path as future hardware.
-- Acquisition controls and responsive live SVG charts, with gaps, units, elapsed device time and source labels.
-- Overview from current/latest recorded samples; no unsupported wellness score, steps, wear time, or battery placeholders.
-- IndexedDB session persistence after stop/completion; dated 7/30-day history, selected-channel waveform, replay and deletion.
-- CSV/JSON exports; validated JSON import; original receipt timestamps retained on replay.
-- Descriptive channel statistics, sequence/timing gaps, recent exact flatline and declared-limit clipping counts. No clinical prediction.
-- Save-failure recovery with export/retry/discard; no silent overwrite of unsaved data.
-- English/Spanish measurement controls, errors and state; existing navigation, clinic search, crypto and accessibility retained.
-- Hardware adapter contract, sample fixture, architecture, startup and demonstration documentation.
+| Screen | Working software | Qualification |
+|---|---|---|
+| Overview | Latest/current validated channel values, counts, source, duration, quality and waveform | No fabricated wellness/steps/wear-time metrics; demo profile is not an account |
+| Photon | Simulation, replay, lifecycle mock, live charts, progress, stop/save, gaps, errors, checkpoint status | Physical hardware source is not configured |
+| My trends | IndexedDB final/recovered history, actual date ranges, channels, comparison, saved notes, CSV/JSON, offline HTML report, explicit deletion | All these records and exports are unencrypted; compare matching units/meanings/conditions |
+| Find care | City search, opt-in location flow, radius/type/access filters, cancellation, timeouts and safe result rendering | External listings may be incomplete/outdated; physical GPS permissions are not verified |
+| Share securely | Local encrypted download, unlock/decrypt, wrong-key/tamper rejection, clear form and optional allowlisted email path | Actual provider delivery needs authorized server configuration and a real delivery check |
+| Care guide | Informational fixed-rule conversation, suggestions, safe text insertion, clear/read-aloud and appointment-note link | No learned model, personalized treatment plan or clinical triage |
 
-## Automated checks
+## Automated suites
 
-Run `npm test` for Node's built-in tests. They exercise descriptors, sample validation/order, fragmented/batched/invalid/oversized/truncated UTF-8 frames, processing flags, connection lifecycle, stale/resume, source failure, late callbacks, custom decoder failure, pending-connect cancellation, persistence failure, JSON validation/replay and CSV safety/units/provenance.
+- **Node tests:** shared parser/schema/validator; incremental and batch processing; provenance; duplicate/order/missing samples; clock rollback; controller cancellation and source cleanup; checkpoint batching/finalization ordering; storage errors; replay/import/export; negative numeric CSV/formula safety; report source/notes/HTML escaping; shared graph gaps; email request guards, mandatory allowlist, idempotency, limits and provider failure handling.
+- **Existing browser regression suite:** six-screen navigation, real IndexedDB transactions, acquisition/stale/resume, exports, reload/history/date ranges, replay consistency, invalid imports, bilingual controls, accessibility, controlled clinic results, actual browser crypto, injection-as-text, 320/390 px layouts, forced storage failure and no uncaught errors.
+- **Production-preview suite:** build allowlist/headers/modules; v1 IndexedDB migration; incremental checkpoint persistence; active-tab exclusion; browser-close/restart and refresh recovery; preserved timestamps/origin; recovered replay; mock disconnection/restart; saved notes, session comparison and offline report; local encrypted download/tampering; care actions/back navigation; clinic empty/failure/access/injection cases; Spanish/modal/mobile behavior; corrupt-checkpoint isolation; explicit deletion of sessions and journal; no uncaught errors.
 
-Run `npm run test:browser` with installed Chrome and the development dependency. It starts its own loopback server and isolated browser profile. The browser suite verifies:
+`npm run test:release` creates an isolated production-like preview, not a Netlify cloud deployment. Test results/screenshots are in ignored `test-results/`. A clean source checkout and pinned dependency install are checked separately before handoff. Static JS and the server function receive syntax checks. The generated public directory excludes tests, function source, environment files, Git metadata and obsolete bundles.
 
-1. Honest empty state and all six navigation views.
-2. Real IndexedDB commit/read/delete across independent connections.
-3. Simulation → accepted samples → charts/Overview → stale pause → recovery and gaps.
-4. CSV/JSON downloads containing the expected data and units.
-5. Session persistence across reload, Overview restoration and actual 7/30-day filtering.
-6. Exported-session replay preserving values, original timestamps and simulated origin.
-7. Invalid recording rejection and valid file loading.
-8. Spanish measurement state, chart descriptions, accessibility switches and keyboard dismissal.
-9. Clinic search with controlled Nominatim/Photon fixtures.
-10. Actual browser encryption/decryption round trip and wrong-key rejection; email POST is intercepted.
-11. Companion insertion-as-text regression.
-12. All views at 320 and 390 px without document-level horizontal overflow in tested states.
-13. Forced unavailable IndexedDB: accepted samples stay exportable and new acquisition is blocked.
-14. No uncaught application exceptions in the primary test run.
+The incremental processor was exercised with 100,000 synthetic samples under a generous five-second budget; this does not establish an actual physical-device throughput guarantee. Hardware sample rates, batching and platform behavior still need measurement.
 
-No email is sent by the browser suite. Screenshots and JSON results go to ignored `test-results/`. JavaScript syntax checks also pass for legacy `app.js`, the measurement UI and the existing server function. Screenshots were visually reviewed for acquisition and Overview. Existing Netlify publish/functions configuration is unchanged; all frontend assets remain static, without a build step.
+## Failures encountered and corrected
 
-## Explicitly unverified / excluded
+- A pending-connection cancellation test initially assumed source connection began synchronously after introducing async acquisition locks. The controller avoids late-lock contamination; the current lifecycle tests pass.
+- A mock restart browser assertion could see the previous session's sample count before UI reset. Acquisition now renders the new state immediately, and the test waits for samples from the new recording.
+- Earlier development assertions incorrectly called DOM `textContent` as a function. These were test defects, corrected before the release run.
+- Raw negative numeric CSV cells were originally prefixed as if textual spreadsheet formulas. Numbers now remain numeric; potentially executable text cells are protected.
+- Initial recovery lacked journal persistence; it now restores committed batches and does not claim an active tab's lock. Corrupted drafts remain isolated rather than deleting them silently.
 
-- No physical microcontroller, optical sensor, USB, BLE or Wi-Fi measurement connection was tested. The hardware state branches have software tests with artificial callbacks only.
-- No real hardware recording was supplied. The included example and current demonstrations are synthetic.
-- No trained ML artifact, clinical dataset, validated thrombosis assay, diagnostic algorithm, heart-rate estimator or oxygen-saturation calculation was introduced.
-- No Netlify deployment, real Resend delivery, production permissions, Safari/Firefox compatibility, full screen-reader audit or clinical performance test was performed.
-- Sessions are local and unencrypted, saved at finalization; there is no crash autosave, login or cloud synchronization. Export backups explicitly. Plaintext exports are not protected by the separate encrypted-note feature.
-- Imported source claims cannot be independently verified. Engineering quality flags do not establish physiological validity or clinical safety.
+No failing test is treated as a pass. Final exact totals and clean-checkout evidence are recorded in the release handoff and machine-readable test files.
 
-See `hardware-connection.md` for exactly what is required before implementing and testing the real adapter.
+## Remaining limits and external checks
+
+- **Hardware:** no physical USB/BLE/Wi-Fi acquisition or real hardware recording was tested. Nina must supply the documented transport/payload/timing/units contract before the adapter is implemented and verified.
+- **Clinical:** there is no validated thrombosis assay, clinical dataset/model, diagnostic score, heart-rate or SpO₂ computation. Engineering checks do not establish physiological accuracy.
+- **Persistence:** committed checkpoints recover; the newest uncommitted tail can be lost after crash/power failure. Browser eviction/clearing removes local storage. Without Web Locks, recovery is explicitly manual after other recording tabs close.
+- **Privacy:** local history, recovery chunks, session notes and reports are unencrypted. Deletion does not remove exported files. The encrypted-note feature protects only its own attachment, not measurement storage or email metadata.
+- **Email:** configured recipients are mandatory and provider calls are bounded/idempotent. The rate cap is per running function instance, not distributed authentication/rate control. Retain provider-level safeguards. Real delivery was not sent.
+- **Browsers:** Chrome is end-to-end verified. Other browsers and physical permission flows need platform checks; unsupported Web Locks has an explicit manual recovery path. Full assistive-technology certification is not claimed.
+- **Deployment:** local production configuration/modules/headers are verified. Public hosting, deployed secrets and provider permissions remain unverified until a separately approved deployment. No push, merge or public publication was performed.
+
+Custom Netlify headers follow the [_headers configuration format](https://docs.netlify.com/manage/routing/headers/). Closing-page events are only best-effort; recovery relies on prior committed checkpoints, consistent with the browser [page lifecycle limitations](https://developer.mozilla.org/en-US/docs/Web/API/Window/pagehide_event).
