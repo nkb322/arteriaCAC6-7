@@ -20,3 +20,5 @@ For the original, startup website please visit: https://arteria-health.com/
 V1 CAC: https://fanciful-cuchufli-8644ab.netlify.app/#overview
 
 V2 CAC: https://arteriacac26-27.netlify.app/
+
+Need to add in AI MODEL for Aria - compact pytorch woudl be simplest, reduce params to only dvt advice? 10-24 mil should take abt 2-3 hrs tmrw to train
