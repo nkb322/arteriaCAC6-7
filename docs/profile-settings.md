@@ -26,7 +26,7 @@ History, checkpoints, preferences, profile and session notes are unencrypted bro
 
 ## Verification
 
-`npm test` includes five profile-specific checks for normalization, persistence, unavailable/corrupt storage, Unicode initials and timestamp-based chart windows. `npm run test:profile` builds the production allowlist and runs nine Chrome interaction checks: navigation/guest identity, text-safe persisted name/avatar, shared language/accessibility, real recording/chart effects and source status, archive export and confirmed deletion, responsive/keyboard behavior, clear/reset isolation, corrupted/blocked preference storage and uncaught errors. The existing browser and release suites must also pass.
+`npm test` includes five profile-specific checks for normalization, persistence, unavailable/corrupt storage, Unicode initials and timestamp-based chart windows. `npm run test:profile` builds the production allowlist and runs ten Chrome interaction checks: navigation/guest identity, text-safe persisted name/avatar, shared language/accessibility, real recording/chart effects and source status, archive export and confirmed deletion, responsive/keyboard behavior, clear/reset isolation, corrupted/blocked preference storage and uncaught errors. The existing browser and release suites must also pass.
 
 The new feature adds no runtime dependencies or backend. The About card uses application version 1.0.0, explains the CAC research purpose and states that Arteria is not a clinically validated diagnostic tool.
 
@@ -35,3 +35,7 @@ The new feature adds no runtime dependencies or backend. The About card uses app
 All **82 checks passed** on Node 24.22.1 with installed Google Chrome on macOS: 45 Node tests, 14 existing browser checks, 14 production checks and 9 profile checks. All four commands were rerun after the final application changes. JavaScript syntax and whitespace checks also passed. Browser tests use isolated local profiles, synthetic recordings and controlled external-service responses; this does not verify physical hardware, real email delivery or a cloud deployment. Desktop/mobile screenshots were visually reviewed. An initial immediate mobile-width assertion was timing-sensitive during viewport resizing; the final check waits for the responsive layout to settle and still asserts no horizontal page overflow.
 
 The final behavior preserves manually chosen Photon durations during chart-only changes and defers a new recording default until active acquisition stops. No runtime dependencies, account infrastructure, public deployment or remote push was added. Other browsers have not received full end-to-end verification; avatar selection is limited to initials and local symbols.
+
+### Final greeting cleanup
+
+The Overview companion and Care guide use generic English/Spanish greetings; the main greeting/header still use the local guest profile. The new browser regression reproduced the old hardcoded name before the fix and covers a changed profile, refresh, both languages, initial Care greeting, conversation reset and greeting replies. This final suite contains 45 unit tests plus 14 regression, 14 production and 10 profile browser checks: 83 total. The previous 82-check release remains tagged `arteria-cac-verified-4bfae39` as a fallback.
