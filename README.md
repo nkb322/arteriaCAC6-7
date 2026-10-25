@@ -83,3 +83,7 @@ Current verification and setup: [release readiness](docs/release-readiness.md) r
 ## Focused AI completion
 
 [AI audit, configuration and local verification](docs/ai-local-verification.md) describes the current OpenAI `gpt-6-luna` default, stronger server-only prompt, end-to-end deadline/abort handling, and credential-free mock tests. Run `npm run ai:local` (Node 24, ignored `.env`) and `npm run ai:check -- --confirm-provider-call` for deliberate non-sensitive real-provider verification after configuring a key. Run `npm run test:ai` for the additional mocked browser suite. No live inference is claimed without a real response.
+
+## Measurement analysis
+
+See [docs/measurement-analysis.md](docs/measurement-analysis.md).

@@ -47,11 +47,11 @@ test('processing detects sequence gaps, timing gaps, flatline and clipping',()=>
   const values=[...Array(30)].map((_,i)=>({sequence:i<10?i:i+3,deviceTimeMs:(i<10?i:i+3)*40,raw:{optical:4095}}));
   const d=processSamples(values,descriptor,2);assert.equal(d.missing,3);assert.equal(d.timingGaps,1);assert.equal(d.channels.optical.clipped,30);assert.equal(d.channels.optical.flatline,true);assert.equal(d.channels.optical.mean,4095);assert.equal(d.rejected,2);
 });
-test('controller transitions connecting → demo → stale → demo → disconnected and saves',async()=>{
+test('controller transitions connecting → demo → stale → demo → disconnected, calculates metrics and saves',async()=>{
   const h=harness();await h.controller.start(h.adapter);assert.equal(h.controller.status,'connecting');
   h.send(sample());assert.equal(h.controller.status,'demo');h.setTime(12000);h.controller.tick();assert.equal(h.controller.status,'stale');
   h.send(sample(50));assert.equal(h.controller.status,'demo');await h.controller.stop();assert.equal(h.controller.status,'disconnected');
-  assert.equal(h.saved.length,1);assert.equal(h.saved[0].derived.missing,49);assert.equal(h.adapter.stopped,true);
+  assert.equal(h.saved.length,1);assert.equal(h.saved[0].derived.missing,49);assert.equal(h.saved[0].analysis.version,'technical-analysis-v1');assert.equal(h.saved[0].analysis.accepted,2);assert.equal(h.adapter.stopped,true);
 });
 test('live label is reserved for hardware descriptors; stale source failure retains samples',async()=>{
   const h=harness('hardware');await h.controller.start(h.adapter);h.send(sample());assert.equal(h.controller.status,'live');h.adapter.callbacks.onError(Error('unplug'));
@@ -73,12 +73,12 @@ test('storage failure retains exportable data and reports unsaved state',async()
 });
 test('browser storage absence reports failure rather than pretending persistence',async()=>{await assert.rejects(new SessionStore(null).list(),/storage/);});
 test('JSON round trip validates every sample and preserves provenance',()=>{
-  const original=session();const loaded=importSession(exportJSON(original));assert.deepEqual(loaded.samples,original.samples);assert.equal(loaded.descriptor.origin,'simulated');
+  const original=session();const loaded=importSession(exportJSON(original));assert.deepEqual(loaded.samples,original.samples);assert.equal(loaded.descriptor.origin,'simulated');assert.equal(loaded.analysis.version,'technical-analysis-v1');
   const corrupted=structuredClone(original);corrupted.samples[1].deviceTimeMs=0;assert.throws(()=>importSession(exportJSON(corrupted)),/order/);
   assert.throws(()=>importSession('{"format":"other"}'),/schema/);
 });
 test('CSV includes units, origin and separate clocks with quoted safe fields',()=>{
-  const s=session();s.descriptor={...descriptor,deviceId:'=SUM(1,1)'};const csv=exportCSV(s);assert.match(csv,/optical \[a.u.\]/);assert.match(csv,/device_time_ms/);assert.match(csv,/received_at/);assert.match(csv,/simulated/);assert.match(csv,/'=SUM/);assert.equal(csv.split('\r\n').length,4);
+  const s=session();s.descriptor={...descriptor,deviceId:'=SUM(1,1)'};const csv=exportCSV(s);assert.match(csv,/optical \[a.u.\]/);assert.match(csv,/effective_sample_rate_hz/);assert.match(csv,/optical_stddev \[a.u.\]/);assert.match(csv,/device_time_ms/);assert.match(csv,/received_at/);assert.match(csv,/simulated/);assert.match(csv,/'=SUM/);assert.equal(csv.split('\r\n').length,4);
 });
 test('real replay adapter pumps a validated recording through the full controller',async()=>{
   const saved=[];const c=new MeasurementController({store:{save:async s=>saved.push(s)}});

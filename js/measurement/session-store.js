@@ -48,6 +48,13 @@ export class SessionStore {
     if(typeof notes!=='string'||notes.length>2000)return Promise.reject(new Error('notes'));
     return this.transaction(['sessions'],'readwrite',tx=>{const request=tx.objectStore('sessions').get(id);request.onsuccess=()=>{if(!request.result){tx.abort();return;}request.result.notes=notes;tx.objectStore('sessions').put(request.result);};return request;});
   }
+  updateAnalysisReport(id,report){
+    if(!report||report.version!=='ai-analysis-v1'||typeof report.text!=='string'||!report.text.trim()||report.text.length>4000||typeof report.generatedAt!=='string'||!Number.isFinite(Date.parse(report.generatedAt))||(report.model!==null&&report.model!==undefined&&(typeof report.model!=='string'||report.model.length>100))||!Array.isArray(report.comparisonSessions||[])||(report.comparisonSessions||[]).length>2)return Promise.reject(new Error('analysis'));
+    return this.transaction(['sessions'],'readwrite',tx=>{const request=tx.objectStore('sessions').get(id);request.onsuccess=()=>{if(!request.result){tx.abort();return;}request.result.analysisReport=report;tx.objectStore('sessions').put(request.result);};return request;});
+  }
+  deleteAnalysisReport(id){
+    return this.transaction(['sessions'],'readwrite',tx=>{const request=tx.objectStore('sessions').get(id);request.onsuccess=()=>{if(!request.result){tx.abort();return;}delete request.result.analysisReport;tx.objectStore('sessions').put(request.result);};return request;});
+  }
   async list(){return(await this.transaction(['sessions'],'readonly',tx=>tx.objectStore('sessions').getAll())).sort((a,b)=>b.startedAt.localeCompare(a.startedAt));}
   get(id){return this.transaction(['sessions'],'readonly',tx=>tx.objectStore('sessions').get(id));}
   delete(id){return this.transaction(['sessions','drafts','chunks'],'readwrite',tx=>{tx.objectStore('drafts').delete(id);removeChunks(tx,id);return tx.objectStore('sessions').delete(id);});}

@@ -21,7 +21,9 @@
     "ai:local": "npm run build && node --env-file-if-exists=.env scripts/serve-ai.mjs",
     "ai:check": "node scripts/check-ai.mjs",
     "pretest:ai": "npm run build",
-    "test:ai": "node tests/ai-browser.cjs"
+    "test:ai": "node tests/ai-browser.cjs",
+    "pretest:analysis-browser": "npm run build",
+    "test:analysis-browser": "node tests/analysis-browser.cjs"
   },
   "engines": {
     "node": ">=20"

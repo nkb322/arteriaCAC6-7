@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createHandler} from '../netlify/functions/care-chat.mjs';
+import {createHandler,validateRequest,validateAnalysisReply} from '../netlify/functions/care-chat.mjs';
 import {sessionSummary} from '../js/care/session-summary.js';
 import {readFileSync} from 'node:fs';
 const summary=sessionSummary(JSON.parse(readFileSync('fixtures/simulated-session.json')).session);
@@ -16,13 +16,18 @@ test('AI is explicitly unavailable without enable flag, model or server key; sta
  const status=await createHandler({env})(request({}, {},'GET'));assert.ok(!(await status.text()).includes(env.ARTERIA_AI_API_KEY));
 });
 test('OpenAI integration sends bounded stateless context and returns actual provider output',async()=>{
- let captured;const h=createHandler({env,fetchImpl:async(url,options)=>{captured={url,options};return answer('A timing gap means some signal time is missing.');}});const response=await h(request());assert.equal(response.status,200);assert.equal((await response.json()).kind,'ai');assert.equal(captured.url,'https://api.openai.com/v1/responses');const payload=JSON.parse(captured.options.body);assert.equal(payload.store,false);assert.equal(payload.max_output_tokens,700);assert.match(payload.instructions,/Never diagnose DVT/);assert.equal(captured.options.redirect,'error');assert.ok(captured.options.signal);assert.equal(captured.options.headers.Authorization,'Bearer '+env.ARTERIA_AI_API_KEY);
+ let captured;const h=createHandler({env,fetchImpl:async(url,options)=>{captured={url,options};return answer('A timing gap means some signal time is missing.');}});const response=await h(request());assert.equal(response.status,200);const result=await response.json();assert.equal(result.kind,'ai');assert.equal(result.model,'mock-model');assert.equal(captured.url,'https://api.openai.com/v1/responses');const payload=JSON.parse(captured.options.body);assert.equal(payload.store,false);assert.equal(payload.max_output_tokens,700);assert.match(payload.instructions,/Never diagnose DVT/);assert.equal(captured.options.redirect,'error');assert.ok(captured.options.signal);assert.equal(captured.options.headers.Authorization,'Bearer '+env.ARTERIA_AI_API_KEY);
 });
 test('session sharing requires separate consent and strips notes, identities and raw samples',async()=>{
  let payload;const h=createHandler({env,fetchImpl:async(_,options)=>{payload=JSON.parse(options.body);return answer('This is a simulated recording.')}});
  assert.equal((await h(request({language:'en',messages:[{role:'user',content:'Explain this'}],session:summary}))).status,400);
  const s={...summary,notes:'private-note',deviceId:'private-id',samples:[{secret:1}]};assert.equal((await h(request({language:'es',messages:[{role:'user',content:'Explica esto'}],session:s,sessionConsent:true}))).status,200);
  assert.match(payload.instructions,/Spanish/);assert.ok(!payload.instructions.includes(summary.channels[0].label));assert.match(payload.input.at(-1).content,/untrusted labels/);const serialized=JSON.stringify(payload);for(const value of ['private-note','private-id','"secret":'])assert.ok(!serialized.includes(value));
+});
+test('structured AI analysis requires explicit session consent and rejects unsupported numeric claims',async()=>{
+ const valid={language:'en',messages:[{role:'user',content:'Analyze this recording'}],session:summary,sessionConsent:true,analysisMode:true};assert.throws(()=>validateRequest({...valid,sessionConsent:false}),/consent/);
+ const headings='Recording overview: simulated. Signal quality: accepted samples. Observable patterns: values vary. Plain-language summary: technical values only. Follow-up questions: what is variability?';assert.equal(validateAnalysisReply(headings,'en',[summary]),true);assert.equal(validateAnalysisReply(headings+' Completeness was 99%.','en',[summary]),false);assert.equal(validateAnalysisReply('You have DVT.','en',[summary]),false);
+ const response=await createHandler({env,fetchImpl:async()=>answer(headings+' Unsupported value 99%.')})(request(valid));assert.equal(response.status,502);assert.deepEqual(await response.json(),{code:'analysis'});
 });
 test('compatible provider requires a trusted HTTPS host and uses documented chat completions shape',async()=>{
  const config={...env,ARTERIA_AI_PROVIDER:'compatible',ARTERIA_AI_BASE_URL:'https://model.example/v1',ARTERIA_AI_ALLOWED_HOSTS:'model.example'};let captured;

@@ -8,6 +8,7 @@ import {ReplayAdapter} from './adapters/replay.js';
 import {LIMITS} from './schema.js';
 import {exportJSON, exportCSV, importSession} from './export.js';
 import {processSamples} from './processing.js';
+import {analyzeSession,analysisFallback} from './analysis.js';
 import {recordingAnalytics} from './analytics.js';
 import {sessionReport,comparisonReport} from './report.js';
 import {drawChart} from './chart.js';
@@ -57,6 +58,28 @@ function download(session, format) {
   uiError=null;
   } catch { uiError='export'; }
   scheduleRender();
+}
+function renderAnalysis(session){
+ const section=$('post-scan-results');if(!section)return;
+ const analysis=session?.analysis|| (session?.samples?.length?analyzeSession(session):null);
+ section.hidden=!analysis||!session?.samples?.length;if(!analysis)return;
+ const es=language()==='es',fmt=(v,max=2)=>v===null||v===undefined?'—':new Intl.NumberFormat(es?'es':'en',{maximumFractionDigits:max}).format(v),channels=session.descriptor.channels;
+ $('analysis-meta').textContent=`${sourceLabel(session)} · ${date(session.startedAt)} · ${session.mode==='replay'?(es?'reproducción':'replay'):(es?'adquisición':'acquisition')} · ${analysis.nominalSampleRateHz} Hz nominal`;
+ drawChart($('analysis-chart'),session,channels.find(c=>c.id===$('channel-select').value)?.id||channels[0]?.id);
+ const metrics=es?[['Duración',`${fmt(analysis.durationSeconds)} s`],['Muestras válidas',fmt(analysis.accepted,0)],['Frecuencia efectiva',analysis.effectiveSampleRateHz===null?'—':`${fmt(analysis.effectiveSampleRateHz)} Hz`],['Integridad estimada',`${fmt(analysis.completenessPercent)}%`],['Muestras faltantes',`${fmt(analysis.missing,0)} · ${fmt(analysis.missingPercent)}%`],['Tramas rechazadas',fmt(analysis.rejected,0)]]:[['Duration',`${fmt(analysis.durationSeconds)} s`],['Valid samples',fmt(analysis.accepted,0)],['Effective sampling',analysis.effectiveSampleRateHz===null?'—':`${fmt(analysis.effectiveSampleRateHz)} Hz`],['Estimated completeness',`${fmt(analysis.completenessPercent)}%`],['Missing samples',`${fmt(analysis.missing,0)} · ${fmt(analysis.missingPercent)}%`],['Rejected frames',fmt(analysis.rejected,0)]];
+ for(const c of channels){const m=analysis.channels[c.id];metrics.push([`${c.label} · mean`,`${fmt(m.mean)} ${c.unit}`],[`${c.label} · spread`,`${fmt(m.stddev)} ${c.unit} SD`],[`${c.label} · range`,`${fmt(m.range)} ${c.unit}`]);}
+ $('analysis-metrics').replaceChildren(...metrics.map(([label,value])=>{const div=document.createElement('div');div.className='analysis-metric';const title=document.createElement('span'),number=document.createElement('strong');title.textContent=label;number.textContent=value;div.append(title,number);return div;}));
+ const flags=Object.entries(analysis.qualityFlags).filter(([,value])=>value).map(([key])=>key);
+ const flagNames=es?{missing:'muestras faltantes',rejected:'tramas rechazadas',timingGaps:'intervalos irregulares',flatline:'tramo constante',clipping:'muestras en límite',largeSteps:'cambios grandes'}:{missing:'missing samples',rejected:'rejected frames',timingGaps:'irregular timing',flatline:'flat segment',clipping:'at-limit samples',largeSteps:'large steps'};
+ const qualityBox=document.createElement('div');const p=document.createElement('p');p.textContent=flags.length?(es?'Indicadores observados: ':'Observed flags: ')+flags.map(k=>flagNames[k]).join(', '):(es?'Estas comprobaciones no detectaron muestras faltantes, intervalos irregulares ni alertas de canal.':'These checks found no missing samples, irregular timing, or channel flags.');qualityBox.append(p);
+ for(const c of channels){const m=analysis.channels[c.id],row=document.createElement('p');row.textContent=`${c.label} (${c.unit}): ${es?'media':'mean'} ${fmt(m.mean)}, DE ${fmt(m.stddev)}, rango ${fmt(m.range)}. ${m.firstHalfStddev!==null&&m.secondHalfStddev!==null?(es?'Dispersión por mitades':'Half-window spread')+`: ${fmt(m.firstHalfStddev)} → ${fmt(m.secondHalfStddev)} ${c.unit}.`:''}`;qualityBox.append(row);}
+ const snr=document.createElement('p');snr.textContent=es?'SNR: no calculada (no hay una definición validada de ruido para esta fuente).':'SNR: not calculated (no defensible noise definition is available for this source).';qualityBox.append(snr);$('analysis-quality').replaceChildren(qualityBox);
+ const saved=session.analysisReport;
+ $('analysis-report').textContent=saved?.text||analysisFallback(analysis,language());
+ $('analysis-report-meta').textContent=saved?`${es?'Análisis guardado':'Saved analysis'} · ${date(saved.generatedAt)} · ${saved.model||saved.provider||'AI'}`:(es?'Resumen técnico sin conexión; la explicación de IA es opcional.':'Offline technical summary; AI explanation is optional.');
+ const compare=$('analysis-compare'),old=compare.value,candidates=sessions.filter(item=>item.id!==session.id);compare.replaceChildren(new Option(t('noComparison'),''),...candidates.map(item=>new Option(`${date(item.startedAt)} · ${sourceLabel(item)}`,item.id)));if(candidates.some(item=>item.id===old))compare.value=old;
+ $('delete-ai-analysis').hidden=!saved;
+ $('analyze-with-ai').disabled=!savedSessions().length;
 }
 export const savedSessions=()=>sessions;
 export function measurementInfo(){return {state:controller.snapshot(),session:currentSession(),count:sessions.length,ready,storageError};}
@@ -119,6 +142,7 @@ function render() {
   for (const id of ['current-json', 'current-csv']) $(id).disabled = busy || !session?.samples.length;
   drawChart($('acquisition-chart'), session, channel?.id, {live:state.active});
   drawChart($('overview-chart'), session, channel?.id, {live:state.active});
+  renderAnalysis(session);
   if (!state.active && !state.saving && !state.unsaved && state.session?.samples.length && refreshedId !== state.session.id) {
     refreshedId = state.session.id; void refreshHistory();
   }
@@ -162,7 +186,7 @@ function renderActivity(filtered){
 }
 function previewReport(content){$('report-preview-frame').srcdoc=content;$('report-print').disabled=true;$('report-print-status').textContent='';$('report-preview').showModal();}
 function compared(){return [sessions.find(s=>s.id===selectedId),sessions.find(s=>s.id===compareId)];}
-function askAria(ids){document.querySelector('[data-view="care"]').click();document.dispatchEvent(new CustomEvent('arteria-explain-session',{detail:ids}));}
+function askAria(ids,prompt='Explain this recording using its reviewed engineering summary.',analysis=true){document.querySelector('[data-view="care"]').click();document.dispatchEvent(new CustomEvent('arteria-explain-session',{detail:{ids:Array.isArray(ids)?ids:[ids],prompt,analysis}}));}
 function renderSelected() {
   const session = filteredSessions().find(s => s.id === selectedId);
   populateChannels($('history-channel'), session);
@@ -217,6 +241,19 @@ $('comparison-preview').addEventListener('click',()=>{const [a,b]=compared();if(
 $('comparison-report').addEventListener('click',()=>{const [a,b]=compared();if(!a||!b)return;const url=URL.createObjectURL(new Blob([comparisonReport(a,b,{locale:language()})],{type:'text/html'}));const link=document.createElement('a');link.href=url;link.download='arteria-comparison.html';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 $('comparison-ai').addEventListener('click',()=>{const [a,b]=compared();if(a&&b)askAria([a.id,b.id]);});
 $('overview-ai').addEventListener('click',()=>askAria(sessions.slice(0,2).map(s=>s.id)));
+$('analyze-with-ai').addEventListener('click',()=>{const s=currentSession(),other=$('analysis-compare').value,ids=[s?.id,...(other?[other]:[])].filter(Boolean);if(!s?.samples.length)return;const prompt=language()==='es'?`Analiza ${other?'y compara con la segunda':'esta'} grabación usando solo las métricas técnicas compartidas. Resume integridad, frecuencia, variabilidad y comprobaciones. Distingue diferencias medidas de posibles explicaciones; no infieras hallazgos médicos.`:`Analyze ${other?'and compare with the second':'this'} recording using only the shared technical metrics. Summarize completeness, sampling, variability and observed checks. Distinguish measured differences from possible explanations; infer no medical findings.`;askAria(ids,prompt,true);});
+$('ask-about-recording').addEventListener('click',()=>{const s=currentSession();if(s?.samples.length)askAria([s.id],language()==='es'?'Explica esta grabación en lenguaje sencillo y dime qué significa la variabilidad de la señal.':'Explain this recording in plain language and tell me what signal variability means.',false);});
+$('delete-ai-analysis').addEventListener('click',async()=>{const s=currentSession();if(!s?.analysisReport)return;try{await store.deleteAnalysisReport(s.id);delete s.analysisReport;await refreshHistory();text('analysis-status',language()==='es'?'Se eliminó el análisis guardado en este dispositivo.':'Saved analysis deleted from this device.');}catch{text('analysis-status',errorText('storage'));}});
+$('analysis-print').addEventListener('click',()=>{const s=currentSession();if(s)previewReport(sessionReport(s,{locale:language()}));});
+$('analysis-json').addEventListener('click',()=>download(currentSession(),'json'));
+$('analysis-status').textContent='';
+document.addEventListener('arteria-analysis-generated',async event=>{
+ const {sessionId,text:reportText,provider:reportProvider,generatedAt,comparisonIds}=event.detail||{};if(!sessionId||!reportText)return;
+ const ids=Array.isArray(comparisonIds)?comparisonIds:[],comparisonSessions=ids.map(id=>sessions.find(item=>item.id===id)).filter(Boolean).map(item=>({id:item.id,startedAt:item.startedAt,source:item.descriptor.origin,mode:item.mode,analysis:item.analysis||analyzeSession(item)}));
+ const report={version:'ai-analysis-v1',text:reportText,generatedAt:generatedAt||new Date().toISOString(),provider:reportProvider||'AI',model:typeof event.detail?.model==='string'?event.detail.model.slice(0,100):null,comparisonIds:ids,comparisonSessions};
+ try{await store.updateAnalysisReport(sessionId,report);const s=sessions.find(item=>item.id===sessionId);if(s)s.analysisReport=report;if(controller.session?.id===sessionId)controller.session.analysisReport=report;await refreshHistory();text('analysis-status',language()==='es'?'Análisis guardado localmente con la grabación.':'Analysis saved locally with the recording.');}
+ catch{text('analysis-status',language()==='es'?'La explicación llegó, pero no se pudo guardar localmente.':'The explanation arrived, but could not be saved locally.');}
+});
 $('report-preview-close').addEventListener('click',()=>$('report-preview').close());
 $('report-preview').addEventListener('close',()=>{$('report-preview-frame').srcdoc='';});
 $('history-explain').addEventListener('click',()=>{if(!selectedId)return;document.querySelector('[data-view="care"]').click();document.dispatchEvent(new CustomEvent('arteria-explain-session',{detail:selectedId}));});

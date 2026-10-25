@@ -2,6 +2,7 @@ import {VERSION, LIMITS, validateDescriptor} from './schema.js';
 import {validateSample} from './validator.js';
 import {FrameParser} from './parser.js';
 import {processSamples, SignalProcessor} from './processing.js';
+import {analyzeSession} from './analysis.js';
 
 export class MeasurementController {
   constructor({store, now, monotonicNow, autoTick = true} = {}) {
@@ -101,6 +102,7 @@ export class MeasurementController {
     session.endedAt = new Date(Math.max(this.now(),this.startTime,this.lastReceiptEpoch||0)).toISOString();
     session.status = reason === 'complete' && session.samples.length ? 'completed' : reason === 'stopped' ? 'stopped' : 'interrupted';
     session.derived = this.processor.snapshot(session.rejected);
+    if (session.samples.length) session.analysis = analyzeSession(session,session.endedAt);
     this.status = ['connection', 'sampleLimit'].includes(reason) ? 'error' : 'disconnected';
     this.error = ['connection', 'sampleLimit'].includes(reason) ? reason : !session.samples.length ? 'noSamples' : null;
     this.saving = Boolean(session.samples.length); this.emit();
