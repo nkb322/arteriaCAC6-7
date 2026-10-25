@@ -17,7 +17,11 @@
     "test:product": "node tests/product-browser.cjs",
     "check:hosted": "node scripts/check-hosted.mjs",
     "pretest:complete": "npm run build",
-    "test:complete": "node tests/complete-browser.cjs"
+    "test:complete": "node tests/complete-browser.cjs",
+    "ai:local": "npm run build && node --env-file-if-exists=.env scripts/serve-ai.mjs",
+    "ai:check": "node scripts/check-ai.mjs",
+    "pretest:ai": "npm run build",
+    "test:ai": "node tests/ai-browser.cjs"
   },
   "engines": {
     "node": ">=20"

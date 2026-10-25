@@ -10,7 +10,7 @@ const fakeFetch=async(_url,options)=>{
  await new Promise(resolve=>setTimeout(resolve,mode==='slow'?1000:150));
  if(mode==='fail')return new Response('private provider error',{status:401});
  if(mode==='rate')return new Response('',{status:429});
- const text=mode==='unsafe'?'You have DVT.':body.input.at(-1).content.includes('User-shared recording data')?'Mock provider test: the shared recording is simulated. Gaps describe missing data, not a diagnosis.':body.instructions.includes('Spanish')?'Respuesta de prueba del proveedor simulado: puedo explicar tus grabaciones.':'Mock provider test: a signal gap means part of the recording is missing. I can explain the app without seeing your sessions.';
+ const text=mode==='unsafe'?'You have DVT.':body.input.at(-1).content.includes('User-shared recording data')?'Mock provider test: the shared recording is simulated. Gaps describe missing data, not a diagnosis.':body.instructions.includes('Reply in Spanish.')?'Respuesta de prueba del proveedor simulado: puedo explicar tus grabaciones.':'Mock provider test: a signal gap means part of the recording is missing. I can explain the app without seeing your sessions.';
  return new Response(JSON.stringify({status:'completed',output:[{type:'message',content:[{type:'output_text',text}]}]}));
 };
 let handler=createHandler({env,fetchImpl:fakeFetch});

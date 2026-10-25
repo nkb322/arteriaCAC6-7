@@ -22,7 +22,7 @@ test('session sharing requires separate consent and strips notes, identities and
  let payload;const h=createHandler({env,fetchImpl:async(_,options)=>{payload=JSON.parse(options.body);return answer('This is a simulated recording.')}});
  assert.equal((await h(request({language:'en',messages:[{role:'user',content:'Explain this'}],session:summary}))).status,400);
  const s={...summary,notes:'private-note',deviceId:'private-id',samples:[{secret:1}]};assert.equal((await h(request({language:'es',messages:[{role:'user',content:'Explica esto'}],session:s,sessionConsent:true}))).status,200);
- assert.match(payload.instructions,/Spanish/);assert.ok(!payload.instructions.includes(summary.channels[0].label));assert.match(payload.input.at(-1).content,/untrusted labels/);const serialized=JSON.stringify(payload);for(const value of ['private-note','private-id','secret'])assert.ok(!serialized.includes(value));
+ assert.match(payload.instructions,/Spanish/);assert.ok(!payload.instructions.includes(summary.channels[0].label));assert.match(payload.input.at(-1).content,/untrusted labels/);const serialized=JSON.stringify(payload);for(const value of ['private-note','private-id','"secret":'])assert.ok(!serialized.includes(value));
 });
 test('compatible provider requires a trusted HTTPS host and uses documented chat completions shape',async()=>{
  const config={...env,ARTERIA_AI_PROVIDER:'compatible',ARTERIA_AI_BASE_URL:'https://model.example/v1',ARTERIA_AI_ALLOWED_HOSTS:'model.example'};let captured;

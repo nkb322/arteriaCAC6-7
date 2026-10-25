@@ -1,5 +1,7 @@
 # Aria: optional AI companion
 
+Current AI defaults, prompt and local commands are detailed in `ai-local-verification.md`. OpenAI defaults to `gpt-6-luna` if the model variable is omitted.
+
 ## Status and boundaries
 
 Aria has a real server-side provider integration, not a keyword chatbot presented as AI. No live API credentials were available during development. OpenAI and compatible-provider request construction, validation, failures and browser workflows were tested with explicitly labeled mocks; **live provider inference is unverified**. The availability endpoint reports server configuration, not a successful live credential test.
@@ -14,7 +16,7 @@ Set these in Netlify **Project configuration → Environment variables**, scoped
 |---|---|
 | `ARTERIA_AI_ENABLED` | `true` to allow provider requests; otherwise disabled |
 | `ARTERIA_AI_PROVIDER` | `openai` (default) or `compatible` |
-| `ARTERIA_AI_MODEL` | A text model actually enabled for your provider account; required, no model/cost assumed |
+| `ARTERIA_AI_MODEL` | OpenAI defaults to `gpt-6-luna`; override with an account-enabled model. Required for compatible providers; an explicit blank value disables configuration. |
 | `ARTERIA_AI_API_KEY` | Server-only provider key |
 | `OPENAI_API_KEY` | Optional fallback only for `provider=openai`; never reused for a compatible provider |
 | `ARTERIA_AI_BASE_URL` | Compatible provider's documented HTTPS API base, usually ending `/v1` |
