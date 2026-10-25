@@ -1,6 +1,6 @@
 # Release-candidate verification
 
-Branch: `codex/measurement-pipeline`, continuing local commit `1feb0f5`. Main/public Netlify were not changed. All test data is synthetic or deliberately adversarial test text; no physical sensor, patient data or confidential research was supplied.
+Branch: `codex/measurement-pipeline`. See [final independent verification](final-release-verification.md) for the tested application commit, exact totals and release assessment. Main/public Netlify were not changed. All test data is synthetic or deliberately adversarial test text; no physical sensor, patient data or confidential research was supplied.
 
 ## Screen assessment
 

@@ -79,6 +79,7 @@ Local static servers do not execute Netlify functions. Server-function tests int
 - [Architecture and code map](docs/architecture.md)
 - [Nina's exact hardware requirements and adapter contract](docs/hardware-connection.md)
 - [Features, tests and remaining limits](docs/verification.md)
+- [Final independent verification and deployment instructions](docs/final-release-verification.md)
 - [2–3 minute demonstration plan](docs/demo-plan.md)
 - [Student understanding and truthful AI disclosure](docs/student-guide.md)
 
