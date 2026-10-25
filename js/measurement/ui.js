@@ -8,7 +8,8 @@ import {ReplayAdapter} from './adapters/replay.js';
 import {LIMITS} from './schema.js';
 import {exportJSON, exportCSV, importSession} from './export.js';
 import {processSamples} from './processing.js';
-import {sessionReport} from './report.js';
+import {recordingAnalytics} from './analytics.js';
+import {sessionReport,comparisonReport} from './report.js';
 import {drawChart} from './chart.js';
 import {t, errorText, language} from './i18n.js';
 
@@ -80,7 +81,7 @@ function render() {
   $('device-state').dataset.state = state.status;
   $('device-state').closest('.patch-card').dataset.state = state.status;
   $('overview-source').textContent = sourceLabel(session);
-  $('overview-empty').hidden=state.active||!!session?.samples.length;
+  $('overview-empty').hidden=!loadPreferences().onboarding||state.active||!!session?.samples.length;
   $('overview-saved-count').textContent=number(sessions.length);
   $('overview-report').disabled=state.active||state.saving||!sessions.length;
   $('overview-count').textContent = number(derived?.accepted || 0);
@@ -101,9 +102,9 @@ function render() {
   $('checkpoint-status').textContent = state.active ? `${t('checkpoint')}: ${number(state.persistedCount)} ${t('samples')}` : '';
   text('recovery-status', recoveredCount ? `${t('recovered')}: ${number(recoveredCount)}` : '');
   $('scan-button').setAttribute('aria-busy', String(busy));
-  $('stop-button').disabled = !state.active;
+  $('stop-button').disabled = !state.active;$('pause-button').hidden=!state.active||!controller.canPause();$('pause-button').textContent=state.paused?(language()==='es'?'Continuar reproducción':'Resume replay'):(language()==='es'?'Pausar reproducción':'Pause replay');
   text('scan-state', statusLabel(state));
-  $('scan-hint').textContent = state.unsaved ? t('unsaved') : state.active ? t('recordingHint') : session ? t('completeHint') : t('hardwareNote');
+  $('scan-hint').textContent = state.unsaved ? t('unsaved') : state.paused?t('pausedHint'):state.active ? t('recordingHint') : session ? t('completeHint') : t('hardwareNote');
   const percent = state.session?.status === 'completed' ? 100 : Math.min(100, Math.round(state.elapsedMs / (controller.durationMs || 1) * 100));
   $('acquisition-progress').value = percent;
   $('progress-label').textContent = `${percent}% · ${number(state.elapsedMs/1000)} ${t('seconds')} ${t('elapsed')}`;
@@ -144,8 +145,24 @@ function renderHistory() {
     button.textContent = `${date(s.startedAt)} · ${sourceLabel(s)} · ${number(s.samples.length)} ${t('samples')} · ${s.recovered ? t('recovered') : t(s.status)}`;
     button.addEventListener('click', () => { selectedId = s.id; renderHistory(); }); return button;
   }));
-  renderSelected();
+  renderSelected();renderActivity(filtered);renderRecent();
 }
+function openSession(id){selectedId=id;$('range-select').value='all';$('history-from').value='';$('history-to').value='';$('history-source').value='all';document.querySelector('[data-view="trends"]').click();renderHistory();}
+function renderRecent(){
+ $('overview-recent').replaceChildren();$('overview-ai').disabled=!sessions.length;
+ if(!sessions.length){const p=document.createElement('p');p.textContent=t('emptyHistory');$('overview-recent').append(p);return;}
+ for(const session of sessions.slice(0,3)){const b=document.createElement('button');b.className='recent-recording';b.textContent=`${date(session.startedAt)} · ${sourceLabel(session)} · ${quality(session.derived)}`;b.addEventListener('click',()=>openSession(session.id));$('overview-recent').append(b);}
+}
+function renderActivity(filtered){
+ const a=recordingAnalytics(filtered),es=language()==='es';$('activity-summary').textContent=es?`${a.count} grabaciones · ${a.activeDays} días con grabación · ${a.withGaps} con intervalos ausentes · ${a.missing} muestras faltantes`:`${a.count} recordings · ${a.activeDays} recording days · ${a.withGaps} with gaps · ${a.missing} missing samples`;
+ $('activity-chart').replaceChildren();
+ for(const day of a.days){const b=document.createElement('button');b.className='activity-day';b.textContent=`${day.day}: ${day.count}`;b.title=es?'Ver grabaciones de este día':'Show recordings from this day';b.style.setProperty('--activity',String(day.count/Math.max(...a.days.map(d=>d.count),1)));b.addEventListener('click',()=>{$('range-select').value='all';$('history-from').value=day.day;$('history-to').value=day.day;renderHistory();});$('activity-chart').append(b);}
+ const table=document.createElement('table'),head=document.createElement('tr');for(const value of [t('sessionAt'),t('source'),t('accepted'),t('missing'),t('rejected'),t('timingGaps')]){const th=document.createElement('th');th.textContent=value;head.append(th);}table.append(head);
+ for(const row of a.rows){const tr=document.createElement('tr');for(const value of [date(row.startedAt),sourceLabel(filtered.find(s=>s.id===row.id)),row.accepted,row.missing,row.rejected,row.timingGaps]){const td=document.createElement('td');td.textContent=String(value);tr.append(td);}table.append(tr);}$('quality-trends').replaceChildren(table);
+}
+function previewReport(content){$('report-preview-frame').srcdoc=content;$('report-print').disabled=true;$('report-print-status').textContent='';$('report-preview').showModal();}
+function compared(){return [sessions.find(s=>s.id===selectedId),sessions.find(s=>s.id===compareId)];}
+function askAria(ids){document.querySelector('[data-view="care"]').click();document.dispatchEvent(new CustomEvent('arteria-explain-session',{detail:ids}));}
 function renderSelected() {
   const session = filteredSessions().find(s => s.id === selectedId);
   populateChannels($('history-channel'), session);
@@ -193,7 +210,13 @@ $('save-session-notes').addEventListener('click',async()=>{
   finally{$('save-session-notes').disabled=!selectedId;}
 });
 $('overview-report').addEventListener('click',()=>download(sessions[0],'html'));
-$('history-preview').addEventListener('click',()=>{const session=sessions.find(s=>s.id===selectedId);if(!session)return;$('report-preview-frame').srcdoc=sessionReport(session,{locale:language()});$('report-preview').showModal();});
+$('history-preview').addEventListener('click',()=>{const session=sessions.find(s=>s.id===selectedId);if(session)previewReport(sessionReport(session,{locale:language()}));});
+$('report-preview-frame').addEventListener('load',()=>{$('report-print').disabled=!$('report-preview-frame').srcdoc;});
+$('report-print').addEventListener('click',()=>{try{$('report-preview-frame').contentWindow.focus();$('report-preview-frame').contentWindow.print();$('report-print').focus();}catch{$('report-print-status').textContent=language()==='es'?'Descarga el informe y usa Imprimir en el navegador.':'Download the report and use your browser’s Print command.';}});
+$('comparison-preview').addEventListener('click',()=>{const [a,b]=compared();if(a&&b)previewReport(comparisonReport(a,b,{locale:language()}));});
+$('comparison-report').addEventListener('click',()=>{const [a,b]=compared();if(!a||!b)return;const url=URL.createObjectURL(new Blob([comparisonReport(a,b,{locale:language()})],{type:'text/html'}));const link=document.createElement('a');link.href=url;link.download='arteria-comparison.html';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+$('comparison-ai').addEventListener('click',()=>{const [a,b]=compared();if(a&&b)askAria([a.id,b.id]);});
+$('overview-ai').addEventListener('click',()=>askAria(sessions.slice(0,2).map(s=>s.id)));
 $('report-preview-close').addEventListener('click',()=>$('report-preview').close());
 $('report-preview').addEventListener('close',()=>{$('report-preview-frame').srcdoc='';});
 $('history-explain').addEventListener('click',()=>{if(!selectedId)return;document.querySelector('[data-view="care"]').click();document.dispatchEvent(new CustomEvent('arteria-explain-session',{detail:selectedId}));});
@@ -227,6 +250,7 @@ $('scan-button').addEventListener('click', async () => {
   } catch (error) { uiError = error.message; }
   scheduleRender();
 });
+$('pause-button').addEventListener('click',()=>{controller.togglePause();scheduleRender();});
 $('stop-button').addEventListener('click', () => void controller.stop());
 $('retry-save').addEventListener('click', async () => { await controller.save(); if (!controller.unsaved) { refreshedId = null; await refreshHistory(); } scheduleRender(); });
 $('discard-session').addEventListener('click', () => { if (confirm(t('deleteConfirm'))) { controller.discardUnsaved(); scheduleRender(); } });

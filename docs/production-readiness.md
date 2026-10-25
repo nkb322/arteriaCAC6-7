@@ -1,5 +1,7 @@
 # Final software readiness
 
+Historical release note: this document describes the prior verification pass. See `completed-workflows.md` for subsequent local chat history, comparison and PWA implementation; the latest release handoff records current results.
+
 Updated 2026-10-25. This is a deployable release candidate, not a claim of verified public operation or clinical validation.
 
 ## Completed in this pass

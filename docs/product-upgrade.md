@@ -1,5 +1,7 @@
 # Product upgrade release candidate
 
+Historical release note: this document describes the prior verification pass. See `completed-workflows.md` for subsequent local chat history, comparison and PWA implementation; the latest release handoff records current results.
+
 Pre-upgrade fallback: `e57c7f0`, tagged locally as `arteria-cac-verified-e57c7f0`. No hardware protocol, raw measurement algorithm, main branch or public deployment was changed.
 
 ## Product changes

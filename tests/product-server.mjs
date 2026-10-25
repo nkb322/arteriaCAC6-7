@@ -26,6 +26,6 @@ http.createServer(async(req,res)=>{
   const value=await response.json();if(value.provider)value.provider='Mock provider (test only)';res.writeHead(response.status,{...security,'Content-Type':'application/json','Cache-Control':'no-store'}).end(JSON.stringify(value));return;
  }
  const pathname=decodeURIComponent(url.pathname),file=path.resolve(root,'.'+(pathname==='/'?'/index.html':pathname));if(pathname.split('/').some(s=>s.startsWith('.'))||!file.startsWith(root+path.sep)||!(await stat(file)).isFile())throw Error();
- const type={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json'}[path.extname(file)]||'application/octet-stream';res.writeHead(200,{...security,'Content-Type':type,'Cache-Control':'no-store'}).end(await readFile(file));
+ const type={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.webmanifest':'application/manifest+json','.png':'image/png','.svg':'image/svg+xml'}[path.extname(file)]||'application/octet-stream';res.writeHead(200,{...security,'Content-Type':type,'Cache-Control':'no-store'}).end(await readFile(file));
  }catch{res.writeHead(404).end('not found');}
 }).listen(port,'127.0.0.1',()=>console.log('Arteria test product: '+port));

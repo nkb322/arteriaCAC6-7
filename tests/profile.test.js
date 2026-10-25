@@ -10,7 +10,7 @@ test('profile preferences reject malformed values and bound optional names',()=>
 test('profile storage round trip preserves valid recording and chart choices',()=>{
  let value;const storage={getItem:()=>value,setItem:(_,v)=>value=v};
  savePreferences({displayName:'  Ana María  ',avatar:'leaf',duration:10,windowSeconds:5,grid:false},storage);
- assert.deepEqual(loadPreferences(storage),{version:1,displayName:'Ana María',avatar:'leaf',duration:10,windowSeconds:5,grid:false});
+ assert.deepEqual(loadPreferences(storage),{version:1,displayName:'Ana María',avatar:'leaf',duration:10,windowSeconds:5,grid:false,onboarding:true});
 });
 test('corrupt or unavailable preference storage falls back and save failure is explicit',()=>{
  assert.deepEqual(loadPreferences({getItem:()=>'{broken'}),DEFAULTS);

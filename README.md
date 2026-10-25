@@ -73,3 +73,9 @@ AI assisted implementation, debugging, testing and documentation. Students must 
 ## Final deployment verification
 
 See [production readiness and owner steps](docs/production-readiness.md). After a full Netlify deployment, run `npm run check:hosted -- https://YOUR-PREVIEW.netlify.app/`. This read-only check does not send AI messages or prove successful live inference. Aria includes explicit retry; failed messages are held only in memory and are removed with conversation context.
+
+## Completed workflows and offline installation
+
+See [completed workflows](docs/completed-workflows.md) for opt-in local transcripts, two-recording AI review, activity/quality analytics, chart inspection, replay pause, comparison reports, print/PDF and PWA installation/update/privacy behavior. Run `npm run test:complete` for the added end-to-end suite. Production builds now include a versioned public-only service worker; no private data or API response is cached.
+
+Current verification and setup: [release readiness](docs/release-readiness.md) records the 140-check suite and precise owner actions. Earlier handoffs are historical.

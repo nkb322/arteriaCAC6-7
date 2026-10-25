@@ -26,7 +26,7 @@ Compatible providers must implement the documented Chat Completions-shaped `/cha
 
 ## Privacy and context
 
-Opening Aria checks only same-origin service configuration. It does not send recordings, profile details or chat content to a provider. Sending requires an unchecked-by-default message-consent checkbox. Recent conversation pairs are held in memory and bounded to fit the UTF-8 request budget; they are not written to IndexedDB/localStorage.
+Opening Aria checks only same-origin service configuration. It does not send recordings, profile details or chat content to a provider. Sending requires an unchecked-by-default message-consent checkbox. Recent conversation pairs are held in memory and bounded to fit the UTF-8 request budget; they are not automatically written to IndexedDB/localStorage. An optional separate transcript can be saved locally; it is not restored into provider context. See `completed-workflows.md`.
 
 Users can select a saved recording or choose **Ask Aria about this recording** in My trends. This opens a local preview; it sends nothing. A second checkbox authorizes that reviewed aggregate summary for this conversation. It includes declared origin/replay mode, duration, counts, channel labels/units, min/max/mean and engineering flags. Raw samples, note text, profile, device IDs, recording IDs and dates are excluded. Labels themselves may still be sensitive; review them. Selecting a different recording or revoking consent clears prior AI context so it cannot silently be resent.
 
@@ -47,3 +47,5 @@ Use Node 24, `npm run build`, publish `dist` and Functions directory `netlify/fu
 In an approved HTTPS preview: check `/api/care-chat` configuration; send a non-sensitive app question; verify a genuine provider reply and follow-up in English/Spanish; verify consent blocking and explicit summary review; remove the summary and inspect the next request; test cancellation, provider failure/rate limit and offline guide. Confirm no key appears in Network/client bundles and no raw sessions/notes are sent. Check native rate-limit logs and provider spending caps. Only then mark live AI verified.
 
 Failed or cancelled requests expose an explicit Retry last message button. It reuses current consent/context, requires a click, and does not automatically retry rate limits or add duplicate user bubbles. Clearing the conversation removes retry content. Availability checking serializes sends; clearing/stopping during that check prevents a later send.
+
+Two-recording sharing is supported with a separately reviewed comparison summary, the same explicit sharing consent, and separate labeled units/origins. No notes, raw samples, IDs or dates are included.

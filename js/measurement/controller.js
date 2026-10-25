@@ -17,7 +17,8 @@ export class MeasurementController {
     const session = this.session;
     return {status: this.status, active: this.active, saving: this.saving, unsaved: this.unsaved, error: this.error, session,
       persistedCount:this.persistedCount,
-      elapsedMs: this.active ? Math.max(0,this.clock() - this.startTick) : this.elapsedMs || 0,
+      paused:!!this.paused,
+      elapsedMs: this.active ? this.activeElapsed() : this.elapsedMs || 0,
       derived: session ? this.processor.snapshot(session.rejected) : null};
   }
   async start(adapter, {durationSeconds = 20} = {}) {
@@ -27,7 +28,7 @@ export class MeasurementController {
     const descriptor = validateDescriptor(adapter.descriptor);
     if (!['stream', 'replay'].includes(adapter.mode) || typeof adapter.start !== 'function' || typeof adapter.stop !== 'function') throw new Error('adapter');
     const token = ++this.generation;
-    this.adapter = adapter; this.startTime = this.now(); this.startTick = this.clock(); this.lastCheckpoint = this.startTick; this.persistedCount = 0; this.processor = new SignalProcessor(descriptor); this.durationMs = durationSeconds * 1000;
+    this.paused=false;this.pausedMs=0;this.adapter = adapter; this.startTime = this.now(); this.startTick = this.clock(); this.lastCheckpoint = this.startTick; this.persistedCount = 0; this.processor = new SignalProcessor(descriptor); this.durationMs = durationSeconds * 1000;
     this.lastReceiptEpoch = 0; this.sessionBytes=16384; this.lastReceived = null; this.status = 'connecting'; this.error = null; this.unsaved = false; this.active = true;
     this.session = {id: crypto.randomUUID(), schemaVersion: VERSION, descriptor, mode: adapter.mode,
       startedAt: new Date(this.startTime).toISOString(), endedAt: null, notes:adapter.recording?.notes||'',status: 'recording', samples: [], rejected: 0, rejectionReasons: {}, derived: null};
@@ -73,12 +74,19 @@ export class MeasurementController {
       if (this.active && token === this.generation) await this.stop('connection');
     }
   }
+  activeElapsed(){const tick=this.clock();return Math.max(0,tick-this.startTick-(this.pausedMs||0)-(this.paused?tick-this.pauseTick:0));}
+  canPause(){return this.adapter?.mode==='replay'&&typeof this.adapter.pause==='function'&&typeof this.adapter.resume==='function';}
+  togglePause(){
+    if(!this.active||!this.canPause()||!this.session.samples.length)return;
+    if(this.paused){this.adapter.resume();this.pausedMs+=this.clock()-this.pauseTick;this.paused=false;this.lastReceived=this.clock();this.status=this.session.descriptor.origin==='simulated'?'demo':'replay';}
+    else{this.adapter.pause();this.pauseTick=this.clock();this.paused=true;this.status='paused';}this.emit();
+  }
   tick() {
     if (!this.active) return;
-    const elapsed = this.clock() - this.startTick;
+    const elapsed = this.activeElapsed();
     if (this.clock()-this.lastCheckpoint>=1000) { this.lastCheckpoint=this.clock(); void this.checkpoint(); }
     const staleAfterMs = Math.max(1500, 5000 / this.session.descriptor.sampleRateHz);
-    if (this.clock() - (this.lastReceived ?? this.startTick) > staleAfterMs) this.status = 'stale';
+    if (!this.paused&&this.clock() - (this.lastReceived ?? this.startTick) > staleAfterMs) this.status = 'stale';
     if (elapsed >= this.durationMs) void this.stop('complete');
     this.emit();
   }
@@ -88,8 +96,7 @@ export class MeasurementController {
     // Drain partial frames while the generation is still active, then invalidate every callback.
     try { this.parser?.finish?.(); }
     catch { this.session.rejected++; this.session.rejectionReasons.decoder = (this.session.rejectionReasons.decoder || 0) + 1; }
-    this.active = false; ++this.generation; clearInterval(this.timer);
-    this.elapsedMs = Math.max(0, this.clock() - this.startTick);
+    this.elapsedMs=this.activeElapsed();this.paused=false;this.active = false; ++this.generation; clearInterval(this.timer);
     const session = this.session;
     session.endedAt = new Date(Math.max(this.now(),this.startTime,this.lastReceiptEpoch||0)).toISOString();
     session.status = reason === 'complete' && session.samples.length ? 'completed' : reason === 'stopped' ? 'stopped' : 'interrupted';

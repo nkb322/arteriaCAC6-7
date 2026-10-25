@@ -69,3 +69,7 @@ The Netlify app can communicate directly with a supported browser's USB/BLE APIs
 The mock introduces a connection delay, fragmented canonical app frames, duplicates, malformed frames and an intentional source failure, followed by a new-session restart. Its descriptor always says simulated. The independent dropout scenario tests silence, stale state, resumed samples and sequence gaps. Neither specifies Nina's protocol.
 
 Once Nina supplies the communications contract, write fixture tests from her exact packets, then verify permissions, start/stop acknowledgments, real acquisition timing, units/scaling, batching, physical disconnect/reconnect and any battery/contact metadata against a firmware log. A saved de-identified hardware recording should reproduce the decoded values and notes in replay/export/report. Clinical performance remains a separate validation task.
+
+### Optional replay pause (software only)
+
+The controller recognizes optional synchronous `pause()` and `resume()` methods only for replay adapters. `ReplayAdapter` freezes its scheduling clock while retaining sample timestamps and provenance. Stop drains/stores samples normally. Real stream adapters must not advertise these methods until pause semantics are specified and tested; ordinary signal gaps remain gaps rather than user pauses. This does not establish a physical connection.
