@@ -14,7 +14,8 @@
     "pretest:profile": "npm run build",
     "test:profile": "node tests/profile-browser.cjs",
     "pretest:product": "npm run build",
-    "test:product": "node tests/product-browser.cjs"
+    "test:product": "node tests/product-browser.cjs",
+    "check:hosted": "node scripts/check-hosted.mjs"
   },
   "engines": {
     "node": ">=20"

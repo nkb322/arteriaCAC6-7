@@ -69,3 +69,7 @@ For the full app deploy Functions as well as dist. Static-only drag/drop publish
 - [Student review and AI disclosure](docs/student-guide.md)
 
 AI assisted implementation, debugging, testing and documentation. Students must review the code, personally verify the app and accurately document their significant technical contributions. No clinical model, patient dataset, confidential firmware or biomedical prediction was fabricated.
+
+## Final deployment verification
+
+See [production readiness and owner steps](docs/production-readiness.md). After a full Netlify deployment, run `npm run check:hosted -- https://YOUR-PREVIEW.netlify.app/`. This read-only check does not send AI messages or prove successful live inference. Aria includes explicit retry; failed messages are held only in memory and are removed with conversation context.
