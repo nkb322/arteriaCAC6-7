@@ -42,3 +42,7 @@ The source-status popup shows actual controller state. Demo identity is explicit
 ## Release boundary
 
 `npm run build` publishes only the allowlisted static application to `dist/`; Netlify builds that folder and keeps server functions separate. No accounts, server measurement database, telemetry, new runtime framework, or clinical model was introduced. `_headers` is used by both production configuration and the isolated static preview.
+
+## Local profile and preferences
+
+`js/profile/preferences.js` validates the local guest/measurement preference record; `js/profile/ui.js` renders the seventh screen. Language/accessibility controls delegate to the existing handlers and storage keys. The profile reads the existing controller/store through `measurementInfo`, `historyJSON` and `clearRecordings`, rather than creating a second measurement pipeline. Recording defaults apply without changing an active acquisition; chart-only preferences affect display geometry, not stored measurements. See `profile-settings.md` for storage, reset and export boundaries.

@@ -1,6 +1,6 @@
 # Arteria — software release candidate
 
-The existing six-screen application now has a shared measurement pipeline, recovery checkpoints, simulation, recording replay, live acquisition charts, local history, session comparison, notes, offline reports and encrypted-note downloads. **No physical hardware, clinical ML model, diagnostic score, or thrombosis detection has been implemented or verified.**
+The original six-screen application now includes a local Profile & Settings page alongside a shared measurement pipeline, recovery checkpoints, simulation, recording replay, live acquisition charts, local history, session comparison, notes, offline reports and encrypted-note downloads. **No physical hardware, clinical ML model, diagnostic score, or thrombosis detection has been implemented or verified.**
 
 ## Start
 
@@ -34,6 +34,10 @@ npm run preview
 
 English/Spanish controls, accessibility preferences, keyboard navigation and the clinic locator remain available. New charts and comparison views resize without changing the existing design/palette.
 
+## Profile & Settings
+
+Open the header avatar or sidebar Profile & Settings link to edit the local guest name/avatar, reuse language/accessibility settings, configure recording/chart preferences, inspect source status and export/delete local history. Nothing creates a cloud account. See [profile settings and privacy](docs/profile-settings.md).
+
 ## Tests
 
 ```sh
@@ -41,6 +45,7 @@ npm test
 npm ci
 npm run test:browser
 npm run test:release
+npm run test:profile
 ```
 
 `npm test` uses Node's built-in runner. `npm ci` installs only the pinned browser-test development dependency, Playwright. Browser tests use installed Google Chrome by default; set `CHROME_EXECUTABLE` if needed. An existing Playwright installation can be selected using `PLAYWRIGHT_MODULE_PATH`.
@@ -79,7 +84,7 @@ Local static servers do not execute Netlify functions. Server-function tests int
 - [Architecture and code map](docs/architecture.md)
 - [Nina's exact hardware requirements and adapter contract](docs/hardware-connection.md)
 - [Features, tests and remaining limits](docs/verification.md)
-- [Final independent verification and deployment instructions](docs/final-release-verification.md)
+- [Earlier release verification and deployment instructions](docs/final-release-verification.md)
 - [2–3 minute demonstration plan](docs/demo-plan.md)
 - [Student understanding and truthful AI disclosure](docs/student-guide.md)
 

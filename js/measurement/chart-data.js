@@ -1,6 +1,9 @@
 // Pure chart geometry shared by live views and offline HTML reports.
-export function chartGeometry(session,channel,{live=false,width=760}={}){
-  const samples=live?session.samples.slice(-500):session.samples;
+export function chartGeometry(session,channel,{live=false,width=760,windowSeconds=20}={}){
+  const cutoff=(session.samples.at(-1)?.deviceTimeMs||0)-windowSeconds*1000;
+  let start=session.samples.length-1;
+  if(live)while(start>0&&session.samples[start-1].deviceTimeMs>=cutoff)start--;
+  const samples=live?session.samples.slice(Math.max(0,start)):session.samples;
   if(!samples.length)return null;
   let min=Infinity,max=-Infinity;
   for(const sample of samples){min=Math.min(min,sample.raw[channel.id]);max=Math.max(max,sample.raw[channel.id]);}

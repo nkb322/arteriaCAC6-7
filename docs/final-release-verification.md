@@ -1,4 +1,6 @@
-# Final release verification — 24 October 2026
+# Pre-profile release verification — 24 October 2026
+
+This is the historical verification of the release before Profile & Settings. See [Profile & Settings verification](profile-settings.md) and the current handoff for the expanded suite.
 
 Assessment: **READY WITH LIMITATIONS** for a clearly labeled simulated-data CAC demonstration and preparation for an authorized deployment. No critical software failures were found in this verification. Physical hardware, clinical validity and live external integrations are not established by these tests.
 

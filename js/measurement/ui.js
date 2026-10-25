@@ -1,3 +1,4 @@
+import {loadPreferences} from '../profile/preferences.js';
 import {MeasurementController} from './controller.js';
 import {SessionStore} from './session-store.js';
 import {SimulationAdapter} from './adapters/simulation.js';
@@ -17,6 +18,7 @@ const controller = new MeasurementController({store});
 let sessions = [], selectedId = null, recording = null, uiError = null, storageError = null;
 const notesDrafts=new Map();
 let compareId=null;
+let pendingDurationPreference=false;
 let renderTimer = null, refreshedId = null, importGeneration = 0, ready = false, recoveredCount = 0;
 const number = value => value === null || value === undefined ? '—' : new Intl.NumberFormat(language(), {maximumSignificantDigits: 6}).format(value);
 const date = value => value ? new Date(value).toLocaleString(language(), {dateStyle:'medium',timeStyle:'medium'}) : t('noLast');
@@ -54,10 +56,18 @@ function download(session, format) {
   } catch { uiError='export'; }
   scheduleRender();
 }
+export function measurementInfo(){return {state:controller.snapshot(),session:currentSession(),count:sessions.length,ready,storageError};}
+export function historyJSON(){return JSON.stringify({format:"arteria-history",schemaVersion:1,exportedAt:new Date().toISOString(),recordings:sessions.map(s=>JSON.parse(exportJSON(s)))});}
+export async function clearRecordings(){
+  if(controller.active||controller.saving)throw Error("busy");
+  await store.clear();controller.discardUnsaved();selectedId=null;compareId=null;recording=null;importGeneration++;$("replay-file").value="";$("source-select").value="simulation";sourceControls();notesDrafts.clear();refreshedId=null;recoveredCount=0;uiError=null;await refreshHistory();
+}
 function render() {
   renderTimer = null;
   const state = controller.snapshot(), session = currentSession();
+  if(pendingDurationPreference&&!state.active&&!state.saving){$("duration-select").value=String(loadPreferences().duration);pendingDurationPreference=false;}
   const derived = session === state.session ? state.derived : session ? processSamples(session.samples, session.descriptor, session.rejected) : null;
+  document.dispatchEvent(new Event('arteria-measurements'));
   populateChannels($('channel-select'), session);
   const channel = session?.descriptor.channels.find(c => c.id === $('channel-select').value) || session?.descriptor.channels[0];
   const latest = session?.samples.at(-1);
@@ -214,7 +224,7 @@ $('recover-sessions').addEventListener('click',async()=>{
 });
 $('delete-all-sessions').addEventListener('click', async () => {
   if (controller.active || controller.saving || !confirm(t('deleteAllConfirm'))) return;
-  try { await store.clear(); controller.discardUnsaved(); selectedId=null; compareId=null; recording=null;importGeneration++;$('replay-file').value='';$('source-select').value='simulation';sourceControls();notesDrafts.clear(); refreshedId=null; recoveredCount=0; uiError=null; await refreshHistory(); }
+  try { await clearRecordings(); }
   catch(error){uiError=error.message;}
   scheduleRender();
 });
@@ -245,6 +255,14 @@ window.addEventListener('resize',()=>{scheduleRender();renderSelected();});
 window.addEventListener('beforeunload', event => { if (controller.active || controller.saving || controller.unsaved || notesDrafts.size) { event.preventDefault(); event.returnValue = ''; } });
 document.addEventListener('visibilitychange',()=>{if(document.hidden)void controller.checkpoint();});
 window.addEventListener('pagehide',()=>{void controller.checkpoint();});
+$('duration-select').value=String(loadPreferences().duration);
+document.addEventListener('arteria-preferences',event=>{
+  if(event.detail?.durationChanged){
+    if(!controller.active&&!controller.saving)$('duration-select').value=String(loadPreferences().duration);
+    else pendingDurationPreference=true;
+  }
+  render();renderSelected();
+});
 localize(); render();
 void (async()=>{
   try { recoveredCount=await store.recover();if(store.recoveryErrors)uiError='recovery'; } catch(error) { storageError=error.message; }

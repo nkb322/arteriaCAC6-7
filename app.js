@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 //definitions, ignore unless need to change vars for some reaoson
-  const views = ["overview", "photon", "trends", "locator", "sharing", "care"];
+  const views = ["overview", "photon", "trends", "locator", "sharing", "care", "profile"];
   const modal = document.getElementById("accessibility-modal");
   const toastRegion = document.getElementById("toast-region");
   const chatLog = document.getElementById("chat-log");
@@ -18,6 +18,7 @@
       "nav.locator": "Find care",
       "nav.sharing": "Share securely",
       "nav.care": "Care guide",
+      "nav.profile": "Profile & Settings",
       "nav.new": "NEW",
 
       "common.breadcrumb": "My health",
@@ -37,10 +38,10 @@
       "common.patchDetails": "Patch connection details",
       "common.battery": "Battery",
       "common.synced": "Synced just now",
-      "common.personalProfile": "Demo profile · no account",
+      "common.personalProfile": "Local guest · no account",
       "common.accessibilitySettings": "Accessibility settings",
       "common.notifications": "Source status",
-      "common.profile": "Jordan Morgan profile",
+      "common.profile": "Open Profile & Settings",
       //yea cool
       "common.justNow": "just now",
       "common.notificationText": "Current source status",
@@ -58,7 +59,7 @@
       "overview.rest": "Rest",
       "overview.chartAria": "Illustrative weekly movement pattern, gradually increasing from Monday to Sunday",
       "overview.eyebrow": "A MOMENT FOR YOU",
-      "overview.greeting": "Hello, Jordan",
+      "overview.greeting": "Hello, Guest",
       "overview.subtitle": "Let’s take a gentle look at how you’re doing today.",
       "overview.scanButton": "Start acquisition",
       "overview.noticeTitle": "A note about this experience:",
@@ -339,6 +340,7 @@
       "nav.locator": "Buscar atención",
       "nav.sharing": "Compartir de forma segura",
       "nav.care": "Guía de atención",
+      "nav.profile": "Perfil y ajustes",
       "nav.new": "NUEVO",
       "common.breadcrumb": "Mi salud",
       "common.today": "Hoy",
@@ -360,7 +362,7 @@
       "common.personalProfile": "Perfil de muestra · sin cuenta",
       "common.accessibilitySettings": "Opciones de accesibilidad",
       "common.notifications": "Estado de la fuente",
-      "common.profile": "Perfil de Jordan Morgan",
+      "common.profile": "Abrir perfil y ajustes",
       "common.justNow": "ahora",
       "common.notificationText": "Estado actual de la fuente",
       "common.profileText": "Jordan Morgan · Perfil personal · Cuenta de demostración",
@@ -377,7 +379,7 @@
       "overview.rest": "Descanso",
       "overview.chartAria": "Patrón de movimiento ilustrativo de la semana, con un aumento gradual de lunes a domingo",
       "overview.eyebrow": "UN MOMENTO PARA TI",
-      "overview.greeting": "Hola, Jordan",
+      "overview.greeting": "Hola, Invitado",
       "overview.subtitle": "Veamos con calma cómo te sientes hoy.",
       "overview.scanButton": "Iniciar adquisición",
       "overview.noticeTitle": "Una nota sobre esta experiencia:",
@@ -777,10 +779,10 @@
     togglePopover(`${translate("common.notificationText")}: ${document.getElementById("device-state").textContent}`);
   });
   document.getElementById("top-profile").addEventListener("click", () => {
-    togglePopover(translate("common.profileText"));
+    navigate("profile");
   });
   document.getElementById("profile-button").addEventListener("click", () => {
-    showToast(translate("common.profileToast"));
+    navigate("profile");
   });
   document.querySelectorAll(".notice-close").forEach((button) => {
     button.addEventListener("click", () => button.closest(".notice-banner").remove());
@@ -848,6 +850,7 @@
   Object.entries(accessibilityControls).forEach(([key, control]) => {
     control.addEventListener("change", () => {
       document.body.classList.toggle(classNames[key], control.checked);
+      document.dispatchEvent(new Event("arteria-accessibility"));
       try {
         const saved = JSON.parse(localStorage.getItem("arteria-accessibility") || "{}");
         localStorage.setItem("arteria-accessibility", JSON.stringify({ ...saved, [key]: control.checked }));

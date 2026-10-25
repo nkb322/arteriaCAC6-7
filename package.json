@@ -10,7 +10,9 @@
     "build": "node scripts/build.js",
     "preview": "node scripts/serve.js --production",
     "pretest:release": "npm run build",
-    "test:release": "node tests/release-browser.cjs"
+    "test:release": "node tests/release-browser.cjs",
+    "pretest:profile": "npm run build",
+    "test:profile": "node tests/profile-browser.cjs"
   },
   "engines": {
     "node": ">=20"

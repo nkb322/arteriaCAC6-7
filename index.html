@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./styles.css" />
     <script src="./app.js" defer></script>
     <script type="module" src="./js/measurement/ui.js"></script>
+    <script type="module" src="./js/profile/ui.js"></script>
   </head>
   <body>
 
@@ -38,10 +39,11 @@
             <div class="battery-row"><span data-m="battery">Battery</span><span id="device-battery">—</span></div>
             <div class="patch-sync" id="device-last">—</div>
           </div>
+          <button class="nav-link" data-view="profile"><span class="nav-icon" aria-hidden="true">⚙</span><span data-p="title">Profile & Settings</span></button>
           <button class="profile-button" id="profile-button">
 
-            <span class="profile-avatar" aria-hidden="true">JM</span>
-            <span class="profile-copy"><strong>Jordan Morgan</strong><small data-i18n="common.personalProfile">Personal profile</small></span>
+            <span class="profile-avatar" aria-hidden="true">G</span>
+            <span class="profile-copy"><strong>Guest</strong><small data-i18n="common.personalProfile">Personal profile</small></span>
             <span class="profile-more" aria-hidden="true">⌄</span>
 
           </button>
@@ -57,7 +59,7 @@
             <select class="language-select" id="language-select" aria-label="Choose language"><option value="en">EN</option><option value="es">ES</option></select>
             <button class="icon-button" id="accessibility-open" aria-label="Open accessibility settings" data-i18n-aria="common.accessibilitySettings" title="Accessibility settings" data-i18n-title="common.accessibilitySettings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M4 8.5h16M12 8.5v12M8 12l4 2 4-2M9 20l3-5 3 5"/></svg></button>
             <button class="icon-button notification-button" id="notifications-button" aria-label="Notifications, one update" data-i18n-aria="common.notifications" title="Notifications" data-i18n-title="common.notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></button>
-            <button class="top-profile" id="top-profile" aria-label="Jordan Morgan profile" data-i18n-aria="common.profile"><span class="profile-avatar small" aria-hidden="true">JM</span><span class="top-profile-name">Jordan</span><span aria-hidden="true">⌄</span></button>
+            <button class="top-profile" id="top-profile" aria-label="Open Profile & Settings" data-i18n-aria="common.profile"><span class="profile-avatar small" aria-hidden="true">G</span><span class="top-profile-name">Guest</span><span aria-hidden="true">⌄</span></button>
           </div>
           <div class="popover hidden" id="top-popover" role="status"></div>
         </header>
@@ -288,6 +290,18 @@
                 <article class="urgent-card"><span class="urgent-icon" aria-hidden="true">!</span><div><strong data-i18n="common.urgentTitle">Need urgent help?</strong><p data-i18n="care.urgent">If you may be having a medical emergency, call your local emergency number now. Don’t wait for an app or a patch reading.</p></div></article>
                 <button class="card care-link-card" id="care-team-button"><span class="care-link-icon" aria-hidden="true">↗</span><span><strong data-i18n="care.teamTitle">Your care team comes first</strong><small data-i18n="care.teamBody">Reach out to your clinician for medical questions.</small></span><span aria-hidden="true">→</span></button>
               </aside>
+            </div>
+          </section>
+          <section class="view" id="view-profile" aria-labelledby="profile-title" tabindex="-1" hidden>
+            <div class="page-heading"><div class="section-kicker">ARTERIA · <span data-p="local">LOCAL GUEST</span></div><h1 id="profile-title" data-p="title">Profile & Settings</h1><p data-p="intro">A space that feels like yours. Your choices stay in this browser; no cloud account is created.</p></div>
+            <p id="profile-message" role="status" class="profile-feedback" aria-live="polite"></p>
+            <div class="settings-grid">
+              <article class="card settings-card"><h2 data-p="personal">Personal profile</h2><p data-p="guest">Local guest profile · no registration, login or cloud sync.</p><form id="profile-form"><label class="profile-field"><span data-p="name">Display name</span><input id="profile-name" maxlength="60" autocomplete="nickname" /></label><label class="profile-field"><span data-p="avatar">Avatar</span><select id="profile-avatar"><option value="initials" data-p="initials">Initials</option><option value="leaf" data-p="leaf">Leaf</option><option value="wave" data-p="wave">Wave</option><option value="star" data-p="star">Star</option></select></label><p class="measurement-note" data-p="nameHelp">Optional. Leave the name empty to appear as Guest. Avatars are local symbols; no image is uploaded.</p><button class="button button-dark" data-p="save">Save profile</button></form></article>
+              <article class="card settings-card"><h2 data-p="appearance">Appearance & accessibility</h2><label class="profile-field"><span data-p="language">Language</span><select id="profile-language"><option value="en">English</option><option value="es">Español</option></select></label><label class="setting-row"><span data-p="large">Larger text</span><input type="checkbox" id="profile-large" role="switch" /></label><label class="setting-row"><span data-p="contrast">High contrast</span><input type="checkbox" id="profile-contrast" role="switch" /></label><label class="setting-row"><span data-p="motion">Reduce motion</span><input type="checkbox" id="profile-motion" role="switch" /></label><p class="measurement-note" data-p="shared">These are the same settings used by the header controls.</p></article>
+              <article class="card settings-card"><h2 data-p="measurement">Measurement preferences</h2><label class="profile-field"><span data-p="duration">Default recording duration</span><select id="profile-duration"><option value="10">10 s</option><option value="20">20 s</option><option value="60">60 s</option></select></label><label class="profile-field"><span data-p="window">Live chart window</span><select id="profile-window"><option value="5">5 s</option><option value="10">10 s</option><option value="20">20 s</option><option value="60">60 s</option></select></label><label class="setting-row"><span data-p="grid">Show chart grid</span><input id="profile-grid" type="checkbox" role="switch" /></label><p class="measurement-note" data-p="measurementHelp">Duration applies to the next simulation or mock recording. The live window changes only the view, never stored samples. Replay timing is preserved.</p></article>
+              <article class="card settings-card"><h2 data-p="privacy">Data & privacy</h2><p><strong id="profile-session-count">0</strong> <span data-p="savedSessions">saved sessions</span></p><p data-p="privacyHelp">History, checkpoints, profile, preferences, session notes and exported reports are unencrypted on this device. Only the separate encrypted-note attachment is encrypted with your passphrase. There is no cloud backup.</p><div class="measurement-buttons"><button class="button button-light" id="profile-export" data-p="export">Export all saved sessions (JSON)</button><button class="button button-light" id="profile-delete" data-p="delete">Delete recordings</button><button class="button button-light" id="profile-clear" data-p="clear">Clear local Arteria data</button></div><p class="measurement-note" data-p="clearHelp">Clearing removes saved recordings, recovery checkpoints and saved preferences/profile. Downloaded files remain. Stop any recording first.</p></article>
+              <article class="card settings-card"><h2 data-p="device">Device information</h2><dl class="settings-details"><dt data-p="status">Connection</dt><dd id="profile-device-state">—</dd><dt data-p="source">Session source</dt><dd id="profile-device-source">—</dd><dt data-p="identity">Device / source identity</dt><dd id="profile-device-name">—</dd><dt data-p="channels">Available session channels</dt><dd id="profile-device-channels">—</dd><dt data-p="battery">Battery</dt><dd id="profile-device-battery">—</dd></dl><p class="notice-banner" data-p="hardware">Hardware adapter pending Nina’s firmware and protocol. Simulation and replay do not establish a physical connection.</p></article>
+              <article class="card settings-card"><h2 data-p="about">About Arteria</h2><span class="settings-version">ARTERIA · v1.0.0</span><p data-p="purpose">A wearable companion research application for the 2026 Congressional App Challenge: acquire, inspect and review measurements with clear provenance.</p><p data-p="medical">Arteria is not a clinically validated diagnostic tool. It does not diagnose DVT or calculate a medical risk score. Signal checks describe engineering data quality.</p><p class="measurement-note" data-p="ai">Software development and testing were AI-assisted. Students should review the code and describe their actual contributions.</p></article>
             </div>
           </section>
         </main>
