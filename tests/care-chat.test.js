@@ -4,7 +4,7 @@ import {createHandler,validateRequest,validateAnalysisReply} from '../netlify/fu
 import {sessionSummary} from '../js/care/session-summary.js';
 import {readFileSync} from 'node:fs';
 const summary=sessionSummary(JSON.parse(readFileSync('fixtures/simulated-session.json')).session);
-const env={ARTERIA_AI_ENABLED:'true',ARTERIA_AI_MODEL:'mock-model',ARTERIA_AI_API_KEY:'server-only-test-secret'};
+const env={ARTERIA_AI_ENABLED:'true',ARTERIA_AI_PROVIDER:'openai',ARTERIA_AI_MODEL:'mock-model',ARTERIA_AI_API_KEY:'server-only-test-secret'};
 const request=(body={language:'en',messages:[{role:'user',content:'Explain signal gaps'}]},headers={},method='POST')=>new Request('https://arteria.example/api/care-chat',{method,headers:{origin:'https://arteria.example','content-type':'application/json',...headers},...(method==='POST'?{body:JSON.stringify(body)}:{})});
 const answer=text=>new Response(JSON.stringify({status:'completed',output:[{type:'message',content:[{type:'output_text',text}]}]}));
 test('AI endpoint validates origin, method, content type, schema and message roles',async()=>{

@@ -4,7 +4,7 @@ import {readFile,stat} from 'node:fs/promises';
 import path from 'node:path';
 import {createHandler} from '../netlify/functions/care-chat.mjs';
 const root=path.resolve('dist'),port=Number(process.env.PORT||8773),requests=[];
-let mode='ok';const env={ARTERIA_AI_ENABLED:'true',ARTERIA_AI_MODEL:'mock-model',ARTERIA_AI_API_KEY:'TEST-ONLY-SERVER-KEY'};
+let mode='ok';const env={ARTERIA_AI_ENABLED:'true',ARTERIA_AI_PROVIDER:'openai',ARTERIA_AI_MODEL:'mock-model',ARTERIA_AI_API_KEY:'TEST-ONLY-SERVER-KEY'};
 const fakeFetch=async(_url,options)=>{
  const body=JSON.parse(options.body);requests.push(body);
  await new Promise(resolve=>setTimeout(resolve,mode==='slow'?1000:150));

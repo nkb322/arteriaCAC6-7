@@ -2,6 +2,7 @@ import {careInstructions} from '../lib/care-prompt.mjs';
 import {validateSummary} from '../../js/care/session-summary.js';
 import {urgentConcern,urgentMessage,diagnosisConcern,diagnosisMessage,unsafeMedicalClaim} from '../../js/care/safety.js';
 export const DEFAULT_OPENAI_MODEL='gpt-6-luna';
+export const DEFAULT_GROQ_MODEL='openai/gpt-oss-20b';
 const MAX_BODY=24576,MAX_REPLY=4000;
 const json=(status,body,extra={})=>new Response(JSON.stringify(body),{status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...extra}});
 async function boundedJSON(stream,limit,timeout=5000,signal){
@@ -19,9 +20,12 @@ function abortable(promise,signal){
  });
 }
 function configuration(env){
- const provider=env.ARTERIA_AI_PROVIDER||'openai',model=env.ARTERIA_AI_MODEL??(provider==='openai'?DEFAULT_OPENAI_MODEL:undefined),key=env.ARTERIA_AI_API_KEY||(provider==='openai'?env.OPENAI_API_KEY:undefined);
+ const provider=env.ARTERIA_AI_PROVIDER||'groq';
+ const model=env.ARTERIA_AI_MODEL??(provider==='openai'?DEFAULT_OPENAI_MODEL:provider==='groq'?DEFAULT_GROQ_MODEL:undefined);
+ const key=provider==='groq'?(env.GROQ_API_KEY||env.ARTERIA_AI_API_KEY):provider==='openai'?(env.ARTERIA_AI_API_KEY||env.OPENAI_API_KEY):env.ARTERIA_AI_API_KEY;
  if(env.ARTERIA_AI_ENABLED!=='true'||!key||!model||!/^[\w./:-]{1,100}$/.test(model))return null;
  if(provider==='openai')return {provider,model,key,url:'https://api.openai.com/v1/responses',label:'OpenAI'};
+ if(provider==='groq')return {provider,model,key,url:'https://api.groq.com/openai/v1/chat/completions',label:'GroqCloud'};
  if(provider!=='compatible')return null;
  try{const url=new URL(env.ARTERIA_AI_BASE_URL);const allowed=(env.ARTERIA_AI_ALLOWED_HOSTS||'').split(',').map(s=>s.trim().toLowerCase());
  if(url.protocol!=='https:'||url.username||url.password||url.search||url.hash||!allowed.includes(url.hostname)||/^(localhost|\d|\[)/i.test(url.hostname)||/\.(local|internal)$/i.test(url.hostname))return null;
@@ -69,7 +73,7 @@ export function createHandler({env=process.env,fetchImpl=fetch,now=Date.now,time
   const deadline=AbortSignal.timeout(timeoutMs),signal=AbortSignal.any([request.signal,deadline]);
   try{
    const response=await abortable(fetchImpl(config.url,{method:'POST',redirect:'error',signal,headers:{Authorization:`Bearer ${config.key}`,'Content-Type':'application/json'},body:JSON.stringify(payload)}),signal);
-   if(!response.ok){void response.body?.cancel().catch(()=>{});return json(response.status===429?429:502,{code:response.status===429?'rate':'provider'},response.status===429?{'Retry-After':'60'}:{});}
+   if(!response.ok){const retryAfter=response.headers.get('retry-after');void response.body?.cancel().catch(()=>{});return json(response.status===429?429:502,{code:response.status===429?'rate':'provider'},response.status===429?{'Retry-After':/^\d{1,6}$/.test(retryAfter||'')?retryAfter:'60'}:{});}
    const result=await boundedJSON(response.body,128*1024,timeoutMs,signal);
    if(openai&&result.status&&result.status!=='completed')return json(502,{code:'provider'});
    const reply=openai?(result.output||[]).filter(item=>item.type==='message').flatMap(item=>item.content||[]).filter(item=>item.type==='output_text'||item.type==='refusal').map(item=>item.text||item.refusal||'').join('\n'):result.choices?.[0]?.message?.content;

@@ -28,10 +28,11 @@ The manifest/icons/worker and offline tools are implemented and tested in Chrome
 2. Use build command `npm run build`, publish directory `dist`, Functions directory `netlify/functions` and Node 24. These settings are already in `netlify.toml`. Both `care-chat.mjs` and `share-report.mjs` must be present in the Functions list.
 3. In Project configuration → Environment variables, set **server-side only**, scoped to Functions and the intended deployment context:
    - `ARTERIA_AI_ENABLED=true`
-   - `ARTERIA_AI_PROVIDER=openai`
-   - `ARTERIA_AI_MODEL`: an actual text model enabled for your account
-   - `ARTERIA_AI_API_KEY`: your provider key
-4. Optional OpenAI-only fallback: `OPENAI_API_KEY`. For an explicitly selected compatible provider use its own key/model plus `ARTERIA_AI_PROVIDER=compatible`, `ARTERIA_AI_BASE_URL`, and exact `ARTERIA_AI_ALLOWED_HOSTS`. Review `ai-companion.md`, provider privacy policies and spending caps. Never paste real secrets into source, GitHub, screenshots, logs or chat.
+   - `ARTERIA_AI_PROVIDER=groq`
+   - `ARTERIA_AI_MODEL=openai/gpt-oss-20b`
+   - `GROQ_API_KEY`: server-only key from Groq Console (free-plan rate limits apply)
+   - `ARTERIA_AI_ENABLED=true`
+4. Optional OpenAI: set `ARTERIA_AI_PROVIDER=openai`, an enabled `ARTERIA_AI_MODEL` (default `gpt-6-luna`), and `OPENAI_API_KEY` or `ARTERIA_AI_API_KEY`. For an explicitly selected compatible provider use its own key/model plus `ARTERIA_AI_PROVIDER=compatible`, `ARTERIA_AI_BASE_URL`, and exact `ARTERIA_AI_ALLOWED_HOSTS`. Review `ai-companion.md` and provider privacy policies. Never paste real secrets into source, GitHub, screenshots, logs or chat.
 5. Build/deploy the new project and run `npm run check:hosted -- https://YOUR-PREVIEW.netlify.app/`. This sends no chat or session data. Verify security headers, referenced assets, `/api/care-chat` and `/sw.js`. A true availability response means configured variables, not a completed inference test.
 6. On the HTTPS preview, consent to a non-sensitive app question; verify an actual provider response and contextual follow-up in English/Spanish. Review and explicitly share two synthetic summaries; inspect Network to confirm raw samples/notes/identity are absent. Test retry, cancellation, clear/revocation, rate limits and failures. Confirm no client API keys and set provider spending caps. Verify native hosted rate enforcement.
 7. Verify all seven views, acquisition/recovery/history/filters/comparison/report/export/profile/deletion/clinic failure. Load online once, then test offline reload and local tools; inspect Cache Storage for only public shell URLs. Test installation and update on your actual target phone/browser. PDF destinations depend on OS/browser; use Print / Save PDF or open the downloaded HTML report and print it.

@@ -8,7 +8,7 @@ Baseline `41bdd51` already had the real OpenAI Responses API request, an optiona
 
 Current entry point: `netlify/functions/care-chat.mjs`, exported route `/api/care-chat`. Frontend: `js/care/ui.js` checks GET availability, then requires message consent before POST. The summary selector builds only whitelisted aggregates; a second checkbox authorizes A and optional B. `js/care/request.js` trims whole conversation pairs to its UTF-8 budget. Saved transcripts are separate read-only localStorage history, never restored into request context. Browser requests go only to the same-origin Function; the server sends only the bounded prompt/messages/approved summaries to the provider.
 
-**Provider: OpenAI by default. Model: `gpt-6-luna` by default**, with `reasoning.effort=none` and a 700-token output budget. The model is documented as efficient for focused high-volume tasks, and supports this reasoning setting. Account access, billing and real response quality are not established without your key. `ARTERIA_AI_MODEL` can override it; other model/provider configurations do not receive the model-specific reasoning setting. A blank explicit model disables configuration. Compatible providers still require their own model, trusted HTTPS base and hostname allowlist.
+**Provider: GroqCloud by default. Model: `openai/gpt-oss-20b` by default**, via Groq's OpenAI-compatible Chat Completions endpoint. Groq documents this as a text model with multilingual capability and currently offers a free plan subject to account/model quotas and 429 rate limits. This does not guarantee unlimited or permanent free access. English/Spanish output quality, account eligibility and live availability require a real-key check. `ARTERIA_AI_MODEL` can override the default. OpenAI remains available by setting `ARTERIA_AI_PROVIDER=openai` (default model `gpt-6-luna`); compatible providers still require their own model, trusted HTTPS base and hostname allowlist.
 
 The previous short prompt is now a server-only knowledge module, `netlify/lib/care-prompt.mjs`. It covers all seven screens, optical hardware uncertainty, synthetic 25 Hz arbitrary-unit samples, declared/imported versus verified provenance, exact engineering checks, comparison limits, privacy/offline behavior, DVT/PE education and urgent guidance. It answers app questions directly rather than repeating generic disclaimers. No sensor wavelengths, calibration, clinical performance, diagnosis or treatment capabilities are invented.
 
@@ -21,9 +21,10 @@ Direct personal diagnosis requests and urgent red flags return clearly labeled d
 | Variable | Purpose |
 |---|---|
 | `ARTERIA_AI_ENABLED=true` | Required explicit enable flag |
-| `ARTERIA_AI_API_KEY` | Required secret server key (or OpenAI fallback below) |
-| `ARTERIA_AI_PROVIDER=openai` | Default provider; `compatible` optional |
-| `ARTERIA_AI_MODEL=gpt-6-luna` | Explicit recommended configuration; OpenAI default if omitted |
+| `GROQ_API_KEY` | GroqCloud server-only API key; preferred with default provider |
+| `ARTERIA_AI_PROVIDER=groq` | Default; `openai` and `compatible` are optional |
+| `ARTERIA_AI_MODEL=openai/gpt-oss-20b` | Default Groq model; OpenAI defaults to `gpt-6-luna` |
+| `ARTERIA_AI_API_KEY` | Optional generic server-side key for selected provider |
 | `OPENAI_API_KEY` | Optional key fallback only for OpenAI |
 | `ARTERIA_AI_BASE_URL` | Compatible provider's trusted documented HTTPS API base only |
 | `ARTERIA_AI_ALLOWED_HOSTS` | Exact comma-separated compatible-provider hostnames only |
@@ -40,7 +41,7 @@ cp -n .env.example .env
 chmod 600 .env
 ```
 
-Edit the ignored `.env` privately: set `ARTERIA_AI_ENABLED=true`, `ARTERIA_AI_PROVIDER=openai`, `ARTERIA_AI_MODEL=gpt-6-luna`, and your actual `ARTERIA_AI_API_KEY`. Do not put a real key into browser code, a terminal command, GitHub, screenshots or chat. A ChatGPT subscription does not configure an API key or guarantee API billing/model access.
+Edit the ignored `.env` privately. Keep the defaults `ARTERIA_AI_PROVIDER=groq` and `ARTERIA_AI_MODEL=openai/gpt-oss-20b`, set `ARTERIA_AI_ENABLED=true`, and add your real `GROQ_API_KEY` from the [Groq Console](https://console.groq.com/keys). Keep the key only in `.env` or a server-side Netlify environment setting. Never put it in browser code, a terminal command, GitHub, screenshots or chat. For optional OpenAI use `ARTERIA_AI_PROVIDER=openai`, `ARTERIA_AI_MODEL=gpt-6-luna`, and `OPENAI_API_KEY` (or `ARTERIA_AI_API_KEY`).
 
 ```sh
 npm run ai:local

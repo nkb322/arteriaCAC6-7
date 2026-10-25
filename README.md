@@ -46,7 +46,7 @@ The product server under tests uses an explicitly labeled mocked provider and th
 
 ## AI configuration and privacy
 
-[AI setup and security](docs/ai-companion.md) explains the server-only variables, provider adapter, limits, consent and live acceptance checks. `.env.example` contains example configuration and empty secret fields. `ARTERIA_AI_ENABLED` defaults to disabled. Set an explicit provider/model/key on the server; never put keys in browser code. OpenAI Responses is supported, plus explicitly allowlisted HTTPS providers implementing the documented compatible Chat Completions format.
+[AI setup and security](docs/ai-companion.md) explains server-only variables, provider adapters, limits, consent and live acceptance checks. `.env.example` contains GroqCloud free-tier defaults and empty secret fields. `ARTERIA_AI_ENABLED` defaults to disabled; enable it only after setting a server-side provider key. GroqCloud Chat Completions is the default, OpenAI Responses remains optional, and explicitly allowlisted compatible HTTPS providers are supported. Never put keys in browser code.
 
 Profile, preferences, recordings, checkpoints, notes, CSV/JSON and reports are **unencrypted local browser data**. Only the separate passphrase-encrypted note attachment is encrypted. AI sends user-approved messages/recent context and an optional reviewed aggregate summary to the configured provider; it does not automatically upload recordings, notes, identity or location. Clear/revoke removes local AI context but cannot remove data already sent externally. Clinic searches use Nominatim/Photon with city or consented approximate location. Google Fonts supports the existing visual identity.
 
@@ -82,7 +82,7 @@ Current verification and setup: [release readiness](docs/release-readiness.md) r
 
 ## Focused AI completion
 
-[AI audit, configuration and local verification](docs/ai-local-verification.md) describes the current OpenAI `gpt-6-luna` default, stronger server-only prompt, end-to-end deadline/abort handling, and credential-free mock tests. Run `npm run ai:local` (Node 24, ignored `.env`) and `npm run ai:check -- --confirm-provider-call` for deliberate non-sensitive real-provider verification after configuring a key. Run `npm run test:ai` for the additional mocked browser suite. No live inference is claimed without a real response.
+[AI audit, configuration and local verification](docs/ai-local-verification.md) describes the default GroqCloud `openai/gpt-oss-20b` free-tier setup, optional OpenAI provider, server-only prompt, deadline/abort handling and credential-free mock tests. Run `npm run ai:local` (Node 24, ignored `.env`) and `npm run ai:check -- --confirm-provider-call` for deliberate non-sensitive live-provider verification after configuring a key. Run `npm run test:ai` for the mocked browser suite. No live inference is claimed without a real response.
 
 ## Measurement analysis
 
