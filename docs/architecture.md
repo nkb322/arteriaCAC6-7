@@ -1,6 +1,6 @@
 # Architecture and code map
 
-The original six-view HTML/CSS design remains. `app.js` owns navigation, dictionary localization, accessibility, the rule-based care guide, clinic search and encrypted notes. `js/measurement/ui.js` connects the measurement core to Overview, Photon and My trends. `arteria-language` and `arteria-view` events synchronize language/visible-view rendering.
+The seven-view application retains its original measurement architecture with an upgraded visual system. `app.js` owns navigation, dictionary localization, accessibility, clinic search, read-aloud and encrypted notes. `js/care/ui.js` owns the optional AI conversation and explicitly labeled offline guide. `js/measurement/ui.js` connects the measurement core to Overview, Photon and My trends. `arteria-language` and `arteria-view` events synchronize language/visible-view rendering.
 
 ```text
 Simulation / mock device / recorded replay / future hardware adapter
@@ -35,7 +35,7 @@ Simulation / mock device / recorded replay / future hardware adapter
 
 History filters actual session dates, offers channel-specific graphs, notes, reports and side-by-side comparison; different units are never overlaid or silently normalized. Notes and reports are unencrypted and explicitly disclosed.
 
-Clinic searches are consent-driven, cancellable/bounded, validate returned coordinates, filter type/access/radius, and render names as text. Location is not persisted. Encrypted notes use the existing PBKDF2/AES-GCM format, with local download independent from optional allowlisted email. Care-guide replies are fixed informational rules, not AI inference or individualized treatment.
+Clinic searches are consent-driven, cancellable/bounded, validate returned coordinates, filter type/access/radius, and render names as text. Location is not persisted. Encrypted notes use the existing PBKDF2/AES-GCM format, with local download independent from optional allowlisted email. Aria sends opt-in messages and explicitly reviewed recording summaries through the server-only `/api/care-chat` endpoint. The offline app guide and safety guidance are labeled separately from actual provider replies; live inference requires configured credentials and remains unverified in this release.
 
 The source-status popup shows actual controller state. Demo identity is explicitly not an account. Dialog focus returns to its opener and navigation supports back/forward. Errors/empty/loading states are localized.
 
@@ -46,3 +46,9 @@ The source-status popup shows actual controller state. Demo identity is explicit
 ## Local profile and preferences
 
 `js/profile/preferences.js` validates the local guest/measurement preference record; `js/profile/ui.js` renders the seventh screen. Language/accessibility controls delegate to the existing handlers and storage keys. The profile reads the existing controller/store through `measurementInfo`, `historyJSON` and `clearRecordings`, rather than creating a second measurement pipeline. Recording defaults apply without changing an active acquisition; chart-only preferences affect display geometry, not stored measurements. See `profile-settings.md` for storage, reset and export boundaries.
+
+## Optional AI boundary
+
+`js/care/session-summary.js` constructs and revalidates a whitelist of aggregate statistics. `js/care/request.js` trims whole conversation pairs to the UTF-8 request budget. `js/care/safety.js` provides limited deterministic escalation/output guards. The client requires message consent and a separate session-summary checkbox, retains context only in memory, and clears context on revocation. The server accepts no caller-selected endpoint/model/system role, embeds untrusted summary labels only in user data, and calls the administrator-configured provider. No tools or direct browser provider keys exist. See `ai-companion.md` for limits and hosted verification.
+
+`js/measurement/filters.js` supplies date/source filtering without changing recorded samples. Reports share the existing geometry; the preview uses a script-free sandboxed iframe and native modal focus. `js/product.js` translates new screen copy using the existing language event, without duplicating preferences.

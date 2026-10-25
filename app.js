@@ -17,7 +17,7 @@
       "nav.trends": "My trends",
       "nav.locator": "Find care",
       "nav.sharing": "Share securely",
-      "nav.care": "Care guide",
+      "nav.care": "Aria companion",
       "nav.profile": "Profile & Settings",
       "nav.new": "NEW",
 
@@ -26,7 +26,7 @@
       "common.demoMode": "DEMO MODE",
       "common.demo": "DEMO",
       "common.illustrativeData": "Illustrative demo data",
-      "common.conceptPreview": "CONCEPT PREVIEW",
+      "common.conceptPreview": "RESEARCH PREVIEW",
       "common.simulated": "SIMULATED",
       "common.dismiss": "Dismiss note",
       "common.urgentTitle": "Need urgent help?",
@@ -60,10 +60,10 @@
       "overview.chartAria": "Illustrative weekly movement pattern, gradually increasing from Monday to Sunday",
       "overview.eyebrow": "A MOMENT FOR YOU",
       "overview.greeting": "Hello, Guest",
-      "overview.subtitle": "Let’s take a gentle look at how you’re doing today.",
+      "overview.subtitle": "Your recordings, clearly connected.",
       "overview.scanButton": "Start acquisition",
-      "overview.noticeTitle": "A note about this experience:",
-      "overview.noticeBody": "Measurements come from the selected source. Simulation and replay are labeled. No medical wellness score or diagnosis is calculated.",
+      "overview.noticeTitle": "Know your source.",
+      "overview.noticeBody": "Sample data and replays are clearly labeled. Arteria explains recordings, not diagnoses.",
       "overview.patchLabel": "YOUR PATCH",
       "overview.dailyOverview": "Daily overview",
       "overview.steady": "Steady signals today",
@@ -73,11 +73,11 @@
       "overview.patternsPersonal": "Patterns are personal. Your care team has the full picture.",
       "overview.seeTrends": "See my trends",
       "overview.companionLabel": "YOUR PERSONAL COMPANION",
-      "overview.hereForYou": "HERE FOR YOU",
+      "overview.hereForYou": "YOU CHOOSE WHAT TO SHARE",
       "overview.companionGreeting": "How are you feeling today?",
       "overview.companionDescription": "We can talk through your routine, explore this prototype, or get a few questions ready for your care team.",
       "overview.talkAria": "Talk with Aria",
-      "overview.private": "Private by design",
+      "overview.private": "Share only what you choose",
       "overview.notClinician": "Not a clinician",
       "overview.closerLook": "A CLOSER LOOK",
       "overview.glance": "Today at a glance",
@@ -96,8 +96,8 @@
       "overview.exploreTrends": "Explore trends",
       "overview.illustrativeMovement": "Illustrative movement pattern",
       "overview.realPatchData": "Your real patch data would appear here",
-      "photon.eyebrow": "A LIGHT-BASED SENSING IDEA",
-      "photon.title": "Meet Photon",
+      "photon.eyebrow": "YOUR RECORDING WORKSPACE",
+      "photon.title": "Record with Photon",
       "photon.subtitle": "Record a session, inspect the signal, and keep its source and units visible.",
       "photon.noticeTitle": "Acquisition, with a clear source.",
 
@@ -125,11 +125,11 @@
       "photon.toast": "Preview complete. No body data was collected or analyzed.",
       "photon.theIdea": "THE IDEA",
       "photon.whatIf": "What if a patch could see beyond the surface?",
-      "photon.explanation": "Different colors of light interact with tissue in different ways. We’re exploring whether that could someday support more comfortable, continuous monitoring.",
+      "photon.explanation": "Different wavelengths interact with tissue in different ways. Our research explores how optical recordings could support future wearable sensing. Clinical performance is not established.",
       "photon.designedForYou": "Designed around you",
       "photon.ambition": "Small, comfortable, and ambitious",
       "photon.spectrum": "A SPECTRUM OF POSSIBILITY",
-      "photon.threeWaves": "Three wavelengths, one concept",
+      "photon.threeWaves": "Light, explored with care",
       "photon.redLight": "Red light",
       "photon.oneChannel": "One possible signal channel",
       "photon.nearInfrared": "Near-infrared",
@@ -140,7 +140,7 @@
       "photon.scienceNote": "These are design concepts only. Performance and clinical utility have not been established.",
       "trends.eyebrow": "YOUR PERSONAL HISTORY",
       "trends.title": "Your trends",
-      "trends.subtitle": "Notice the patterns, and give yourself credit for the little wins.",
+      "trends.subtitle": "Explore your recordings, compare signals, and keep the details that matter.",
       "trends.rangeLabel": "Choose trend time range",
       "trends.last7": "Last 7 days",
       "trends.last30": "Last 30 days",
@@ -283,18 +283,18 @@
       "sharing.unlockPlaceholder": "Your file’s passphrase",
       "sharing.openButton": "Unlock and download note",
       "sharing.disclaimer": "This prototype is not connected to a medical record and doesn’t send your file to a provider. Email can still reveal who you contacted; the attachment itself is encrypted. Never use this for urgent care.",
-      "care.eyebrow": "A SUPPORTIVE SPACE",
-      "care.title": "Your care companion",
+      "care.eyebrow": "CLARITY, AT YOUR PACE",
+      "care.title": "Make sense of your recordings",
       "care.subtitle": "A place to talk things through and get ready for your next conversation.",
-      "care.companion": "Your personal companion",
-      "care.disclaimer": "Aria is a rule-based informational guide with fixed replies. It cannot diagnose, assess symptoms, create a medical care plan, or replace your care team.",
+      "care.companion": "Your recording companion",
+      "care.disclaimer": "AI explanations need a configured service and your consent. Offline app help is rule-based and labeled. Neither replaces medical care.",
       "care.welcome": "Hi! How are you feeling today? We can talk about your routine, explore this prototype, or get a few questions ready for your care team.",
       "care.suggestionsLabel": "WHAT WOULD BE HELPFUL?",
-      "care.suggestion1": "Help me prepare for my next appointment",
+      "care.suggestion1": "How can I review a recording?",
       "care.suggestion2": "What is the Photon concept?",
-      "care.suggestion3": "Give me a gentle movement idea",
+      "care.suggestion3": "What do signal gaps mean?",
       "care.inputPlaceholder": "What’s on your mind?",
-      "care.chatFootnote": "This demo keeps your messages in this browser session. Aria isn’t a substitute for medical advice.",
+      "care.chatFootnote": "Chat stays in memory. Messages you send to AI leave this device. No diagnosis or treatment advice.",
       "care.noteEyebrow": "YOUR CARE, YOUR WAY",
       "care.noteTitle": "It’s okay to come with questions.",
       "care.noteBody": "Write down what’s on your mind before your next appointment. Aria can help you get organized; your care team can give you medical guidance.",
@@ -339,7 +339,7 @@
       "nav.trends": "Mis tendencias",
       "nav.locator": "Buscar atención",
       "nav.sharing": "Compartir de forma segura",
-      "nav.care": "Guía de atención",
+      "nav.care": "Compañera Aria",
       "nav.profile": "Perfil y ajustes",
       "nav.new": "NUEVO",
       "common.breadcrumb": "Mi salud",
@@ -347,7 +347,7 @@
       "common.demoMode": "MODO DEMO",
       "common.demo": "DEMO",
       "common.illustrativeData": "Datos de ejemplo",
-      "common.conceptPreview": "VISTA DEL CONCEPTO",
+      "common.conceptPreview": "VISTA DE INVESTIGACIÓN",
       "common.simulated": "SIMULADO",
       "common.dismiss": "Cerrar aviso",
       "common.urgentTitle": "¿Necesitas ayuda urgente?",
@@ -380,10 +380,10 @@
       "overview.chartAria": "Patrón de movimiento ilustrativo de la semana, con un aumento gradual de lunes a domingo",
       "overview.eyebrow": "UN MOMENTO PARA TI",
       "overview.greeting": "Hola, Invitado",
-      "overview.subtitle": "Veamos con calma cómo te sientes hoy.",
+      "overview.subtitle": "Tus grabaciones, conectadas con claridad.",
       "overview.scanButton": "Iniciar adquisición",
-      "overview.noticeTitle": "Una nota sobre esta experiencia:",
-      "overview.noticeBody": "Las mediciones proceden de la fuente seleccionada. La simulación y reproducción están etiquetadas. No se calcula una puntuación médica ni un diagnóstico.",
+      "overview.noticeTitle": "Conoce el origen.",
+      "overview.noticeBody": "Los datos de ejemplo y las reproducciones se identifican claramente. Arteria explica grabaciones, no ofrece diagnósticos.",
       "overview.patchLabel": "TU PARCHE",
       "overview.dailyOverview": "Resumen del día",
       "overview.steady": "Señales estables hoy",
@@ -393,11 +393,11 @@
       "overview.patternsPersonal": "Cada persona es diferente. Tu equipo de atención conoce todo el contexto.",
       "overview.seeTrends": "Ver mis tendencias",
       "overview.companionLabel": "TU COMPAÑERA PERSONAL",
-      "overview.hereForYou": "ESTAMOS AQUÍ PARA TI",
+      "overview.hereForYou": "TÚ ELIGES QUÉ COMPARTIR",
       "overview.companionGreeting": "¿Cómo te sientes hoy?",
       "overview.companionDescription": "Podemos hablar de tu rutina, explorar este prototipo o preparar algunas preguntas para tu equipo de atención.",
       "overview.talkAria": "Hablar con Aria",
-      "overview.private": "Tu privacidad es lo primero",
+      "overview.private": "Comparte solo lo que elijas",
       "overview.notClinician": "No es profesional de salud",
       "overview.closerLook": "UN POCO MÁS DE CERCA",
       "overview.glance": "Tu día de un vistazo",
@@ -416,7 +416,7 @@
       "overview.exploreTrends": "Explorar tendencias",
       "overview.illustrativeMovement": "Patrón de movimiento ilustrativo",
       "overview.realPatchData": "Aquí aparecerían los datos reales del parche",
-      "photon.eyebrow": "UNA IDEA DE SENSORES ÓPTICOS",
+      "photon.eyebrow": "TU ESPACIO DE GRABACIÓN",
       "photon.title": "Conoce Photon",
       "photon.subtitle": "Graba una sesión, revisa la señal y conserva su fuente y unidades.",
       "photon.noticeTitle": "Adquisición con una fuente identificada.",
@@ -455,7 +455,7 @@
       "photon.scienceNote": "Son solo conceptos de diseño. Aún no se ha demostrado su rendimiento ni su utilidad clínica.",
       "trends.eyebrow": "TU HISTORIAL PERSONAL",
       "trends.title": "Tus tendencias",
-      "trends.subtitle": "Observa los patrones y reconoce los pequeños logros.",
+      "trends.subtitle": "Explora tus grabaciones, compara señales y conserva los detalles importantes.",
       "trends.rangeLabel": "Elegir el período de tendencias",
       "trends.last7": "Últimos 7 días",
       "trends.last30": "Últimos 30 días",
@@ -596,18 +596,18 @@
       "sharing.unlockPlaceholder": "La frase de contraseña de tu archivo",
       "sharing.openButton": "Desbloquear y descargar la nota",
       "sharing.disclaimer": "Este prototipo no está conectado a un expediente médico y no envía archivos a proveedores. El correo puede revelar con quién te comunicaste, aunque el archivo adjunto está cifrado. No lo uses para una emergencia.",
-      "care.eyebrow": "UN ESPACIO DE APOYO",
-      "care.title": "Tu compañera de atención",
-      "care.subtitle": "Un espacio para conversar y prepararte para tu próxima consulta.",
-      "care.companion": "Tu compañera personal",
-      "care.disclaimer": "Aria es una guía informativa basada en reglas y respuestas fijas. No diagnostica, evalúa síntomas ni crea planes médicos, y no sustituye al equipo médico.",
+      "care.eyebrow": "CLARIDAD, A TU RITMO",
+      "care.title": "Comprende tus grabaciones",
+      "care.subtitle": "Explora la aplicación y prepara preguntas para tu próxima conversación.",
+      "care.companion": "Tu compañera de grabación",
+      "care.disclaimer": "Las explicaciones de IA necesitan un servicio configurado y tu consentimiento. La guía local usa respuestas fijas y se identifica como tal. Ninguna sustituye a tu equipo médico.",
       "care.welcome": "¡Hola! ¿Cómo te sientes hoy? Podemos hablar de tu rutina, explorar este prototipo o preparar algunas preguntas para tu equipo de atención.",
       "care.suggestionsLabel": "¿QUÉ TE AYUDARÍA?",
-      "care.suggestion1": "Ayúdame a prepararme para mi próxima cita",
+      "care.suggestion1": "¿Cómo reviso una grabación?",
       "care.suggestion2": "¿Qué es el concepto Photon?",
-      "care.suggestion3": "Dame una idea para moverme con suavidad",
+      "care.suggestion3": "¿Qué significan los intervalos de señal?",
       "care.inputPlaceholder": "¿Qué tienes en mente?",
-      "care.chatFootnote": "En esta demostración, los mensajes permanecen en esta sesión del navegador. Aria no sustituye el consejo médico.",
+      "care.chatFootnote": "El contexto se mantiene en memoria. Los mensajes enviados a la IA salen de este dispositivo. Sin diagnósticos ni consejos de tratamiento.",
       "care.noteEyebrow": "TU ATENCIÓN, A TU MANERA",
       "care.noteTitle": "Está bien tener preguntas.",
       "care.noteBody": "Anota lo que te preocupa antes de tu próxima cita. Aria puede ayudarte a organizarte; tu equipo de atención puede orientarte sobre temas médicos.",
@@ -863,77 +863,6 @@
   document.getElementById("footer-about").addEventListener("click", (event) => {
     event.preventDefault();
     showToast(translate("common.prototypeToast"));
-  });
-
-  function appendMessage(text, sender) {
-    const message = document.createElement("div");
-    message.className = `chat-message ${sender === "user" ? "user-message" : "aria-message"}`;
-    const avatar = document.createElement("div");
-    avatar.className = "message-avatar";
-    avatar.setAttribute("aria-hidden", "true");
-    avatar.textContent = sender === "user" ? "J" : "A";
-    const content = document.createElement("div");
-    content.className = "message-content";
-    const meta = document.createElement("div");
-    meta.className = "message-meta";
-    meta.textContent = translate(sender === "user" ? "care.userMeta" : "care.ariaMeta");
-    const bubble = document.createElement("div");
-    bubble.className = "message-bubble";
-    bubble.textContent = text;
-    content.append(meta, bubble);
-    message.append(avatar, content);
-    chatLog.append(message);
-    chatLog.scrollTop = chatLog.scrollHeight;
-  }
-
-  const emergencyWords = /\b(chest pain|chest hurts|shortness of breath|can't breathe|cannot breathe|trouble breathing|difficulty breathing|fainted|fainting|coughing blood|cough blood|sudden breathlessness)\b/i;
-  const concerningWords = /\b(one leg|calf|leg swelling|swollen leg|leg pain|warm leg|red leg|dvt|blood clot|clot)\b/i;
-  function companionReply(message) {
-    const emergencySymptoms = /\b(dolor en el pecho|falta de aire|dificultad para respirar|no puedo respirar|me cuesta respirar|desmayo|me desmay[eé]|toser sangre|toso sangre)\b/i;
-    const possibleClotSymptoms = /\b(una pierna|pantorrilla|pierna hinchada|pierna inflamada|hinchaz[oó]n|dolor en la pierna|pierna caliente|pierna roja|tvp|co[aá]gulo|co[aá]gulos)\b/i;
-    if (emergencyWords.test(message) || emergencySymptoms.test(message)) {
-      return translate("care.emergencyReply");
-    }
-    if (concerningWords.test(message) || possibleClotSymptoms.test(message)) {
-      return translate("care.symptomReply");
-    }
-    if (/\b(diagnos\w*|diagn[oó]stic\w*|is it dvt|do i have|am i at risk|interpret|reading|score|result|scan|tengo tvp|riesgo|lectura|resultado|escaneo)\b/i.test(message)) {
-      return translate("care.readingReply");
-    }
-    if (/\b(photon|light|photonic|scan|infrared)\b/i.test(message)) {
-      return translate("care.photonReply");
-    }
-    if (/\b(appointment|doctor|clinician|care team|question|cita|consulta|m[eé]dico|doctora|equipo de atenci[oó]n|pregunta)\b/i.test(message)) {
-      return translate("care.appointmentReply");
-    }
-    if (/\b(movement|walk|exercise|activity|steps|movimiento|caminar|ejercicio|actividad|pasos)\b/i.test(message)) {
-      return translate("care.movementReply");
-    }
-    if (/\b(hello|hi|hey|good morning|hola|buenos d[ií]as|buenas tardes|buenas noches)\b/i.test(message)) {
-      return translate("care.helloReply");
-    }
-    return translate("care.generalReply");
-  }
-
-  function sendMessage(text) {
-    const cleanText = text.trim();
-    if (!cleanText) return;
-    appendMessage(cleanText, "user");
-    appendMessage(companionReply(cleanText), "aria");
-  }
-  chatForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    sendMessage(chatInput.value);
-    chatInput.value = "";
-    chatInput.focus();
-  });
-  document.querySelectorAll(".suggestion-button").forEach((button) => {
-    button.addEventListener("click", () => sendMessage(button.textContent));
-  });
-  document.getElementById("clear-chat").addEventListener("click", () => {
-    chatLog.replaceChildren();
-    appendMessage(translate("care.startOver"), "aria");
-    chatInput.focus();
   });
 
   document.getElementById("voice-button").addEventListener("click", () => {

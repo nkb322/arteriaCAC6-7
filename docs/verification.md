@@ -11,7 +11,11 @@ Branch: `codex/measurement-pipeline`. See [final independent verification](final
 | My trends | IndexedDB final/recovered history, actual date ranges, channels, comparison, saved notes, CSV/JSON, offline HTML report, explicit deletion | All these records and exports are unencrypted; compare matching units/meanings/conditions |
 | Find care | City search, opt-in location flow, radius/type/access filters, cancellation, timeouts and safe result rendering | External listings may be incomplete/outdated; physical GPS permissions are not verified |
 | Share securely | Local encrypted download, unlock/decrypt, wrong-key/tamper rejection, clear form and optional allowlisted email path | Actual provider delivery needs authorized server configuration and a real delivery check |
-| Care guide | Informational fixed-rule conversation, suggestions, safe text insertion, clear/read-aloud and appointment-note link | No learned model, personalized treatment plan or clinical triage |
+| Aria companion | Optional server-side AI, bounded in-memory context, separate summary consent, clear/cancel, labeled offline guide, read-aloud | Provider requests tested with mocks; live AI unverified. No diagnostic model or clinical triage |
+
+## Product upgrade coverage
+
+See `product-upgrade.md` and `ai-companion.md` for the current added features and verified limits. The previous 83-check release remains tagged as a fallback. New coverage exercises provider request schemas, request/output bounds, consent, provenance, summaries, rates/concurrency, failure redaction, context trimming, filters, and integrated browser workflows. Exact final counts are in the release handoff.
 
 ## Automated suites
 

@@ -14,3 +14,7 @@ Use Chrome in a foreground tab, a known local preview and synthetic data. Prepar
 The mock source can replace the dropout segment if showing connection failure/restart is more compelling. Keep a saved recording ready if a live timer or external service behaves unexpectedly. Optional clinic search/encrypted-note unlock can be shown briefly if the video remains under 3 minutes; focus on causal programming behavior rather than touring every page.
 
 Rehearse personally and verify the exact submitted commit. Use only genuine student contribution claims; see `student-guide.md`. Nothing in these scripts uploads a video or submits the competition entry.
+
+## Updated product and optional AI segment
+
+Use the upgraded dashboard, source labels, filters and report preview from the current release. If a live provider has been configured and separately verified, replace the 2:15–2:35 recovery explanation with a brief Aria interaction: review the summary from My trends, show both unchecked consents, explicitly enable sharing and ask what the engineering gaps mean. Never describe that answer as a diagnosis. If credentials are unavailable, show the honest unavailable badge and local guide instead, and explain that endpoint integration passed mocked tests. Do not present the test server or its mock replies as live AI. The model/provider name, real student contributions and final video wording must remain truthful.

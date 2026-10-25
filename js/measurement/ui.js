@@ -1,3 +1,4 @@
+import {filterSessions} from './filters.js';
 import {loadPreferences} from '../profile/preferences.js';
 import {MeasurementController} from './controller.js';
 import {SessionStore} from './session-store.js';
@@ -56,6 +57,7 @@ function download(session, format) {
   } catch { uiError='export'; }
   scheduleRender();
 }
+export const savedSessions=()=>sessions;
 export function measurementInfo(){return {state:controller.snapshot(),session:currentSession(),count:sessions.length,ready,storageError};}
 export function historyJSON(){return JSON.stringify({format:"arteria-history",schemaVersion:1,exportedAt:new Date().toISOString(),recordings:sessions.map(s=>JSON.parse(exportJSON(s)))});}
 export async function clearRecordings(){
@@ -78,6 +80,9 @@ function render() {
   $('device-state').dataset.state = state.status;
   $('device-state').closest('.patch-card').dataset.state = state.status;
   $('overview-source').textContent = sourceLabel(session);
+  $('overview-empty').hidden=state.active||!!session?.samples.length;
+  $('overview-saved-count').textContent=number(sessions.length);
+  $('overview-report').disabled=state.active||state.saving||!sessions.length;
   $('overview-count').textContent = number(derived?.accepted || 0);
   $('overview-status').textContent = state.active ? statusLabel(state) : session ? t(session.status) : t('disconnected');
   $('overview-summary').textContent = session ? `${session.descriptor.deviceName} · ${t('sessionAt')}: ${date(session.startedAt)}` : t('noData');
@@ -104,6 +109,7 @@ function render() {
   $('progress-label').textContent = `${percent}% · ${number(state.elapsedMs/1000)} ${t('seconds')} ${t('elapsed')}`;
   $('acquisition-progress').setAttribute('aria-label', t('sessionLength'));
   const channelStats = channel && derived?.channels[channel.id];
+  $('quality-explanation').textContent=!state.active&&!derived?.accepted?t('qualityStart'):!derived||derived.accepted<20?t('qualityCollecting'):derived.missing||derived.timingGaps?t('qualityGaps'):derived.rejected||Object.values(derived.channels).some(c=>c.flatline||c.clipped||c.stepJumps)?t('qualityReview'):t('qualityContinuous');
   $('acquisition-stats').textContent = `${t('accepted')}: ${number(derived?.accepted || 0)} · ${quality(derived)}${channelStats?.count ? ` · ${t('mean')}: ${number(channelStats.mean)} ${channel.unit} · ${t('range')}: ${number(channelStats.min)}–${number(channelStats.max)} ${channel.unit}` : ''}`;
   const error = uiError || state.error || storageError;
   text('measurement-error', error ? errorText(error) : '');
@@ -118,17 +124,19 @@ function render() {
 }
 function scheduleRender() { if (!renderTimer) renderTimer = setTimeout(render, 200); }
 controller.subscribe(scheduleRender);
-function filteredSessions() {
-  const cutoff = Date.now() - Number($('range-select').value) * 86400000;
-  return sessions.filter(s => Date.parse(s.startedAt) >= cutoff);
+function filteredSessions(){
+ try{return filterSessions(sessions,{days:$('range-select').value,from:$('history-from').value,to:$('history-to').value,source:$('history-source').value});}
+ catch{return [];}
 }
+function invalidDates(){return $('history-from').value&&$('history-to').value&&$('history-from').value>$('history-to').value;}
 function renderHistory() {
+  for(const id of ['history-from','history-to'])$(id).setAttribute('aria-invalid',String(!!invalidDates()));
   const filtered = filteredSessions();
   $('history-count').textContent = number(filtered.length);
   $('history-samples').textContent = number(filtered.reduce((n,s) => n+s.samples.length,0));
   $('history-duration').textContent = `${number(filtered.reduce((n,s) => n + (s.derived?.durationMs || 0),0) / 1000)} ${t('seconds')}`;
-  $('trend-range-title').textContent = t($('range-select').value === '30' ? 'month' : 'week');
-  $('history-status').textContent = storageError ? errorText(storageError) : filtered.length ? '' : t('emptyHistory');
+  $('trend-range-title').textContent = t(['7','30'].includes($('range-select').value)?$('range-select').value==='30'?'month':'week':'allRecordings');
+  $('history-status').textContent = invalidDates()?t('dateRange'):storageError?errorText(storageError):filtered.length?'':t('emptyHistory');
   if (!filtered.some(s => s.id === selectedId)) selectedId = filtered[0]?.id || null;
   $('session-list').replaceChildren(...filtered.map(s => {
     const button = document.createElement('button'); button.className = 'session-choice'; button.type = 'button';
@@ -142,7 +150,7 @@ function renderSelected() {
   const session = filteredSessions().find(s => s.id === selectedId);
   populateChannels($('history-channel'), session);
   $('history-selection').textContent = session ? `${t('sessionAt')}: ${date(session.startedAt)} · ${sourceLabel(session)} · ${quality(session.derived)}` : '';
-  for (const id of ['history-json','history-csv','history-delete','history-replay','history-report','save-session-notes']) $(id).disabled = !session;
+  for (const id of ['history-json','history-csv','history-delete','history-replay','history-report','history-preview','history-explain','save-session-notes']) $(id).disabled = !session;
   drawChart($('history-chart'), session, $('history-channel').value);
   $('session-notes').disabled=!session;
   $('session-notes').value=session?(notesDrafts.get(session.id)??session.notes??''):'';
@@ -184,12 +192,19 @@ $('save-session-notes').addEventListener('click',async()=>{
   catch{$('notes-status').textContent=errorText('storage');}
   finally{$('save-session-notes').disabled=!selectedId;}
 });
+$('overview-report').addEventListener('click',()=>download(sessions[0],'html'));
+$('history-preview').addEventListener('click',()=>{const session=sessions.find(s=>s.id===selectedId);if(!session)return;$('report-preview-frame').srcdoc=sessionReport(session,{locale:language()});$('report-preview').showModal();});
+$('report-preview-close').addEventListener('click',()=>$('report-preview').close());
+$('report-preview').addEventListener('close',()=>{$('report-preview-frame').srcdoc='';});
+$('history-explain').addEventListener('click',()=>{if(!selectedId)return;document.querySelector('[data-view="care"]').click();document.dispatchEvent(new CustomEvent('arteria-explain-session',{detail:selectedId}));});
 $('history-report').addEventListener('click',()=>download(sessions.find(s=>s.id===selectedId),'html'));
 $('compare-session').addEventListener('change',()=>{compareId=$('compare-session').value||null;renderComparison(filteredSessions().find(s=>s.id===selectedId));});
 $('compare-channel').addEventListener('change',()=>renderComparison(filteredSessions().find(s=>s.id===selectedId)));
 $('channel-select').addEventListener('change', scheduleRender);
 $('history-channel').addEventListener('change', renderSelected);
 $('range-select').addEventListener('change', renderHistory);
+for(const id of ['history-from','history-to','history-source'])$(id).addEventListener('change',renderHistory);
+$('history-reset-filters').addEventListener('click',()=>{$('history-from').value='';$('history-to').value='';$('history-source').value='all';$('range-select').value='7';renderHistory();});
 $('replay-file').addEventListener('change', async () => {
   const generation = ++importGeneration, file = $('replay-file').files[0]; recording = null; uiError = null;
   try { if (file) { if (file.size > LIMITS.fileBytes) throw new Error('fileSize'); const text = await file.text(); if (generation !== importGeneration) return; recording = importSession(text); } }

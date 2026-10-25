@@ -12,7 +12,9 @@
     "pretest:release": "npm run build",
     "test:release": "node tests/release-browser.cjs",
     "pretest:profile": "npm run build",
-    "test:profile": "node tests/profile-browser.cjs"
+    "test:profile": "node tests/profile-browser.cjs",
+    "pretest:product": "npm run build",
+    "test:product": "node tests/product-browser.cjs"
   },
   "engines": {
     "node": ">=20"

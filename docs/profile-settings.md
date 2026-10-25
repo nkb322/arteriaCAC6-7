@@ -1,5 +1,7 @@
 # Profile & Settings
 
+The test totals below describe earlier profile/greeting releases. The current product release also includes the optional AI companion and expanded product tests; see `product-upgrade.md` and the latest handoff for complete results.
+
 Open the header avatar, sidebar guest profile or Profile & Settings link. The page is available directly at `#profile` and works with the existing back/forward navigation. It is a local guest experience, not authentication or a registered account.
 
 ## What is saved

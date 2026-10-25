@@ -1,91 +1,71 @@
-# Arteria — software release candidate
+# Arteria — product release candidate
 
-The original six-screen application now includes a local Profile & Settings page alongside a shared measurement pipeline, recovery checkpoints, simulation, recording replay, live acquisition charts, local history, session comparison, notes, offline reports and encrypted-note downloads. **No physical hardware, clinical ML model, diagnostic score, or thrombosis detection has been implemented or verified.**
+A local-first wearable research companion with Photon recording/replay, live charts, signal checks, recovery, saved sessions, comparisons, offline reports, encrypted notes, real clinic search and Profile & Settings. The optional Aria AI companion explains the app and explicitly shared recording summaries through a server-side provider endpoint.
 
-## Start
+**Physical hardware and clinical/diagnostic performance are unverified. Sample data is always labeled. Live AI is unverified without configured provider credentials; mocked tests are not a live model demonstration.**
 
-Node.js 20+ is required; the release is tested on Node 24 and 26. There are no runtime package dependencies or application frameworks.
+## Run locally
+
+Use Node 24 (Node 20+ supported by package engines):
 
 ```sh
 npm start
 ```
 
-Open http://127.0.0.1:8766. Use an HTTP localhost origin, not `file://`.
-
-For the isolated production-like preview:
+Open http://127.0.0.1:8766. For production-like files/headers:
 
 ```sh
 npm run build
-npm run preview
+PORT=8769 npm run preview
 ```
 
-`PORT=8769 npm run preview` uses another port if a development server is already running. `build` writes an explicit public-file allowlist to `dist/`; it excludes tests, backend source, environment files, Git metadata and the obsolete React bundle. No cloud deployment is performed.
+Static local servers do not execute Netlify Functions. Aria honestly shows unavailable and offers the local app guide; encrypted-note downloads work without email. Use Netlify's local function tooling or a separately approved hosted preview to test configured AI/email.
 
-## Demonstrate the complete workflow
+## Core workflow
 
-1. In **Photon acquisition**, choose Simulation and a 10-second recording. Start acquisition; Overview and the waveform follow accepted samples.
-2. Choose **Missing samples / pause** for a second recording. It pauses after 3 seconds, becomes stale, resumes at 6 seconds, and records the sequence gap. Labels remain SIMULATED.
-3. Stop/save, or let recording finish. In **My trends**, select a dated session/channel, export CSV/JSON, add and save a note, and download an HTML report. Reports contain graphs, statistics, units, provenance and saved notes; open them offline or print from your browser.
-4. Choose another saved session under **Compare**. Graphs remain side by side with separate units/source labels; compare values only when acquisition conditions, units and channel meanings match.
-5. Replay a selected session at 1×/2×/4×, or load `fixtures/simulated-session.json`. Simulated recordings remain simulated. Imported hardware origin is a declaration, not verified provenance.
-6. Test recovery: record for a few seconds, observe **Recovery checkpoint saved**, then refresh and confirm navigation. The available checkpoint returns as an interrupted session with its original timestamps. An unexpected closure can lose samples after the most recent committed checkpoint.
-7. Choose **Mock device (synthetic)** to exercise connection delay, streaming, duplicate/malformed frames and an intentional disconnection after about 4 seconds. Starting again creates a fresh session. This uses the application interchange format, not Nina's unknown wire protocol.
-8. **Share securely** can encrypt and download a note without email configuration or email consent. Unlock it using its passphrase. Email is optional and separately configured. **Care guide** is an informational rule-based companion and links to preparing an appointment note.
-
-English/Spanish controls, accessibility preferences, keyboard navigation and the clinic locator remain available. New charts and comparison views resize without changing the existing design/palette.
-
-## Profile & Settings
-
-Open the header avatar or sidebar Profile & Settings link to edit the local guest name/avatar, reuse language/accessibility settings, configure recording/chart preferences, inspect source status and export/delete local history. Nothing creates a cloud account. See [profile settings and privacy](docs/profile-settings.md).
+1. Start a short Photon sample recording. Missing samples / pause demonstrates stale/resume and gaps through the common pipeline. Mock device is explicitly synthetic; no protocol is assumed.
+2. Overview follows accepted samples; it has no medical wellness score. Stop saves a recording and recovery batches persist during acquisition.
+3. My trends filters dates/source and compares sessions. Save notes, preview/download a report, export CSV/JSON or replay a session. Report previews are sandboxed and script-free.
+4. Ask Aria about a recording opens a summary for review. Nothing leaves the device until both message and separate summary consent are checked and the user sends a request.
+5. Profile & Settings saves a local guest name/avatar, recording/chart preferences and shared language/accessibility settings. Data controls export history, confirm deletion or clear local Arteria data.
 
 ## Tests
 
 ```sh
-npm test
 npm ci
+npm test
 npm run test:browser
 npm run test:release
 npm run test:profile
+npm run test:product
 ```
 
-`npm test` uses Node's built-in runner. `npm ci` installs only the pinned browser-test development dependency, Playwright. Browser tests use installed Google Chrome by default; set `CHROME_EXECUTABLE` if needed. An existing Playwright installation can be selected using `PLAYWRIGHT_MODULE_PATH`.
+There are no runtime npm dependencies. Playwright is pinned as a development dependency; browser suites use installed Chrome. Set `CHROME_EXECUTABLE` if needed. `PLAYWRIGHT_MODULE_PATH` can select an existing Playwright installation. Test results/screenshots are saved under ignored `test-results/`; ports 8767/8768/8770/8773 are disposable loopback previews.
 
-The browser suites start disposable loopback servers on ports 8767 and 8768 and isolated profiles. They use synthetic recordings, fixture clinic responses and intercepted email delivery. No real email or physical device is used. Results/screenshots go to ignored `test-results/`. `test:release` builds the production allowlist first, then verifies restart/refresh recovery, cross-tab exclusion, mock failure/restart, comparison, notes, offline report safety, encrypted downloads, deletion, localization and security headers.
+The product server under tests uses an explicitly labeled mocked provider and the real handler. It is excluded from the public build. All service calls in automated tests are fixtures/intercepted mocks; no real AI inference, email send or physical device is claimed.
 
-## Recovery, storage and privacy
+## AI configuration and privacy
 
-- Accepted samples are buffered in memory; the first sample and approximately one-second batches are checkpointed transactionally in IndexedDB. Finalization waits for the pending checkpoint before saving the final session and removing its journal.
-- On startup, available interrupted drafts are revalidated and restored as interrupted sessions. Web Locks prevent another tab from stealing an actively recorded session. Without Web Locks, automatic cross-tab recovery is disabled: close other recording tabs and use **Check interrupted recordings** manually.
-- The UI shows how many samples reached a checkpoint. Crash/power failure can lose the latest uncommitted tail; page-close events are only a best-effort extra checkpoint. Browser data deletion/eviction can remove local records. Export backups.
-- Measurement history, checkpoints, session notes, CSV/JSON and HTML reports are **unencrypted**. The separate encrypted-note feature does not protect those records. Other users of the same browser profile can access them.
-- Delete one session or all sessions/checkpoints explicitly in My trends. Erasure does not remove downloaded files. A Chrome tab holding a recording lock blocks bulk erase. Clear the encrypted-note form separately if it contains private text.
-- Arteria uploads no measurement sessions. Clinic searches send the selected city or consented rounded coordinates to Nominatim/Photon. Remote Google Fonts are requested for the original visual identity. Chat uses fixed replies locally; browser read-aloud uses the browser's speech facility.
-- Parser/import bounds: 16 KiB internal UTF-8 frames, 24 MiB JSON imports, up to 8 channels and 100,000 accepted samples, and 300 seconds in the controller. The UI offers 10/20/60 seconds. A conservative serialized-size budget stops acquisition before an app-produced compact JSON recording would exceed its replay-import limit.
-- Samples need increasing sequence and device-relative time. Host receipt times are separate and nondecreasing. Duration/staleness use a monotonic clock so wall-clock changes do not extend a recording. A reconnect/device clock reset requires a new session.
-- Signal checks are nonclinical: missing sequences, timing gaps, flatline, declared-limit counts and adjacent steps above 20% of a declared range. The last heuristic is an explicit engineering threshold, not physiological validation. No range is invented for unknown sensors. Mean/min/max/standard deviation are descriptive, not a clinical conclusion.
-- Chrome is the validated browser. Other browsers have not received full end-to-end verification. Device API availability must be tested later on the hardware's target platform.
+[AI setup and security](docs/ai-companion.md) explains the server-only variables, provider adapter, limits, consent and live acceptance checks. `.env.example` contains blank placeholders only. `ARTERIA_AI_ENABLED` defaults to disabled. Set an explicit provider/model/key on the server; never put keys in browser code. OpenAI Responses is supported, plus explicitly allowlisted HTTPS providers implementing the documented compatible Chat Completions format.
 
-## Netlify and optional email
+Profile, preferences, recordings, checkpoints, notes, CSV/JSON and reports are **unencrypted local browser data**. Only the separate passphrase-encrypted note attachment is encrypted. AI sends user-approved messages/recent context and an optional reviewed aggregate summary to the configured provider; it does not automatically upload recordings, notes, identity or location. Clear/revoke removes local AI context but cannot remove data already sent externally. Clinic searches use Nominatim/Photon with city or consented approximate location. Google Fonts supports the existing visual identity.
 
-`netlify.toml` builds `dist/` with Node 24 and uses `netlify/functions` for the existing email function. `_headers` applies CSP, no-referrer, anti-framing, MIME-sniffing protection and a restricted permissions policy. The local production preview uses the same header file. The public site has not been modified.
+Crash recovery restores committed batches; the newest uncommitted tail may be lost. Browser eviction/clearing can remove records. Without Web Locks, recovery is manual after other recording tabs are closed. Keep exports as backups. The parser/import/controller bounds and physical integration contract remain documented in `hardware-connection.md` and `architecture.md`.
 
-Email requires **server-side** Netlify variables:
+## Netlify
 
-- `RESEND_API_KEY`
-- `RESEND_FROM_EMAIL` (verified sender)
-- `ARTERIA_ALLOWED_RECIPIENTS` (comma-separated explicitly authorized recipients)
+`netlify.toml` builds with Node 24, command `npm run build`, publish directory `dist`, Functions directory `netlify/functions`. The build explicitly excludes tests, environment files, Git metadata and backend source from public files. `_headers` supplies CSP and related security headers.
 
-Without all three, email safely returns a setup error and local encrypted downloads remain available. See `.env.example`; never put real keys in frontend source. The function validates streamed body size/format, restricts recipients, bounds provider requests, uses idempotency and applies a best-effort per-instance rate cap. This cap is not a distributed anti-abuse service; retain provider spending/rate limits when configuring public email. Origin checks are not authentication.
+For the full app deploy Functions as well as dist. Static-only drag/drop publishes local features but omits AI/email functions. Optional encrypted email additionally needs `RESEND_API_KEY`, `RESEND_FROM_EMAIL` and `ARTERIA_ALLOWED_RECIPIENTS` in server-side configuration. Existing recipient restrictions and provider safeguards remain. No push, main merge or public deployment was performed.
 
-Local static servers do not execute Netlify functions. Server-function tests intercept provider calls; actual configured delivery and production hosting behavior require a separately approved deployment/delivery check.
+## Handoff
 
-## Hardware and CAC handoff
+- [Product changes and limits](docs/product-upgrade.md)
+- [AI setup and security](docs/ai-companion.md)
+- [Architecture](docs/architecture.md)
+- [Hardware specifications still needed](docs/hardware-connection.md)
+- [Profile settings and privacy](docs/profile-settings.md)
+- [Demo plan](docs/demo-plan.md)
+- [Student review and AI disclosure](docs/student-guide.md)
 
-- [Architecture and code map](docs/architecture.md)
-- [Nina's exact hardware requirements and adapter contract](docs/hardware-connection.md)
-- [Features, tests and remaining limits](docs/verification.md)
-- [Earlier release verification and deployment instructions](docs/final-release-verification.md)
-- [2–3 minute demonstration plan](docs/demo-plan.md)
-- [Student understanding and truthful AI disclosure](docs/student-guide.md)
-
-AI assisted implementation and testing of this branch. The team must review, understand and personally verify the code, identify its actual contributions, and disclose AI assistance accurately. Original project attribution and MIT license are retained. No patient data, private research firmware, hardware protocol or clinical model was supplied or published.
+AI assisted implementation, debugging, testing and documentation. Students must review the code, personally verify the app and accurately document their significant technical contributions. No clinical model, patient dataset, confidential firmware or biomedical prediction was fabricated.
