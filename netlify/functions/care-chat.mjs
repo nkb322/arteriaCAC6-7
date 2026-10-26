@@ -1,6 +1,7 @@
 import {careInstructions} from '../lib/care-prompt.mjs';
 import {validateSummary} from '../../js/care/session-summary.js';
 import {urgentConcern,urgentMessage,diagnosisConcern,diagnosisMessage,unsafeMedicalClaim} from '../../js/care/safety.js';
+import {verifiedProductAnswer} from '../../js/care/product-knowledge.js';
 export const DEFAULT_OPENAI_MODEL='gpt-6-luna';
 export const DEFAULT_GROQ_MODEL='openai/gpt-oss-20b';
 const MAX_BODY=24576,MAX_REPLY=4000;
@@ -43,13 +44,22 @@ export function validateRequest(body){
  if(body.analysisMode===true&&(body.session===undefined||body.sessionConsent!==true))throw Error('consent');
  return {messages,language:body.language,...(body.session!==undefined?{session:validateSummary(body.session),...(body.comparison!==undefined?{comparison:validateSummary(body.comparison)}:{})}:{}) ,...(body.analysisMode===true?{analysisMode:true}:{})};
 }
+export function hasOnlySummaryNumbers(reply,summaries){
+ if(typeof reply!=='string'||reply.length>MAX_REPLY)return false;
+ const allowed=new Set();const visit=value=>{if(typeof value==='number'&&Number.isFinite(value)){allowed.add(String(value));for(const locale of ['en','es']){allowed.add(new Intl.NumberFormat(locale,{maximumFractionDigits:4}).format(value));allowed.add(new Intl.NumberFormat(locale,{maximumFractionDigits:2}).format(value));allowed.add(String(Math.round(value*100)/100));}if(Number.isInteger(value))allowed.add(value.toLocaleString('en'));}else if(value&&typeof value==='object')Object.values(value).forEach(visit);};summaries.forEach(visit);
+ const numericTokens=reply.match(/(?<![\p{L}])[-+]?\d+(?:[.,]\d+)?%?/gu)||[];
+ return numericTokens.every(token=>allowed.has(token.replaceAll(',','').replace('%',''))||allowed.has(token.replace('%',''))||allowed.has(token));
+}
 export function validateAnalysisReply(reply,language,summaries){
  if(typeof reply!=='string'||reply.length>MAX_REPLY)return false;
  const headings=language==='es'?['Resumen de la grabación:','Calidad de la señal:','Patrones observables:','Resumen sencillo:','Preguntas para continuar:']:['Recording overview:','Signal quality:','Observable patterns:','Plain-language summary:','Follow-up questions:'];
  if(!headings.every(h=>reply.toLowerCase().includes(h.toLowerCase())))return false;
- const allowed=new Set();const visit=value=>{if(typeof value==='number'&&Number.isFinite(value)){allowed.add(String(value));for(const locale of ['en','es']){allowed.add(new Intl.NumberFormat(locale,{maximumFractionDigits:4}).format(value));allowed.add(new Intl.NumberFormat(locale,{maximumFractionDigits:2}).format(value));allowed.add(String(Math.round(value*100)/100));}if(Number.isInteger(value))allowed.add(value.toLocaleString('en'));}else if(value&&typeof value==='object')Object.values(value).forEach(visit);};summaries.forEach(visit);
- const numericTokens=reply.match(/(?<![\p{L}])[-+]?\d+(?:[.,]\d+)?%?/gu)||[];
- return numericTokens.every(token=>allowed.has(token.replaceAll(',','').replace('%',''))||allowed.has(token.replace('%',''))||allowed.has(token));
+ return validateSessionReply(reply,language,summaries);
+}
+export function validateSessionReply(reply,language,summaries){
+ if(typeof reply!=='string'||reply.length>MAX_REPLY)return false;
+ const distinctions=language==='es'?['Mediciones verificadas:','Posibles explicaciones:','Información desconocida:']:['Verified measurements:','Possible explanations:','Unknown:'];
+ return distinctions.every(h=>reply.toLowerCase().includes(h.toLowerCase()))&&hasOnlySummaryNumbers(reply,summaries);
 }
 export function createHandler({env=process.env,fetchImpl=fetch,now=Date.now,timeoutMs=20000}={}){
  let windowStart=0,count=0,inFlight=0;
@@ -64,6 +74,8 @@ export function createHandler({env=process.env,fetchImpl=fetch,now=Date.now,time
   let input;try{input=validateRequest(await boundedJSON(request.body,MAX_BODY,5000,request.signal));}catch(e){if(request.signal.aborted)return json(499,{code:'cancelled'});return json(e.message==='size'?413:400,{code:e.message==='consent'?'consent':'input'});}
   if(urgentConcern(input.messages.at(-1).content))return json(200,{reply:urgentMessage(input.language),kind:'safety'});
   if(diagnosisConcern(input.messages.at(-1).content))return json(200,{reply:diagnosisMessage(input.language),kind:'safety'});
+  const productAnswer=verifiedProductAnswer(input.messages.at(-1).content,input.language,{sessionShared:!!input.session});
+  if(productAnswer)return json(200,{reply:productAnswer,kind:'product'});
   if(!config)return json(503,{code:'unavailable'});
   if(now()-windowStart>=60000){windowStart=now();count=0;}
   if(count>=10||inFlight>=2)return json(429,{code:'rate'},{'Retry-After':'60'});count++;inFlight++;
@@ -78,8 +90,10 @@ export function createHandler({env=process.env,fetchImpl=fetch,now=Date.now,time
    if(openai&&result.status&&result.status!=='completed')return json(502,{code:'provider'});
    const reply=openai?(result.output||[]).filter(item=>item.type==='message').flatMap(item=>item.content||[]).filter(item=>item.type==='output_text'||item.type==='refusal').map(item=>item.text||item.refusal||'').join('\n'):result.choices?.[0]?.message?.content;
    if(typeof reply!=='string'||!reply.trim()||reply.length>MAX_REPLY||reply.includes(config.key))return json(502,{code:'provider'});
-   if(input.analysisMode&&!validateAnalysisReply(reply,input.language,[input.session,...(input.comparison?[input.comparison]:[])]))return json(502,{code:'analysis'});
+   const sharedSummaries=input.session?[input.session,...(input.comparison?[input.comparison]:[])]:[];
+   if(input.analysisMode&&!validateAnalysisReply(reply,input.language,sharedSummaries))return json(502,{code:'analysis'});
    if(unsafeMedicalClaim(reply))return json(200,{kind:'safety',reply:input.language==='es'?'No puedo ofrecer diagnósticos, cálculos de riesgo ni instrucciones de tratamiento. Consulta a un profesional sanitario. Puedo explicar las funciones y comprobaciones de señal de Arteria.':'I cannot provide a diagnosis, personal risk estimate or treatment instructions. Please consult a qualified clinician. I can explain Arteria’s features and signal checks.'});
+   if(input.session&&!validateSessionReply(reply,input.language,sharedSummaries))return json(502,{code:'grounding'});
    return json(200,{reply:reply.trim(),kind:'ai',provider:config.label,model:config.model});
   }catch(error){if(request.signal.aborted)return json(499,{code:'cancelled'});if(deadline.aborted||error.name==='TimeoutError'||error.message==='timeout')return json(504,{code:'timeout'});return json(502,{code:'provider'});}finally{inFlight--;}
  };

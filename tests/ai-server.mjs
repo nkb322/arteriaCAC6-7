@@ -8,7 +8,8 @@ const upstream=async(_url,options)=>{
  await new Promise(resolve=>setTimeout(resolve,mode==='slow'?600:mode==='timeout'?200:10));
  if(mode==='rate')return new Response('',{status:429});
  if(mode==='fail')throw Error('AI-TEST-ONLY-KEY must not appear in the client');
- const text=payload.messages[0].content.includes('Reply in Spanish.')?'Respuesta simulada para la prueba: un intervalo indica datos ausentes, no un diagnóstico.':'Mock provider fixture: Arteria records and reviews signals. A gap describes missing data, not a diagnosis.';
+ const latest=payload.messages.at(-1).content,spanish=payload.messages[0].content.includes('Reply in Spanish.');
+ const text=latest.includes('User-shared recording data')?(spanish?'Mediciones verificadas: valores compartidos. Posibles explicaciones: ninguna confirmada. Información desconocida: causa y significado clínico.':'Verified measurements: supplied values. Possible explanations: none confirmed. Unknown: cause and clinical meaning.'):(spanish?'Respuesta simulada para la prueba: un intervalo indica datos ausentes, no un diagnóstico.':'Mock provider fixture: Arteria records and reviews signals. A gap describes missing data, not a diagnosis.');
  return new Response(JSON.stringify({choices:[{message:{role:'assistant',content:text}}]}));
 };
 let handler=createHandler({env,fetchImpl:upstream});

@@ -20,6 +20,7 @@
     "test:complete": "node tests/complete-browser.cjs",
     "ai:local": "npm run build && node --env-file-if-exists=.env scripts/serve-ai.mjs",
     "ai:check": "node scripts/check-ai.mjs",
+    "ai:evaluate": "node scripts/evaluate-ai.mjs",
     "pretest:ai": "npm run build",
     "test:ai": "node tests/ai-browser.cjs",
     "pretest:analysis-browser": "npm run build",

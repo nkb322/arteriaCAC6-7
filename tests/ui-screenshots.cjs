@@ -23,6 +23,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
         const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth);
         assert.equal(overflow,false,`${view} overflows at ${size}`);
         await page.locator(`#view-${view}`).screenshot({path:path.join(output,`${size}-${view}.png`),animations:'disabled'});
+        await page.screenshot({path:path.join(output,`${size}-${view}-application.png`),fullPage:true,animations:'disabled'});
         if(view==='care'&&size==='desktop'){
           await page.check('#care-ai-consent');await page.fill('#chat-input','What does signal quality mean?');await page.click('#chat-form [type="submit"]');
           await page.waitForFunction(()=>document.getElementById('chat-form').getAttribute('aria-busy')==='false');

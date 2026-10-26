@@ -5,7 +5,7 @@ import {sessionSummary} from '../js/care/session-summary.js';
 import {readFileSync} from 'node:fs';
 const summary=sessionSummary(JSON.parse(readFileSync('fixtures/simulated-session.json')).session);
 const env={ARTERIA_AI_ENABLED:'true',ARTERIA_AI_PROVIDER:'openai',ARTERIA_AI_MODEL:'mock-model',ARTERIA_AI_API_KEY:'server-only-test-secret'};
-const request=(body={language:'en',messages:[{role:'user',content:'Explain signal gaps'}]},headers={},method='POST')=>new Request('https://arteria.example/api/care-chat',{method,headers:{origin:'https://arteria.example','content-type':'application/json',...headers},...(method==='POST'?{body:JSON.stringify(body)}:{})});
+const request=(body={language:'en',messages:[{role:'user',content:'Help me phrase a question about a research prototype.'}]},headers={},method='POST')=>new Request('https://arteria.example/api/care-chat',{method,headers:{origin:'https://arteria.example','content-type':'application/json',...headers},...(method==='POST'?{body:JSON.stringify(body)}:{})});
 const answer=text=>new Response(JSON.stringify({status:'completed',output:[{type:'message',content:[{type:'output_text',text}]}]}));
 test('AI endpoint validates origin, method, content type, schema and message roles',async()=>{
  const h=createHandler({env});assert.equal((await h(request({}, {},'DELETE'))).status,405);assert.equal((await h(request({}, {origin:'https://evil.example'}))).status,403);assert.equal((await h(request({}, {'content-type':'text/plain'}))).status,415);
@@ -19,14 +19,14 @@ test('OpenAI integration sends bounded stateless context and returns actual prov
  let captured;const h=createHandler({env,fetchImpl:async(url,options)=>{captured={url,options};return answer('A timing gap means some signal time is missing.');}});const response=await h(request());assert.equal(response.status,200);const result=await response.json();assert.equal(result.kind,'ai');assert.equal(result.model,'mock-model');assert.equal(captured.url,'https://api.openai.com/v1/responses');const payload=JSON.parse(captured.options.body);assert.equal(payload.store,false);assert.equal(payload.max_output_tokens,700);assert.match(payload.instructions,/Never diagnose DVT/);assert.equal(captured.options.redirect,'error');assert.ok(captured.options.signal);assert.equal(captured.options.headers.Authorization,'Bearer '+env.ARTERIA_AI_API_KEY);
 });
 test('session sharing requires separate consent and strips notes, identities and raw samples',async()=>{
- let payload;const h=createHandler({env,fetchImpl:async(_,options)=>{payload=JSON.parse(options.body);return answer('This is a simulated recording.')}});
+ let payload;const h=createHandler({env,fetchImpl:async(_,options)=>{payload=JSON.parse(options.body);return answer('Verified measurements: shared values. Possible explanations: none confirmed. Unknown: cause. Mediciones verificadas: valores compartidos. Posibles explicaciones: ninguna confirmada. Información desconocida: causa.')}});
  assert.equal((await h(request({language:'en',messages:[{role:'user',content:'Explain this'}],session:summary}))).status,400);
  const s={...summary,notes:'private-note',deviceId:'private-id',samples:[{secret:1}]};assert.equal((await h(request({language:'es',messages:[{role:'user',content:'Explica esto'}],session:s,sessionConsent:true}))).status,200);
  assert.match(payload.instructions,/Spanish/);assert.ok(!payload.instructions.includes(summary.channels[0].label));assert.match(payload.input.at(-1).content,/untrusted labels/);const serialized=JSON.stringify(payload);for(const value of ['private-note','private-id','"secret":'])assert.ok(!serialized.includes(value));
 });
 test('structured AI analysis requires explicit session consent and rejects unsupported numeric claims',async()=>{
  const valid={language:'en',messages:[{role:'user',content:'Analyze this recording'}],session:summary,sessionConsent:true,analysisMode:true};assert.throws(()=>validateRequest({...valid,sessionConsent:false}),/consent/);
- const headings='Recording overview: simulated. Signal quality: accepted samples. Observable patterns: values vary. Plain-language summary: technical values only. Follow-up questions: what is variability?';assert.equal(validateAnalysisReply(headings,'en',[summary]),true);assert.equal(validateAnalysisReply(headings+' Completeness was 99%.','en',[summary]),false);assert.equal(validateAnalysisReply('You have DVT.','en',[summary]),false);
+ const headings='Recording overview: simulated. Signal quality: accepted samples. Observable patterns: values vary. Plain-language summary: Verified measurements: supplied values. Possible explanations: none confirmed. Unknown: cause. Follow-up questions: what is variability?';assert.equal(validateAnalysisReply(headings,'en',[summary]),true);assert.equal(validateAnalysisReply(headings+' Completeness was 99%.','en',[summary]),false);assert.equal(validateAnalysisReply('You have DVT.','en',[summary]),false);
  const response=await createHandler({env,fetchImpl:async()=>answer(headings+' Unsupported value 99%.')})(request(valid));assert.equal(response.status,502);assert.deepEqual(await response.json(),{code:'analysis'});
 });
 test('compatible provider requires a trusted HTTPS host and uses documented chat completions shape',async()=>{
@@ -41,6 +41,13 @@ test('urgent English and Spanish concerns use explicit safety guidance without i
 });
 test('unsafe diagnostic output is replaced by explicitly non-AI safety guidance',async()=>{
  for(const text of ['You have DVT. Take 20 mg now.','Your DVT risk is 50%.','Start aspirin.','Toma warfarina.']){const h=createHandler({env,fetchImpl:async()=>answer(text)});const body=await (await h(request())).json();assert.equal(body.kind,'safety',text);assert.ok(!body.reply.includes('20 mg'));}
+ for(const text of ['Your signal looks normal.','This recording shows no signs of a clot.','Tu lectura es saludable.']){const h=createHandler({env,fetchImpl:async()=>answer(text)});const body=await (await h(request())).json();assert.equal(body.kind,'safety',text);}
+});
+
+test('individual recording follow-ups reject numbers absent from the explicitly shared summary',async()=>{
+ const body={language:'en',messages:[{role:'user',content:'What does this recording show?'}],session:summary,sessionConsent:true};
+ const bad=createHandler({env,fetchImpl:async()=>answer('The summary includes 999 accepted samples.')});const response=await bad(request(body));assert.equal(response.status,502);assert.deepEqual(await response.json(),{code:'grounding'});
+ const numeric=summary.channels[0].mean;const good=createHandler({env,fetchImpl:async()=>answer(`Verified measurements: mean ${numeric} in the channel's declared unit. Possible explanations: none confirmed. Unknown: clinical meaning.`)});assert.equal((await good(request(body))).status,200);
 });
 test('provider failures and malformed or oversized output never expose keys or raw errors',async()=>{
  for(const fetchImpl of [async()=>{throw Error(env.ARTERIA_AI_API_KEY)},async()=>new Response('secret',{status:401}),async()=>answer('x'.repeat(4001)),async()=>answer(env.ARTERIA_AI_API_KEY),async()=>new Response('{bad'),async()=>new Response(JSON.stringify({status:'incomplete',output:[]})),async()=>new Response('x'.repeat(131073))]){const r=await createHandler({env,fetchImpl})(request());assert.equal(r.status,502);assert.ok(!(await r.text()).includes(env.ARTERIA_AI_API_KEY));}
