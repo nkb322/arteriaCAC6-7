@@ -12,10 +12,11 @@ Use Node 24 (Node 20+ supported by package engines):
 npm start
 ```
 
-Open http://127.0.0.1:8766. For production-like files/headers:
+`npm start` builds the release shell (including its versioned service worker) before serving it at http://127.0.0.1:8766. If an older installed app update appears, save work and accept **Update app** so the current shell replaces the cached release. The browser's local storage remains local to that browser profile.
+
+For a custom port:
 
 ```sh
-npm run build
 PORT=8769 npm run preview
 ```
 
@@ -23,7 +24,7 @@ Static local servers do not execute Netlify Functions. Aria honestly shows unava
 
 ## Core workflow
 
-1. Start a short Photon sample recording. Missing samples / pause demonstrates stale/resume and gaps through the common pipeline. Mock device is explicitly synthetic; no protocol is assumed.
+1. Start a short Photon sample recording. Missing samples / pause demonstrates stale/resume and gaps through the common pipeline. Mock device is explicitly synthetic; no protocol is assumed. A physical hardware adapter is not implemented pending the device's firmware and transport specification.
 2. Overview follows accepted samples; it has no medical wellness score. Stop saves a recording and recovery batches persist during acquisition.
 3. My trends filters dates/source and compares sessions. Save notes, preview/download a report, export CSV/JSON or replay a session. Report previews are sandboxed and script-free.
 4. Ask Aria about a recording opens a summary for review. Nothing leaves the device until both message and separate summary consent are checked and the user sends a request.
