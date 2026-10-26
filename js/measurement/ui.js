@@ -10,6 +10,7 @@ import {exportJSON, exportCSV, importSession} from './export.js';
 import {processSamples} from './processing.js';
 import {analyzeSession,analysisFallback} from './analysis.js';
 import {recordingAnalytics} from './analytics.js';
+import {formatAIResponse} from '../care/format.js';
 import {sessionReport,comparisonReport} from './report.js';
 import {drawChart} from './chart.js';
 import {t, errorText, language} from './i18n.js';
@@ -77,7 +78,7 @@ function renderAnalysis(session){
  for(const c of channels){const m=analysis.channels[c.id],row=document.createElement('p');row.textContent=`${c.label} (${c.unit}): ${es?'media':'mean'} ${fmt(m.mean)}, DE ${fmt(m.stddev)}, rango ${fmt(m.range)}. ${m.firstHalfStddev!==null&&m.secondHalfStddev!==null?(es?'Dispersión por mitades':'Half-window spread')+`: ${fmt(m.firstHalfStddev)} → ${fmt(m.secondHalfStddev)} ${c.unit}.`:''}`;qualityBox.append(row);}
  const snr=document.createElement('p');snr.textContent=es?'SNR: no calculada (no hay una definición validada de ruido para esta fuente).':'SNR: not calculated (no defensible noise definition is available for this source).';qualityBox.append(snr);$('analysis-quality').replaceChildren(qualityBox);
  const saved=session.analysisReport;
- $('analysis-report').textContent=saved?.text||analysisFallback(analysis,language());
+ formatAIResponse($('analysis-report'),saved?.text||analysisFallback(analysis,language()));
  $('analysis-report-meta').textContent=saved?`${es?'Análisis guardado':'Saved analysis'} · ${date(saved.generatedAt)} · ${saved.model||saved.provider||'AI'}`:(es?'Resumen técnico sin conexión; la explicación de IA es opcional.':'Offline technical summary; AI explanation is optional.');
  const compare=$('analysis-compare'),old=compare.value,candidates=sessions.filter(item=>item.id!==session.id);compare.replaceChildren(new Option(t('noComparison'),''),...candidates.map(item=>new Option(`${date(item.startedAt)} · ${sourceLabel(item)}`,item.id)));if(candidates.some(item=>item.id===old))compare.value=old;
  $('delete-ai-analysis').hidden=!saved;
