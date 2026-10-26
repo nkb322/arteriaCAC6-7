@@ -8,8 +8,12 @@ const upstream=async(_url,options)=>{
  await new Promise(resolve=>setTimeout(resolve,mode==='slow'?600:mode==='timeout'?200:10));
  if(mode==='rate')return new Response('',{status:429});
  if(mode==='fail')throw Error('AI-TEST-ONLY-KEY must not appear in the client');
+ const analysis=payload.messages.at(-1).content.includes('User-shared recording data');
+ if(analysis&&mode==='invalidjson')return new Response('{not valid JSON');
+ if(analysis&&mode==='incomplete')return new Response(JSON.stringify({choices:[{message:{role:'assistant',content:'Recording overview: This is incomplete.'}}]}));
+ if(analysis&&mode==='unsupported')return new Response(JSON.stringify({choices:[{message:{role:'assistant',content:'Recording overview: Summary. Signal quality: Summary. Observable patterns: Summary. Plain-language summary: Verified measurements: 999999. Possible explanations: none confirmed. Unknown: cause and clinical meaning. Follow-up questions: None.'}}]}));
  const latest=payload.messages.at(-1).content,spanish=payload.messages[0].content.includes('Reply in Spanish.');
- const text=latest.includes('User-shared recording data')?(spanish?'Mediciones verificadas: valores compartidos. Posibles explicaciones: ninguna confirmada. Información desconocida: causa y significado clínico.':'Verified measurements: supplied values. Possible explanations: none confirmed. Unknown: cause and clinical meaning.'):(spanish?'Respuesta simulada para la prueba: un intervalo indica datos ausentes, no un diagnóstico.':'Mock provider fixture: Arteria records and reviews signals. A gap describes missing data, not a diagnosis.');
+ const text=latest.includes('User-shared recording data')?(spanish?'Resumen de la grabación: resumen técnico compartido. Calidad de la señal: comprobaciones de ingeniería. Patrones observables: se describen solo los valores compartidos. Resumen sencillo: Mediciones verificadas: valores compartidos. Posibles explicaciones: ninguna confirmada. Información desconocida: causa y significado clínico. Preguntas para continuar: ninguna.':'Recording overview: shared technical summary. Signal quality: engineering checks only. Observable patterns: describe only supplied values. Plain-language summary: Verified measurements: supplied values. Possible explanations: none confirmed. Unknown: cause and clinical meaning. Follow-up questions: None.'):(spanish?'Respuesta simulada para la prueba: un intervalo indica datos ausentes, no un diagnóstico.':'Mock provider fixture: Arteria records and reviews signals. A gap describes missing data, not a diagnosis.');
  return new Response(JSON.stringify({choices:[{message:{role:'assistant',content:text}}]}));
 };
 let handler=createHandler({env,fetchImpl:upstream});
