@@ -1,13 +1,13 @@
 # Verified Arteria product facts for AI
 
-Product reference version: `1.0.0`. The machine-readable source of truth is [`js/care/product-knowledge.js`](../js/care/product-knowledge.js); the server includes it as structured JSON in [`netlify/lib/care-prompt.mjs`](../netlify/lib/care-prompt.mjs). App-use and privacy questions that match verified topics receive deterministic local replies before any provider request. Session-specific questions without a separately consented summary receive a local consent explanation.
+Product reference version: `1.1.0`. The machine-readable source of truth is [`js/care/product-knowledge.js`](../js/care/product-knowledge.js); the server includes it as structured JSON in [`netlify/lib/care-prompt.mjs`](../netlify/lib/care-prompt.mjs). App-use and privacy questions that match verified topics receive deterministic local replies before any provider request. Session-specific questions without a separately consented summary receive a local consent explanation.
 
 ## What the current interface supports
 
 | Screen | Verified route and behavior |
 |---|---|
 | Overview | **Overview** shows saved recording context, engineering checks and navigation actions. There is no wellness or DVT score. |
-| Acquisition | **Photon acquisition** starts with **Simulation**, a visibly synthetic source. **Stop & save** ends a recording; a configured duration also completes it. **Recording replay** accepts Arteria session JSON, not CSV. No physical sensor adapter is connected or verified. |
+| Acquisition | **Photon acquisition** starts with **Simulation**, a visibly synthetic source. **Stop & save** ends a recording; a configured duration also completes it. Arteria JSON and CSV exports can be imported and replayed after schema, channel, timestamp, ordering, and range validation. Generic Web Bluetooth and Web Serial adapters accept a user-supplied reference-stream config; they have not been verified with a physical sensor. |
 | History | **My trends** contains dated sessions, filters, charts, per-sample inspection, comparisons, session notes, report preview, print/PDF and CSV/JSON export. The graphs show declared units and sources; they do not establish medical trends. |
 | Clinic search | **Find care** searches public listings by city/ZIP or with explicit approximate-location consent. Arteria does not guarantee facility type, services, open hours or appointments. |
 | Encrypted note | **Share securely** creates/decrypts a separate passphrase-encrypted note attachment. Optional email needs server configuration. Ordinary recordings, notes, profiles and reports remain unencrypted. |
@@ -22,7 +22,7 @@ After message consent, the user’s message and recent in-memory conversation ar
 
 ## Signal and clinical limits
 
-The built-in simulator emits synthetic optical channel values at 25 Hz in arbitrary units. They are demonstration values, not physiological measurements. Timing gaps and missing sequence counts are computed engineering checks; their cause is unknown. Flatline, clipping and range checks are engineering rules, not clinical quality metrics. Imported provenance is declared and not authenticated. The hardware microcontroller, sensors, firmware, calibration, placement and transport protocol are not supplied. Arteria is not clinically validated and does not detect, diagnose or rule out DVT/PE, calculate medical risk, or recommend treatment.
+The built-in simulator emits synthetic optical channel values at 25 Hz in arbitrary units. They are demonstration values, not physiological measurements. Timing gaps and missing sequence counts are computed engineering checks; their cause is unknown. Flatline, clipping and range checks are engineering rules, not clinical quality metrics. Imported provenance is declared and not authenticated. The hardware microcontroller, sensors, firmware, calibration, placement and transport protocol are not supplied. The browser adapters use a documented newline-delimited JSON reference format only; they do not confirm device identity or infer an undocumented protocol. Arteria is not clinically validated and does not detect, diagnose or rule out DVT/PE, calculate medical risk, or recommend treatment.
 
 ## Reliability behavior
 

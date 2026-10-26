@@ -80,6 +80,12 @@ test('JSON round trip validates every sample and preserves provenance',()=>{
 test('CSV includes units, origin and separate clocks with quoted safe fields',()=>{
   const s=session();s.descriptor={...descriptor,deviceId:'=SUM(1,1)'};const csv=exportCSV(s);assert.match(csv,/optical \[a.u.\]/);assert.match(csv,/effective_sample_rate_hz/);assert.match(csv,/optical_stddev \[a.u.\]/);assert.match(csv,/device_time_ms/);assert.match(csv,/received_at/);assert.match(csv,/simulated/);assert.match(csv,/'=SUM/);assert.equal(csv.split('\r\n').length,4);
 });
+test('Arteria CSV round trip preserves declared schema and validates all imported samples',()=>{
+  const original=session(),loaded=importSession(exportCSV(original));
+  assert.equal(loaded.descriptor.deviceId,original.descriptor.deviceId);assert.deepEqual(loaded.descriptor.channels,original.descriptor.channels);assert.equal(loaded.startedAt,original.startedAt);assert.deepEqual(loaded.samples,original.samples);assert.equal(loaded.derived.accepted,3);
+  const unordered=session();unordered.samples[1].sequence=0;assert.throws(()=>importSession(exportCSV(unordered)),/order/);
+  assert.throws(()=>importSession('sequence,device_time_ms,value\n0,0,7\n'),/csv/i);
+});
 test('real replay adapter pumps a validated recording through the full controller',async()=>{
   const saved=[];const c=new MeasurementController({store:{save:async s=>saved.push(s)}});
   const recording=importSession(exportJSON(session()));await c.start(new ReplayAdapter(recording,4));

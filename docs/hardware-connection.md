@@ -1,6 +1,32 @@
 # Connecting real hardware
 
-No physical hardware has been connected or tested. The application currently exposes simulation, an explicitly synthetic lifecycle mock, and validated Arteria JSON replay. The example JSON format is an **application interchange format**, not a specification of the future device's firmware.
+No physical hardware has been connected or tested. The application exposes simulation, an explicitly synthetic lifecycle mock, validated Arteria JSON/CSV import and replay, plus generic Web Bluetooth and Web Serial adapters. The hardware adapters consume the **Arteria reference stream** below; they do not infer or implement Nina's device protocol. The example recording JSON and adapter configuration are application formats, not specifications of the future device firmware.
+
+## Browser reference-stream adapter
+
+Choose **Bluetooth LE (reference stream)** or **USB serial (reference stream)** in Photon, load a local device configuration JSON, and press **Connect device** to invoke the browser's permission chooser. After connection, press **Start acquisition**. The browser APIs require a secure context (localhost qualifies); Bluetooth requires a supported Web Bluetooth browser and notifications, while serial requires Web Serial. A blocked or unsupported API reports an error instead of falling back to simulation.
+
+The configuration declares the confirmed device/channel metadata and transport parameters. Example serial configuration:
+
+```json
+{
+  "schemaVersion": 1,
+  "transport": "serial",
+  "descriptor": {
+    "schemaVersion": 1,
+    "origin": "hardware",
+    "deviceId": "board-label-from-firmware-owner",
+    "deviceName": "Optical sensor",
+    "sampleRateHz": 25,
+    "channels": [{"id":"optical","label":"Optical signal","unit":"a.u.","min":0,"max":4095}]
+  },
+  "serial": {"baudRate": 115200}
+}
+```
+
+For Bluetooth, set `transport` to `ble` and supply `ble.serviceUUID` and `ble.characteristicUUID` (16-bit or full UUID strings). The selected characteristic must send notifications. For serial, `serial.baudRate` is required. Both transports currently expect UTF-8 newline-delimited JSON matching the canonical sample shape in the Adapter contract; one sample per line. Timestamps are acquisition-relative milliseconds, sequence numbers increase, and `raw` contains every configured channel in its declared unit. Battery percentage is optional. No commands are sent to the board: firmware must begin streaming on connection/notification subscription and implement start/stop behavior externally. This narrow reference protocol is suitable for a software emulator, not a claim about physical hardware.
+
+Arteria CSV import accepts files produced by **Export CSV** (up to 24 MiB). It validates the repeated `descriptor_json` metadata, channel IDs/units, sequence, timestamps, values, and declared ranges before replay. An arbitrary sensor CSV without this metadata is rejected with a format error rather than guessing channel meanings or units.
 
 ## Information needed
 

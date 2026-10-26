@@ -24,7 +24,7 @@ Static local servers do not execute Netlify Functions. Aria honestly shows unava
 
 ## Core workflow
 
-1. Start a short Photon sample recording. Missing samples / pause demonstrates stale/resume and gaps through the common pipeline. Mock device is explicitly synthetic; no protocol is assumed. A physical hardware adapter is not implemented pending the device's firmware and transport specification.
+1. Start a short Photon sample recording or import an Arteria JSON/CSV recording. Missing samples / pause demonstrates stale/resume and gaps through the common pipeline. Mock device is explicitly synthetic. Generic Web Bluetooth and Web Serial adapters accept a supplied reference-stream configuration; the physical wearable protocol remains unverified.
 2. Overview follows accepted samples; it has no medical wellness score. Stop saves a recording and recovery batches persist during acquisition.
 3. My trends filters dates/source and compares sessions. Save notes, preview/download a report, export CSV/JSON or replay a session. Report previews are sandboxed and script-free.
 4. Ask Aria about a recording opens a summary for review. Nothing leaves the device until both message and separate summary consent are checked and the user sends a request.

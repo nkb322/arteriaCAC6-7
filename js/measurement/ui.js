@@ -5,6 +5,9 @@ import {SessionStore} from './session-store.js';
 import {SimulationAdapter} from './adapters/simulation.js';
 import {MockDeviceAdapter} from './adapters/mock-device.js';
 import {ReplayAdapter} from './adapters/replay.js';
+import {BluetoothAdapter} from './adapters/ble.js';
+import {SerialAdapter} from './adapters/serial.js';
+import {validateHardwareConfig} from './adapters/hardware-config.js';
 import {LIMITS} from './schema.js';
 import {exportJSON, exportCSV, importSession} from './export.js';
 import {processSamples} from './processing.js';
@@ -19,7 +22,7 @@ const $ = id => document.getElementById(id);
 const text = (id, value) => { if ($(id).textContent !== value) $(id).textContent = value; };
 const store = new SessionStore();
 const controller = new MeasurementController({store});
-let sessions = [], selectedId = null, recording = null, uiError = null, storageError = null;
+let sessions = [], selectedId = null, recording = null, uiError = null, storageError = null, hardwareConfig = null, hardwareAdapter = null, hardwareConnectionMessage = '', hardwareConnecting=false;
 const notesDrafts=new Map();
 let compareId=null;
 let analysisMetricValues=new Map();
@@ -102,12 +105,14 @@ function render() {
   populateChannels($('channel-select'), session);
   const channel = session?.descriptor.channels.find(c => c.id === $('channel-select').value) || session?.descriptor.channels[0];
   const latest = session?.samples.at(-1);
-  text('device-state', statusLabel(state));
-  $('device-name').textContent = state.active ? state.session.descriptor.deviceName : t('noDevice');
+  const source=$('source-select').value,hardware=['ble','serial'].includes(source),connected=hardware&&hardwareAdapter?.config.transport===source&&hardwareAdapter.isConnected;
+  const connectedIdle=connected&&!state.active&&!state.saving;
+  text('device-state', connectedIdle?t('connected'):statusLabel(state));
+  $('device-name').textContent = state.active ? state.session.descriptor.deviceName : connectedIdle?(hardwareAdapter.connectedName||hardwareAdapter.descriptor.deviceName):t('noDevice');
   $('device-battery').textContent = state.active && state.session.descriptor.origin === 'hardware' && state.session.mode === 'stream' && latest?.batteryPercent !== undefined ? `${number(latest.batteryPercent)}%` : t('noBattery');
   $('device-last').textContent = latest ? `${t('lastSample')}: ${date(latest.receivedAt)}` : t('noLast');
-  $('device-state').dataset.state = state.status;
-  $('device-state').closest('.patch-card').dataset.state = state.status;
+  $('device-state').dataset.state = connectedIdle?'connected':state.status;
+  $('device-state').closest('.patch-card').dataset.state = connectedIdle?'connected':state.status;
   $('overview-source').textContent = sourceLabel(session);
   $('overview-empty').hidden=!loadPreferences().onboarding||state.active||!!session?.samples.length;
   $('overview-saved-count').textContent=number(sessions.length);
@@ -122,9 +127,12 @@ function render() {
   $('overview-quality').textContent = quality(derived);
   $('overview-duration').textContent = `${number((derived?.durationMs || 0) / 1000)} ${t('seconds')}`;
   $('overview-gaps').textContent = `${t('missing')}: ${number(derived?.missing || 0)} · ${t('rejected')}: ${number(derived?.rejected || 0)}`;
-  const busy = state.active || state.saving;
-  for (const id of ['source-select','scenario-select','duration-select','replay-speed','replay-file']) $(id).disabled = busy;
-  $('scan-button').disabled = !ready || busy || state.unsaved || ($('source-select').value === 'replay' && !recording);
+  const busy = state.active || state.saving || hardwareConnecting;
+  for (const id of ['source-select','scenario-select','duration-select','replay-speed','replay-file','hardware-config-file']) $(id).disabled = busy;
+  $('scan-button').disabled = !ready || busy || state.unsaved || (source === 'replay' && !recording) || (hardware&&!connected);
+  $('connect-device').disabled=busy||!hardware||!hardwareConfig||hardwareConfig.transport!==source;
+  $('disconnect-device').hidden=!connected;$('disconnect-device').disabled=busy;
+  $('device-connection-status').textContent=hardwareConnecting?t('connecting'):connected?t('deviceConnected'):hardwareConnectionMessage==='configured'?t('configurationValid'):hardwareConnectionMessage==='disconnected'||hardwareAdapter?t('deviceDisconnected'):t('hardwareHelp');
   $('delete-all-sessions').disabled = busy; $('recover-sessions').disabled=busy;
   text('recovery-compatibility',navigator.locks?'':t('manualRecovery'));
   $('checkpoint-status').textContent = state.active ? `${t('checkpoint')}: ${number(state.persistedCount)} ${t('samples')}` : '';
@@ -224,13 +232,18 @@ async function refreshHistory() {
   renderHistory(); scheduleRender();
 }
 function sourceControls() {
-  const replay = $('source-select').value === 'replay';
+  const source=$('source-select').value,replay = source === 'replay',hardware=['ble','serial'].includes(source);
   $('replay-control').hidden = !replay; $('replay-speed-control').hidden = !replay;
-  $('scenario-control').hidden = replay || $('source-select').value === 'mock'; $('duration-control').hidden = replay;
+  $('hardware-control').hidden=!hardware;
+  $('scenario-control').hidden = replay || source === 'mock'||hardware; $('duration-control').hidden = replay;
   $('replay-description').textContent = recording ? `${t('imported')}: ${date(recording.startedAt)} · ${recording.descriptor.origin === 'simulated' ? t('originSim') : t('originHardware')} · ${number(recording.samples.length)} ${t('samples')}` : t('recordingFile');
   scheduleRender();
 }
-$('source-select').addEventListener('change', sourceControls);
+$('source-select').addEventListener('change',async()=>{if(hardwareAdapter&&hardwareAdapter.config.transport!==$('source-select').value){await hardwareAdapter.disconnect();hardwareAdapter=null;hardwareConfig=null;hardwareConnectionMessage='';$('hardware-config-file').value='';}sourceControls();});
+$('hardware-config-file').addEventListener('change',async()=>{hardwareConfig=null;hardwareConnectionMessage='';const file=$('hardware-config-file').files[0];if(!file){scheduleRender();return;}try{if(file.size>256*1024)throw Error('hardwareConfig');hardwareConfig=validateHardwareConfig(JSON.parse(await file.text()),$('source-select').value);hardwareConnectionMessage='configured';uiError=null;}catch{uiError='hardwareConfig';hardwareConnectionMessage='';}scheduleRender();});
+$('connect-device').addEventListener('click',async()=>{uiError=null;hardwareConnecting=true;try{if(!hardwareConfig||hardwareConfig.transport!==$('source-select').value)throw Error('hardwareConfig');if(hardwareAdapter)await hardwareAdapter.disconnect();hardwareAdapter=hardwareConfig.transport==='ble'?new BluetoothAdapter(hardwareConfig):new SerialAdapter(hardwareConfig);hardwareConnectionMessage='';scheduleRender();await hardwareAdapter.connect();hardwareConnectionMessage='connected';}catch(error){hardwareAdapter=null;uiError=['bluetoothUnavailable','serialUnavailable','hardwareConfig'].includes(error.message)?error.message:'connection';hardwareConnectionMessage='';}finally{hardwareConnecting=false;scheduleRender();}});
+$('disconnect-device').addEventListener('click',async()=>{if(controller.active||controller.saving)return;try{await hardwareAdapter?.disconnect();}catch{uiError='disconnect';}hardwareAdapter=null;hardwareConnectionMessage='disconnected';scheduleRender();});
+document.addEventListener('arteria-device-disconnected',()=>{hardwareAdapter=null;hardwareConnectionMessage='disconnected';uiError='connection';scheduleRender();});
 $('session-notes').addEventListener('input',()=>{if(selectedId){notesDrafts.set(selectedId,$('session-notes').value);$('notes-status').textContent=t('notesUnsaved');}});
 $('save-session-notes').addEventListener('click',async()=>{
   const id=selectedId;if(!id)return;const value=$('session-notes').value;$('save-session-notes').disabled=true;
@@ -282,9 +295,10 @@ $('scan-button').addEventListener('click', async () => {
   $('scan-button').disabled = true;
   $('current-json').disabled = true; $('current-csv').disabled = true;
   try {
-    const replay = $('source-select').value === 'replay';
+    const source=$('source-select').value,replay = source === 'replay',hardware=['ble','serial'].includes(source);
     if (replay && !recording) throw new Error('samples');
-    const adapter = replay ? new ReplayAdapter(recording, Number($('replay-speed').value)) : $('source-select').value === 'mock' ? new MockDeviceAdapter() : new SimulationAdapter($('scenario-select').value);
+    const adapter = replay ? new ReplayAdapter(recording, Number($('replay-speed').value)) : source === 'mock' ? new MockDeviceAdapter() : hardware?hardwareAdapter:new SimulationAdapter($('scenario-select').value);
+    if(hardware&&!adapter?.isConnected)throw new Error('notConnected');
     const durationSeconds = replay ? Math.min(300, Math.max(1, (recording.samples.at(-1).deviceTimeMs-recording.samples[0].deviceTimeMs)/1000/Number($('replay-speed').value)+2)) : Number($('duration-select').value);
     const starting=controller.start(adapter, {durationSeconds});
     render();

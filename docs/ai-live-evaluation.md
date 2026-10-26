@@ -1,5 +1,18 @@
 # Live Groq response evaluation
 
+## Final completion probe — 2026-10-25
+
+The loopback-only function was started with the existing local server configuration. Only fixed, non-sensitive education prompts were sent; no session, profile, notes, local history, or raw measurements were included.
+
+| Scenario | Result | Observed behavior |
+|---|---|---|
+| English DVT/PE education | Live Groq response received (HTTP 200) | Described DVT and PE in general terms and listed common warning signs. It did not claim Arteria can diagnose either condition. |
+| English contextual follow-up | Live Groq response received (HTTP 200) | Used a garden-hose analogy to restate the distinction. No application instructions or measurements were requested or returned. |
+| Spanish DVT/PE education | Rate limited (HTTP 429) | No model reply was returned. The application reports the provider limit; Spanish live behavior could not be verified in this run. |
+| Structured measurement analysis | Not live-verified in this run | Existing tests verify malformed/incomplete analysis, unsupported numbers and rate limits fall back to the unchanged deterministic summary. A successful live structured response remains unverified. |
+
+These are a small provider smoke test, not a clinical, safety, or general factual-reliability evaluation. Free-tier availability can change between requests. The deterministic product-navigation, privacy and urgent-symptom responses remain locally tested and do not depend on Groq.
+
 Run date: 2026-10-26. Environment: local loopback AI function with the server-side key already configured; secrets were not displayed or added to source. Provider: **GroqCloud**. Model: **`openai/gpt-oss-20b`**. Inputs were non-sensitive public health-education questions and the repository’s explicitly synthetic recording fixture. No user recordings, notes, profile or chat history were used.
 
 ## Results

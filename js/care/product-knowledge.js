@@ -1,5 +1,5 @@
 // Verified, implementation-backed product reference shared by the local guide and AI prompt.
-export const PRODUCT_KNOWLEDGE_VERSION = '1.0.0';
+export const PRODUCT_KNOWLEDGE_VERSION = '1.1.0';
 
 export const PRODUCT_KNOWLEDGE = Object.freeze({
   version: PRODUCT_KNOWLEDGE_VERSION,
@@ -8,8 +8,8 @@ export const PRODUCT_KNOWLEDGE = Object.freeze({
     locator: 'Find care', sharing: 'Share securely', profile: 'Profile & Settings'
   },
   recording: {
-    start: 'Open Photon acquisition and choose Start acquisition. The default source is Simulation, labeled synthetic; no physical sensor adapter is configured. Stop with Stop & save, or let the configured duration complete. Recording replay loads Arteria session JSON.',
-    replay: 'Photon scan accepts Arteria session JSON for replay through the measurement pipeline. Replay is not a new live hardware measurement. CSV is export-only.',
+    start: 'Open Photon acquisition and choose Start acquisition. Simulation is labeled synthetic. For a physical connection, choose Bluetooth LE or USB serial, load a device-owner-supplied reference-stream configuration, choose Connect device, then Start acquisition. Imported recordings use the same validated measurement pipeline. Stop with Stop & save, or let the selected duration complete.',
+    replay: 'Photon acquisition imports Arteria session JSON or Arteria-format CSV for replay through the measurement pipeline. CSV import requires the metadata produced by Export CSV. Replay is not a new live hardware measurement.',
     storage: 'Saved recordings, notes, profile preferences and reports are kept in this browser. Recording samples use IndexedDB. Browser data clearing can remove them.',
     analysis: 'The app calculates descriptive engineering checks and channel statistics. It does not calculate a wellness score, DVT score, diagnosis or validated clinical trend.'
   },
@@ -19,13 +19,13 @@ export const PRODUCT_KNOWLEDGE = Object.freeze({
     transcript: 'Optional transcript saving is off by default; if enabled, future chat bubbles are stored locally without encryption and are never automatically restored into AI context.'
   },
   capabilities: {
-    hardware: 'No physical hardware is connected or verified. No Bluetooth, USB serial or Wi-Fi adapter, battery reading, or authenticated device identity is implemented.',
-    export: 'Open My trends and select a recording to use Export CSV or Export JSON. Reports can be previewed, printed or saved as PDF through the browser. CSV files cannot be imported.',
+    hardware: 'Generic Web Bluetooth and Web Serial adapters are implemented for the documented Arteria newline-delimited JSON reference stream. The wearable board, firmware protocol, sensor units, and physical connection have not been supplied or verified. No Wi-Fi adapter, battery value, or authenticated device identity is claimed.',
+    export: 'Open My trends and select a recording to use Export CSV or Export JSON. Arteria-format CSV and JSON files can be imported in Photon acquisition. Reports can be previewed, printed or saved as PDF through the browser.',
     delete: 'Delete one recording from My trends after selecting it. Profile & Settings > Data & Privacy can delete all saved recordings and clear local Arteria data after confirmation. Care Companion has separate controls to clear the current conversation and delete optional saved chat history.',
     clinic: 'Open Find care to search public clinic listings by city or ZIP, or choose to share approximate location for a nearby search. Listings do not guarantee service availability or appointments.',
     notes: 'Open My trends, select a saved recording, add text in Session notes and choose Save notes. Notes stay in local browser storage, are not encrypted, and are excluded from AI requests.',
     preferences: 'Open Profile & Settings to change English or Spanish, text size, contrast, reduced motion, default recording duration, live chart window and grid display. The language selector is also in the header.',
-    unsupported: ['cloud account or sync', 'CSV import', 'record tagging', 'clinical diagnosis or DVT risk score', 'validated thrombosis detection', 'hardware authentication'],
+    unsupported: ['cloud account or sync', 'Wi-Fi device adapter', 'device authentication', 'Nina hardware protocol support before specifications are supplied', 'record tagging', 'clinical diagnosis or DVT risk score', 'validated thrombosis detection'],
     sharing: 'Share securely provides a passphrase-encrypted local note workflow and an optional separately configured recipient-restricted email flow. It does not encrypt ordinary recordings, notes, profiles or reports.'
   },
   signals: {
@@ -41,8 +41,8 @@ const answers = {
     navigation: `Verified app guide (not AI): ${PRODUCT_KNOWLEDGE.navigation.overview} shows recent saved data; ${PRODUCT_KNOWLEDGE.navigation.photon} starts acquisition and replay; ${PRODUCT_KNOWLEDGE.navigation.trends} contains session history, charts, reports and exports; ${PRODUCT_KNOWLEDGE.navigation.care} is the optional AI assistant; ${PRODUCT_KNOWLEDGE.navigation.locator} searches public clinics; ${PRODUCT_KNOWLEDGE.navigation.sharing} contains the note-sharing tools; ${PRODUCT_KNOWLEDGE.navigation.profile} contains language, accessibility, recording, chart and local-data settings. On mobile, use the navigation bar.`,
     start: `Verified app guide (not AI): Open Photon acquisition and choose Start acquisition. The default source is Simulation, labeled synthetic. Stop with Stop & save, or let the configured duration complete. Choose Recording replay to load an Arteria session JSON file. There is no verified physical-device connection.`,
     privacy: `Verified privacy details (not AI): ${PRODUCT_KNOWLEDGE.privacy.ai} ${PRODUCT_KNOWLEDGE.privacy.local} ${PRODUCT_KNOWLEDGE.privacy.transcript}`,
-    hardware: `Verified device status (not AI): ${PRODUCT_KNOWLEDGE.capabilities.hardware} The simulator and imported replay are labeled separately from hardware-origin data. Imported origin labels are not authenticated.`,
-    unsupported: `Verified feature list (not AI): ${PRODUCT_KNOWLEDGE.capabilities.unsupported.join('; ')}. ${PRODUCT_KNOWLEDGE.capabilities.export} Replay accepts Arteria session JSON only.`,
+    hardware: `Verified device status (not AI): ${PRODUCT_KNOWLEDGE.capabilities.hardware} Imported origin labels are declared in the file and are not authenticated.`,
+    unsupported: `Verified feature list (not AI): ${PRODUCT_KNOWLEDGE.capabilities.unsupported.join('; ')}. ${PRODUCT_KNOWLEDGE.capabilities.export}`,
     export: `Verified export guide (not AI): ${PRODUCT_KNOWLEDGE.capabilities.export}`,
     delete: `Verified data controls (not AI): ${PRODUCT_KNOWLEDGE.capabilities.delete}`,
     clinic: `Verified clinic-search guide (not AI): ${PRODUCT_KNOWLEDGE.capabilities.clinic}`,
@@ -56,11 +56,11 @@ const answers = {
   },
   es: {
     navigation: 'Guía verificada de la aplicación (no es IA): Resumen muestra datos recientes; Adquisición Photon inicia adquisiciones y reproducciones; Mis tendencias contiene historial, gráficos, informes y exportaciones; Compañera de IA es el asistente opcional; Buscar atención consulta clínicas públicas; Compartir de forma segura contiene las herramientas para compartir notas; Perfil y ajustes contiene idioma, accesibilidad, grabación, gráficos y datos locales. En móvil, usa la barra de navegación.',
-    start: 'Guía verificada de la aplicación (no es IA): Abre Adquisición Photon y selecciona Iniciar adquisición. La fuente predeterminada es Simulación y está etiquetada como sintética. Detén la grabación con Detener y guardar, o espera a que termine la duración configurada. Selecciona Reproducción de grabación para cargar un archivo Arteria session JSON. No hay una conexión física verificada.',
+    start: 'Guía verificada de la aplicación (no es IA): Abre Adquisición Photon y selecciona Iniciar adquisición. Simulación está etiquetada como sintética. Para conectarte físicamente, elige Bluetooth LE o USB serial, carga una configuración de flujo de referencia suministrada por la persona responsable del dispositivo, selecciona Conectar dispositivo y después Iniciar adquisición. Las grabaciones importadas usan la misma canalización validada. Pulsa Detener y guardar o espera a que termine la duración elegida.',
     privacy: 'Privacidad verificada (no es IA): Al aceptar el consentimiento de mensajes, tu mensaje y el contexto reciente de la conversación se envían al proveedor externo de IA configurado. El resumen de una grabación revisada solo se envía con un consentimiento separado. No se envían muestras originales, notas ni datos del perfil. Arteria no puede garantizar la retención o eliminación por parte del proveedor. Las grabaciones, notas, perfil, informes e historiales opcionales se guardan localmente sin cifrar. La descarga de nota cifrada usa una frase de contraseña.',
-    hardware: 'Estado verificado del dispositivo (no es IA): No hay hardware físico conectado ni verificado. No se ha implementado un adaptador Bluetooth, USB serial o Wi-Fi, batería ni identidad de dispositivo autenticada. La simulación y la reproducción importada se etiquetan por separado; el origen importado no se autentica.',
-    unsupported: `Funciones verificadas (no es IA): ${PRODUCT_KNOWLEDGE.capabilities.unsupported.join('; ')}. ${PRODUCT_KNOWLEDGE.capabilities.export} Solo se importan sesiones Arteria en JSON para reproducirlas.`,
-    export: 'Guía verificada de exportación (no es IA): Abre Mis tendencias, selecciona una grabación y usa Export CSV o Export JSON. Los informes se pueden previsualizar, imprimir o guardar como PDF desde el navegador. No se importan archivos CSV.',
+    hardware: 'Estado verificado del dispositivo (no es IA): Hay adaptadores genéricos Web Bluetooth y Web Serial para el flujo JSON de referencia de Arteria. No hay hardware físico conectado ni verificado: no se han suministrado ni verificado la placa, el protocolo de firmware ni las unidades del sensor. No se afirma compatibilidad Wi-Fi, nivel de batería ni identidad autenticada. El origen declarado en archivos importados no se autentica.',
+    unsupported: `Funciones verificadas (no es IA): ${PRODUCT_KNOWLEDGE.capabilities.unsupported.join('; ')}. ${PRODUCT_KNOWLEDGE.capabilities.export}`,
+    export: 'Guía verificada de exportación (no es IA): Abre Mis tendencias, selecciona una grabación y usa Export CSV o Export JSON. Los formatos Arteria CSV y JSON se importan en Adquisición Photon. Los informes se pueden previsualizar, imprimir o guardar como PDF desde el navegador.',
     delete: 'Controles de datos verificados (no es IA): Elimina una grabación desde Mis tendencias después de seleccionarla. Perfil y ajustes > Datos y privacidad permite eliminar todas las grabaciones y borrar los datos locales de Arteria tras confirmar. Compañera de IA tiene controles separados para borrar la conversación actual y el historial opcional guardado.',
     clinic: 'Guía verificada de búsqueda de clínicas (no es IA): Abre Buscar atención para buscar clínicas públicas por ciudad o código postal, o acepta compartir una ubicación aproximada para buscar cerca. Los resultados no garantizan servicios ni citas disponibles.',
     notes: 'Guía verificada de notas (no es IA): Abre Mis tendencias, selecciona una grabación, escribe en Notas de la sesión y selecciona Guardar notas. Las notas permanecen en el almacenamiento local del navegador, no están cifradas y se excluyen de las solicitudes de IA.',

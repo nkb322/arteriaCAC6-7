@@ -24,7 +24,9 @@
     "pretest:ai": "npm run build",
     "test:ai": "node tests/ai-browser.cjs",
     "pretest:analysis-browser": "npm run build",
-    "test:analysis-browser": "node tests/analysis-browser.cjs"
+    "test:analysis-browser": "node tests/analysis-browser.cjs",
+    "pretest:hardware-browser": "npm run build",
+    "test:hardware-browser": "node tests/hardware-browser.cjs"
   },
   "engines": {
     "node": ">=20"
