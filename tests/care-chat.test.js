@@ -31,7 +31,7 @@ test('structured AI analysis requires explicit session consent and rejects unsup
 });
 test('compatible provider requires a trusted HTTPS host and uses documented chat completions shape',async()=>{
  const config={...env,ARTERIA_AI_PROVIDER:'compatible',ARTERIA_AI_BASE_URL:'https://model.example/v1',ARTERIA_AI_ALLOWED_HOSTS:'model.example'};let captured;
- const h=createHandler({env:config,fetchImpl:async(url,options)=>{captured={url,payload:JSON.parse(options.body)};return new Response(JSON.stringify({choices:[{message:{content:'A recording explanation.'}}]}));}});assert.equal((await h(request())).status,200);assert.equal(captured.url,'https://model.example/v1/chat/completions');assert.equal(captured.payload.messages[0].role,'system');assert.equal(captured.payload.max_tokens,700);
+ const h=createHandler({env:config,fetchImpl:async(url,options)=>{captured={url,payload:JSON.parse(options.body)};return new Response(JSON.stringify({choices:[{message:{content:'A recording explanation.'}}]}));}});assert.equal((await h(request())).status,200);assert.equal(captured.url,'https://model.example/v1/chat/completions');assert.equal(captured.payload.messages[0].role,'system');assert.equal(captured.payload.max_tokens,700);assert.equal(captured.payload.temperature,0.2);
  assert.equal((await createHandler({env:{...config,ARTERIA_AI_API_KEY:'',OPENAI_API_KEY:'must-not-send-to-compatible-provider'}})(request())).status,503);
  for(const url of ['http://model.example/v1','https://127.0.0.1/v1','https://user:pass@model.example/v1','https://evil.example/v1'])assert.equal((await createHandler({env:{...config,ARTERIA_AI_BASE_URL:url}})(request())).status,503);
 });
